@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Hakkımızda";
+}
+
+@section head {
+    @* Hakkımızda sayfasına özel CSS'i Layout'un Head kısmına ekle *@
+    <link rel="stylesheet" href="~/Content/about.css">
+}
+
+<div class="about_page">
+    <section class="about-left">
+        <div class="menu-block">
+            <span class="menu-title">Kurumsal</span>
+            <ul>
+                <li><a href="@Url.Action("About", "Home")">Hakkımızda</a></li>
+                <li><a href="@Url.Action("Contact", "Home")" class="active">İletişim</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-block">
+            <span class="menu-title">Yardım</span>
+            <ul>
+                <li><a href="#">SSS</a></li>
+                <li><a href="#">İptal / İade</a></li>
+                <li><a href="#">Nasıl Bilet Alınır?</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Orta kısımda hakkımızda içeriği -->
+    <section class="about_center" style="background: white; padding: 30px; border-radius: 10px;">
+
+        <h1 style="text-align:center; color:#4a4a4a; margin-bottom:20px;">
+            Biz Kimiz?
+        </h1>
+
+        <p style="font-size: 17px; line-height: 1.7; text-align: justify; color:#333;">
+            Ticketpair, bir grup vizyon sahibi üniversite öğrencisi tarafından kurulmuş yenilikçi bir bilet satış platformudur. Amacımız, yurt içi ve yurt dışındaki kültürel, sanatsal ve eğlence etkinliklerini herkes için daha erişilebilir hale getirmektir.
+            Kurulduğumuz günden bu yana temel hedefimiz; sosyal, kültürel ve ekonomik açıdan dengeli bir etkinlik deneyimi sunarak, insanları müzikle, tiyatroyla, sinemayla, sporla ve farklı kültürlerle bir araya getirmektir.
+        </p>
+        <br />
+        <p style="font-size: 17px; line-height: 1.7; text-align: justify; color:#333;">
+            Ticketpair ekibi olarak, etkinlik dünyasını sadece büyük şehirlerle sınırlı tutmak istemiyoruz. Türkiye’nin ve dünyanın dört bir yanındaki konserleri, tiyatroları, festivalleri ve daha birçok etkinliği kullanıcılarımızla buluşturmayı amaçlıyoruz.
+            Bu sayede hem yerel etkinliklerin görünürlüğünü artırıyor hem de gençlerin, öğrencilerin ve sanatseverlerin bütçelerine uygun şekilde kültürel yaşamdan daha fazla pay almasını sağlıyoruz.
+        </p>
+        <br />
+        <p style="font-size: 17px; line-height: 1.7; text-align: justify; color:#333;">
+            Teknolojiyi ve yeniliği odağımıza alarak, kullanıcı dostu arayüzümüz ve güvenli biletleme sistemimizle, insanların sevdikleri deneyimlere kolayca ulaşmalarını hedefliyoruz.
+            Bizim için her etkinlik, bir topluluk oluşturma fırsatı; her bilet ise yeni bir hatıranın başlangıcıdır.
+        </p>
+
+
+    </section>
+
+
+    <section class="right">
+    @* Sağ kısım boş kalabilir veya reklamlar gelebilir *@
+    </section>
+</div>

@@ -1,0 +1,65 @@
+﻿@model Web_Programming_Project.Models.Event
+
+@{
+    ViewBag.Title = "Etkinliği Sil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-danger text-white py-3 text-center">
+                    <h5 class="mb-0 fw-bold">⚠️ SİLME İŞLEMİ ONAYI</h5>
+                    <small class="text-white-50">Bu işlem geri alınamaz!</small>
+                </div>
+
+                <div class="card-body p-5 text-center bg-white">
+
+                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Aşağıdaki etkinlik kalıcı olarak silinecek:</h6>
+
+                    <div class="border rounded p-4 mb-4 bg-light">
+                        <h2 class="fw-bold text-dark mb-1">@Model.Title</h2>
+                        <h4 class="text-secondary fw-light mb-3">@Model.Artist</h4>
+
+                        <div class="d-flex justify-content-center gap-3 text-muted small">
+                            <span>📅 @Model.Date.ToString("dd.MM.yyyy HH:mm")</span>
+                            <span>📍 @Model.City</span>
+                        </div>
+                    </div>
+
+                    @if (Model.SoldTicketCount > 0)
+                    {
+                        <div class="alert alert-warning d-flex align-items-center" role="alert">
+                            <div class="me-2">🛑</div>
+                            <div class="text-start small">
+                                <strong>DİKKAT:</strong> Bu etkinlik için satılmış <strong>@Model.SoldTicketCount adet bilet</strong> bulunmaktadır.
+                                Sildiğinizde bu bilet verileri de kaybolabilir veya raporlarda tutarsızlık oluşabilir.
+                            </div>
+                        </div>
+                    }
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            @Html.ActionLink("İptal Et", "Index", null, new { @class = "btn btn-outline-secondary px-4 fw-bold" })
+
+                            <button type="submit" class="btn btn-danger px-5 fw-bold shadow-sm">
+                                EVET, SİL
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-footer bg-light text-center py-2">
+                    <small class="text-muted">Admin ID: @User.Identity.Name</small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

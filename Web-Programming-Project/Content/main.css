@@ -1,0 +1,89 @@
+/*! ========================= DOKUNMAYIN BAŞLANGIÇ ========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+    font-family: sans-serif;
+    zoom: 0.80;
+
+    -moz-transform: scale(0.80);
+    -moz-transform-origin: top center;
+}
+
+header {
+  background: #865b7c;
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  background: #865c78;
+  padding: 20px;
+  text-align: center;
+}
+
+/* SAYFA GENEL LAYOUT */
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  gap: 20px; /* Aralarda kontrollü boşluk */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Sol alan */
+.left {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+/* Orta alan */
+.center {
+  flex: 4;
+  background: #7f6464; 
+}
+
+/* Sağ alan */
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end; 
+}
+
+/* Kategori panelinin sağa yaslanması */
+.kategori-panel {
+  width: 100%;
+}
+
+/*! ========================== DOKUNMAYIN BİTİŞ =========================== */
+
+
+/* ========================= İREMİN ÇALIŞMA ALANI ========================= */
+/* KATEGORİ paneli  */
+
+
+.page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+

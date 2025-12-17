@@ -1,0 +1,299 @@
+/* ========================= CAROUSEL CSS - DÜZELTİLMİŞ ========================= */
+
+/* Carousel Header */
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.carousel-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+}
+
+.view-all-btn {
+    color: #666;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s ease;
+}
+
+    .view-all-btn:hover {
+        color: #333;
+    }
+
+/* Carousel Container */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden; /* TAŞMALARI ENGELLER */
+}
+
+/* Carousel Wrapper */
+.carousel-wrapper {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Event Card */
+.event-slide {
+    min-width: calc(33.333% - 14px);
+    min-height: 300px;
+    aspect-ratio: 8 / 8;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Event Image */
+.event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    z-index: 0;
+}
+
+.event-slide:hover .event-image {
+    transform: scale(1.05);
+    filter: blur(3px) brightness(0.6);
+    opacity: 1;
+}
+
+/* Artist Name on Card */
+.artist-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
+    letter-spacing: 2px;
+    text-align: center;
+    width: 90%;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.event-slide:hover .artist-name {
+    opacity: 0; /* HOVER'DA SANATÇI İSMİ KAYBOLUR */
+}
+
+/* Event Info Overlay */
+.event-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 25px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+}
+
+.event-slide:hover .event-overlay {
+    opacity: 1;
+}
+
+.event-category {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.event-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+
+.event-details {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.event-detail {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.event-detail-icon {
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+}
+
+.event-description {
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.event-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #00ff88;
+    text-shadow: 0 0 10px rgba(0,255,136,0.5);
+}
+
+/* Navigation Buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.95);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+    .carousel-btn:hover:not(:disabled) {
+        background: #fff;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .carousel-btn:active:not(:disabled) {
+        transform: translateY(-50%) scale(0.95);
+    }
+
+    .carousel-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+.carousel-btn-left {
+    left: 10px;
+}
+
+.carousel-btn-right {
+    right: 10px;
+}
+
+.carousel-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #333;
+}
+
+/* Center section düzenlemesi */
+.center {
+    flex: 4;
+    background: transparent;
+    overflow: hidden; /* TAŞMALARI ENGELLER */
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .event-slide {
+        min-width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .event-slide {
+        min-width: 100%;
+    }
+
+    .carousel-container {
+        padding: 20px 50px;
+    }
+
+    .carousel-header {
+        padding: 0 20px;
+    }
+
+    .artist-name {
+        font-size: 32px;
+    }
+}
+
+/* ========================= FILM TRAILER HOVER ========================= */
+
+/* Video başlangıçta görünmesin */
+.event-trailer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 16px;
+    z-index: 1; /* artist-name'in altında ama overlay'in üstünde */
+    pointer-events: none;
+}
+
+/* Hover anında video görünür, arka plan resmini gizler */
+.event-slide:hover .event-trailer {
+    opacity: 1;
+}
+
+
+/* Hover olunca video oynasın */
+.event-slide:hover .event-trailer {
+    animation: none;
+}
+
+/* Artist ismini hover’da gizlemek istersen */
+.event-slide:hover .artist-name {
+    opacity: 0;
+}
+
+
+
+
+/* ========================= CAROUSEL CSS END ========================= */

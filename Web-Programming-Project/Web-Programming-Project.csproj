@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AE05E7F1-BEE4-40D9-B690-813CE2DA3E36}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web_Programming_Project</RootNamespace>
+    <AssemblyName>Web-Programming-Project</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonalManageController.cs" />
+    <Compile Include="Controllers\SeatSelection.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512171448205_InitialCreate.cs" />
+    <Compile Include="Migrations\202512171448205_InitialCreate.Designer.cs">
+      <DependentUpon>202512171448205_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventPrice.cs" />
+    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\DbPersonal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\about.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Category.css" />
+    <Content Include="Content\contact.css" />
+    <Content Include="Content\CreateStyles.css" />
+    <Content Include="Content\footer.css" />
+    <Content Include="Content\images\unnamed %281%29.jpg" />
+    <Content Include="Content\images\unnamed %282%29.jpg" />
+    <Content Include="Content\images\unnamed.jpg" />
+    <Content Include="Content\Kategori.css" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\mert.css" />
+    <Content Include="Content\ortakısım.css" />
+    <Content Include="Content\solkısım.css" />
+    <Content Include="Content\Takvim.css" />
+    <Content Include="event_photos\36b35304ed121ff7e29f333a450fea9628a42bfd_1920x12801752152397229.jpg" />
+    <Content Include="event_photos\91UMpWgj05L._AC_UF1000,1000_QL80_.jpg" />
+    <Content Include="event_photos\buray.jpeg" />
+    <Content Include="event_photos\images %283%29.jpeg" />
+    <Content Include="event_photos\images %284%29.jpeg" />
+    <Content Include="event_photos\oppenheimer.jpeg" />
+    <Content Include="event_photos\victor-osimhen-galatasaray-milan-skriniar-fenerbahce-2025-1743593886-164932.jpg" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\images\09092025183819-29itf.jpg" />
+    <Content Include="Content\images\0x1900-000000-80-0-0.jpg" />
+    <Content Include="Content\images\27032023144952-90lar.png" />
+    <Content Include="Content\images\29082025120125-mixmixmix.jpg" />
+    <Content Include="Content\images\36b35304ed121ff7e29f333a450fea9628a42bfd_1920x12801752152397229.jpg" />
+    <Content Include="Content\images\408271394-grupgorsel.png" />
+    <Content Include="Content\images\429C2baba-1220-su.jpg" />
+    <Content Include="Content\images\4ME89_annawde %281%29.jpg" />
+    <Content Include="Content\images\4ME89_annawde.jpg" />
+    <Content Include="Content\images\Barismanco.jpg" />
+    <Content Include="Content\images\biridammahkumunun3FZ11.jpg" />
+    <Content Include="Content\images\Buray.jpg" />
+    <Content Include="Content\images\cosmic.png" />
+    <Content Include="Content\images\d26204db-9477-43df-965b-ee262dc05cd0_RETINA_PORTRAIT_3_2.jpg" />
+    <Content Include="Content\images\d692bd3e742d93296bdd9266b4debbcf_max.jpg" />
+    <Content Include="Content\images\Ekran görüntüsü 2025-11-09 133337.png" />
+    <Content Include="Content\images\facebook.png" />
+    <Content Include="Content\images\Gemini_Generated_Image_v2649bv2649bv264.png" />
+    <Content Include="Content\images\hamlet.png" />
+    <Content Include="Content\images\insta.png" />
+    <Content Include="Content\images\istfest25_grp_914260625.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\logo2.png" />
+    <Content Include="Content\images\milenayaa.jpg" />
+    <Content Include="Content\images\mor-ve-otesi-235258.png" />
+    <Content Include="Content\images\quantum.png" />
+    <Content Include="Content\images\starfall.png" />
+    <Content Include="Content\images\tempets.png" />
+    <Content Include="Content\images\twiter.png" />
+    <Content Include="Content\images\youtube.png" />
+    <Content Include="Content\images\yuzdeyuzmuzik-istanbul-oktoberfest-2025-20258261639531737e080aaa348909ebb7b69c4697b4d.jpg" />
+    <Content Include="images\09092025183819-29itf.jpg" />
+    <Content Include="images\0x1900-000000-80-0-0.jpg" />
+    <Content Include="images\27032023144952-90lar.png" />
+    <Content Include="images\29082025120125-mixmixmix.jpg" />
+    <Content Include="images\36b35304ed121ff7e29f333a450fea9628a42bfd_1920x12801752152397229.jpg" />
+    <Content Include="images\408271394-grupgorsel.png" />
+    <Content Include="images\429C2baba-1220-su.jpg" />
+    <Content Include="images\4ME89_annawde %281%29.jpg" />
+    <Content Include="images\4ME89_annawde.jpg" />
+    <Content Include="images\Barismanco.jpg" />
+    <Content Include="images\biridammahkumunun3FZ11.jpg" />
+    <Content Include="images\Buray.jpg" />
+    <Content Include="images\cosmic.png" />
+    <Content Include="images\d26204db-9477-43df-965b-ee262dc05cd0_RETINA_PORTRAIT_3_2.jpg" />
+    <Content Include="images\d692bd3e742d93296bdd9266b4debbcf_max.jpg" />
+    <Content Include="images\Ekran görüntüsü 2025-11-09 133337.png" />
+    <Content Include="images\facebook.png" />
+    <Content Include="images\Gemini_Generated_Image_v2649bv2649bv264.png" />
+    <Content Include="images\hamlet.png" />
+    <Content Include="images\insta.png" />
+    <Content Include="images\istfest25_grp_914260625.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\logo1.png" />
+    <Content Include="images\logo2.png" />
+    <Content Include="images\milenayaa.jpg" />
+    <Content Include="images\mor-ve-otesi-235258.png" />
+    <Content Include="images\quantum.png" />
+    <Content Include="images\starfall.png" />
+    <Content Include="images\tempets.png" />
+    <Content Include="images\twiter.png" />
+    <Content Include="images\logo.jpg" />
+    <Content Include="images\youtube.png" />
+    <Content Include="images\yuzdeyuzmuzik-istanbul-oktoberfest-2025-20258261639531737e080aaa348909ebb7b69c4697b4d.jpg" />
+    <Content Include="Content\images\ahmet-kaya-nin-olum-yildonumu-ahmet-kaya-kimdir-8965503_5539_amp.webp" />
+    <Content Include="Content\images\ahmet-kayanin-oglu-kimdir-ferit-kaya-iddialari-dogru-mu.webp" />
+    <Content Include="Content\images\c6a84dc8-ef62-43a2-bd3d-029b4457e41f.webp" />
+    <Content Include="images\ahmet-kaya-nin-olum-yildonumu-ahmet-kaya-kimdir-8965503_5539_amp.webp" />
+    <Content Include="images\ahmet-kayanin-oglu-kimdir-ferit-kaya-iddialari-dogru-mu.webp" />
+    <Content Include="images\c6a84dc8-ef62-43a2-bd3d-029b4457e41f.webp" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\contact.js" />
+    <Content Include="Scripts\CreateScripts.js" />
+    <Content Include="Scripts\eser.js" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\jquery-3.7.0.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\leftside.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Content\videos\1_S13WNCXxPWUxfJOebXasZQ.png" />
+    <Content Include="Content\videos\91vIHsL-zjL._AC_UF894,1000_QL80_.jpg" />
+    <Content Include="Content\videos\basketbol-potadan-gecen-top.jpg" />
+    <Content Include="Content\videos\batman.mp4" />
+    <Content Include="Content\videos\Fast and Furious - Trailer.mp4" />
+    <Content Include="Content\videos\Howls Moving Castle - Official Trailer - Trim.mp4" />
+    <Content Include="Content\videos\images.jpg" />
+    <Content Include="Content\videos\Interstellar Movie - Trailer.mp4" />
+    <Content Include="Content\videos\ozan.mp4" />
+    <Content Include="Content\videos\S0-les-habitants-de-los-angeles-s-opposent-a-fast-furious-197701.jpg" />
+    <Content Include="Content\videos\spor-mu-degil-mi-espor_5eaf237d41dae.jpg" />
+    <Content Include="Content\videos\The Beautiful Game - This is Volleyball - Trim.mp4" />
+    <Content Include="Content\videos\the-dark-knight-le-chevalier-noir.jpg" />
+    <Content Include="Content\videos\This Is BASKETBALL.mp4" />
+    <Content Include="Content\videos\This is Esports  Motivational Video - Trim.mp4" />
+    <Content Include="Content\videos\This is Formula One - Trim.mp4" />
+    <Content Include="Content\videos\thumbs_b_c_d18140f5cc5044c0aadd0299522ea4b1.jpg" />
+    <Content Include="Content\videos\xhfhfhdfh.png" />
+    <Content Include="Content\videos\[4K] Football is life ⚽✨「Edit」%28Tame Impala - Let It Happen%29.mp4" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="videos\1_S13WNCXxPWUxfJOebXasZQ.png" />
+    <Content Include="videos\91vIHsL-zjL._AC_UF894,1000_QL80_.jpg" />
+    <Content Include="videos\basketbol-potadan-gecen-top.jpg" />
+    <Content Include="videos\batman.mp4" />
+    <Content Include="videos\Fast and Furious - Trailer.mp4" />
+    <Content Include="videos\Howls Moving Castle - Official Trailer - Trim.mp4" />
+    <Content Include="videos\images.jpg" />
+    <Content Include="videos\Interstellar Movie - Trailer.mp4" />
+    <Content Include="videos\ozan.mp4" />
+    <Content Include="videos\S0-les-habitants-de-los-angeles-s-opposent-a-fast-furious-197701.jpg" />
+    <Content Include="videos\spor-mu-degil-mi-espor_5eaf237d41dae.jpg" />
+    <Content Include="videos\The Beautiful Game - This is Volleyball - Trim.mp4" />
+    <Content Include="videos\the-dark-knight-le-chevalier-noir.jpg" />
+    <Content Include="videos\This Is BASKETBALL.mp4" />
+    <Content Include="videos\This is Esports  Motivational Video - Trim.mp4" />
+    <Content Include="videos\This is Formula One - Trim.mp4" />
+    <Content Include="videos\thumbs_b_c_d18140f5cc5044c0aadd0299522ea4b1.jpg" />
+    <Content Include="videos\xhfhfhdfh.png" />
+    <Content Include="videos\[4K] Football is life ⚽✨「Edit」%28Tame Impala - Let It Happen%29.mp4" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Content\videos\fast_and_furious.webp" />
+    <Content Include="Content\videos\GettyImages-1645160995.avif" />
+    <Content Include="Content\videos\GF25_Posters_6_Howls_A-min.webp" />
+    <Content Include="videos\fast_and_furious.webp" />
+    <Content Include="videos\GettyImages-1645160995.avif" />
+    <Content Include="videos\GF25_Posters_6_Howls_A-min.webp" />
+    <Content Include="Views\Security\Register.cshtml" />
+    <Content Include="Views\Security\Login.cshtml" />
+    <Content Include="Views\PersonelManage\Index.cshtml" />
+    <Content Include="Views\PersonelManage\Create.cshtml" />
+    <Content Include="Views\PersonelManage\Edit.cshtml" />
+    <Content Include="Views\PersonelManage\Details.cshtml" />
+    <Content Include="Views\PersonelManage\Delete.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\Delete.cshtml" />
+    <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Edit.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="Views\Home\Category.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Events\View.cshtml" />
+    <Content Include="Views\Events\Search.cshtml" />
+    <Content Include="Views\Events\SeatSelection1v.cshtml" />
+    <Content Include="Views\Events\Details_User.cshtml" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.0.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\PersonalManage\" />
+    <Folder Include="Views\SeatSelection1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202512171448205_InitialCreate.resx">
+      <DependentUpon>202512171448205_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51910</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51910/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+</Project>

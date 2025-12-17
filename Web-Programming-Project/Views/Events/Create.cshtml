@@ -1,0 +1,283 @@
+﻿@model Web_Programming_Project.Models.Event
+
+@{
+    ViewBag.Title = "Yeni Etkinlik Oluştur";
+    ViewBag.GenisSayfa = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/CreateStyles.css")" rel="stylesheet" type="text/css" />
+
+<div class="container-fluid my-5 wide-container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+            <div class="admin-card">
+
+                <div class="admin-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 fw-bold" style="letter-spacing: 1px;">YENİ ETKİNLİK</h4>
+                        <small style="opacity: 0.7;">Etkinlik Yönetim Paneli</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">
+                        <small>-- Admin Etkinlik Ekleme Modu --</small>
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                        <div class="section-title">
+                            1. Etkinlik Detayları
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Etkinlik Başlığı</label>
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control modern-input", placeholder = "Örn: Tarkan Harbiye Konseri" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Sanatçı / Grup</label>
+                                @Html.EditorFor(model => model.Artist, new { htmlAttributes = new { @class = "form-control modern-input", placeholder = "Örn: Tarkan" } })
+                                @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ana Kategori</label>
+                                @Html.DropDownListFor(model => model.Category,
+                                    (IEnumerable<SelectListItem>)ViewBag.CategoryList,
+                                    "- Kategori Seçiniz -",
+                                    new { @class = "form-select modern-input", id = "Category" })  @* <-- BURAYA id="Category" EKLENDİ *@
+                                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tarih ve Saat</label>
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control modern-input", type = "datetime-local" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label">Alt Kategoriler (Detay)</label>
+                                <p class="text-muted small">Etkinlik türüne uygun alt kategorileri seçiniz. Başlıklara tıklayarak detayları açabilirsiniz.</p>
+
+                                @Html.HiddenFor(model => model.SubCategory, new { id = "SubCategoryInput" })
+
+                                <div class="create-kategori-wrapper">
+                                    <div class="kategori-card sinema">
+                                        <div class="kategori-baslik">
+                                            <span>🎬 Sinema Türleri</span>
+                                            <span class="ikon">+</span>
+                                        </div>
+                                        <ul class="alt-kategoriler">
+                                            <li><label><input type="checkbox" value="Aksiyon"> Aksiyon</label></li>
+                                            <li><label><input type="checkbox" value="Macera"> Macera</label></li>
+                                            <li><label><input type="checkbox" value="Dram"> Dram</label></li>
+                                            <li><label><input type="checkbox" value="Romantik"> Romantik</label></li>
+                                            <li><label><input type="checkbox" value="Bilim Kurgu"> Bilim Kurgu</label></li>
+                                            <li><label><input type="checkbox" value="Korku"> Korku</label></li>
+                                            <li><label><input type="checkbox" value="Gerilim"> Gerilim</label></li>
+                                            <li><label><input type="checkbox" value="Animasyon"> Animasyon</label></li>
+                                            <li><label><input type="checkbox" value="Komedi"> Komedi</label></li>
+                                            <li><label><input type="checkbox" value="Aile"> Aile</label></li>
+                                            <li><label><input type="checkbox" value="Belgesel"> Belgesel</label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="kategori-card tiyatro">
+                                        <div class="kategori-baslik">
+                                            <span>🎭 Tiyatro Türleri</span>
+                                            <span class="ikon">+</span>
+                                        </div>
+                                        <ul class="alt-kategoriler">
+                                            <li><label><input type="checkbox" value="Dram"> Dram</label></li>
+                                            <li><label><input type="checkbox" value="Komedi"> Komedi</label></li>
+                                            <li><label><input type="checkbox" value="Müzikal"> Müzikal</label></li>
+                                            <li><label><input type="checkbox" value="Trajedi"> Trajedi</label></li>
+                                            <li><label><input type="checkbox" value="Çocuk Tiyatrosu"> Çocuk Tiyatrosu</label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="kategori-card konser">
+                                        <div class="kategori-baslik">
+                                            <span>🎵 Müzik Türleri</span>
+                                            <span class="ikon">+</span>
+                                        </div>
+                                        <ul class="alt-kategoriler">
+                                            <li><label><input type="checkbox" value="Pop"> Pop</label></li>
+                                            <li><label><input type="checkbox" value="Rock & Metal"> Rock & Metal</label></li>
+                                            <li><label><input type="checkbox" value="Caz & Blues"> Caz & Blues</label></li>
+                                            <li><label><input type="checkbox" value="Klasik"> Klasik</label></li>
+                                            <li><label><input type="checkbox" value="Halk Müziği"> Halk Müziği</label></li>
+                                            <li><label><input type="checkbox" value="Elektronik"> Elektronik</label></li>
+                                            <li><label><input type="checkbox" value="Rap / Hip-Hop"> Rap / Hip-Hop</label></li>
+                                            <li><label><input type="checkbox" value="Alternatif"> Alternatif</label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="kategori-card spor">
+                                        <div class="kategori-baslik">
+                                            <span>⚽ Spor Branşları</span>
+                                            <span class="ikon">+</span>
+                                        </div>
+                                        <ul class="alt-kategoriler">
+                                            <li><label><input type="checkbox" value="Futbol"> Futbol</label></li>
+                                            <li><label><input type="checkbox" value="Basketbol"> Basketbol</label></li>
+                                            <li><label><input type="checkbox" value="Voleybol"> Voleybol</label></li>
+                                            <li><label><input type="checkbox" value="Tenis"> Tenis</label></li>
+                                            <li><label><input type="checkbox" value="E-Spor"> E-Spor</label></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="kategori-card festival">
+                                        <div class="kategori-baslik">
+                                            <span>🎉 Festival Türleri</span>
+                                            <span class="ikon">+</span>
+                                        </div>
+                                        <ul class="alt-kategoriler">
+                                            <li><label><input type="checkbox" value="Film Festivali"> Film Festivali</label></li>
+                                            <li><label><input type="checkbox" value="Yemek Festivali"> Yemek Festivali</label></li>
+                                            <li><label><input type="checkbox" value="Müzik Festivali"> Müzik Festivali</label></li>
+                                            <li><label><input type="checkbox" value="Sanat Festivali"> Sanat Festivali</label></li>
+                                            <li><label><input type="checkbox" value="Teknoloji Festivali"> Teknoloji</label></li>
+                                            <li><label><input type="checkbox" value="Kamp Festivali"> Kamp</label></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title mt-5">
+                            2. Lokasyon & Kapasite
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Şehir</label>
+                                @Html.DropDownListFor(model => model.City,
+                              (IEnumerable<SelectListItem>)ViewBag.CityList,
+                              "- Şehir Seçiniz -",
+                              new { @class = "form-select modern-input" })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Mekan / Salon</label>
+                                @Html.EditorFor(model => model.Venue, new { htmlAttributes = new { @class = "form-control modern-input", placeholder = "Örn: Harbiye Açıkhava" } })
+                                @Html.ValidationMessageFor(model => model.Venue, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Toplam Kapasite</label>
+                                @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control modern-input", type = "number", min = "1" } })
+                                @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger small mt-1" })
+                            </div>
+                        </div>
+
+                        <div class="section-title mt-5">
+                            3. Satış & Medya
+                        </div>
+
+                        <div class="row mb-4">
+
+                            <div id="single-price-area" class="col-md-6 mb-3" style="display:none;">
+                                <label class="form-label">Bilet Fiyatı (Tek)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₺</span>
+                                    <input type="number" name="SinglePrice" class="form-control modern-input" placeholder="0.00" step="0.01">
+                                </div>
+                                <small class="text-muted">Sinema etkinlikleri için tek fiyat geçerlidir.</small>
+                            </div>
+
+                            <div id="multi-price-area" class="col-12 mb-3" style="display:none;">
+                                <label class="form-label">Bilet Kategorileri / Bölgeler</label>
+                                <p class="text-muted small">Farklı koltuk veya bölgeler için fiyat belirleyin (Örn: VIP, Balkon, Sahne Önü).</p>
+
+                                <div id="price-rows-container">
+                                    <div class="row mb-2 price-row">
+                                        <div class="col-md-5">
+                                            <input type="text" name="ZoneNames" class="form-control modern-input" placeholder="Bölge Adı (Örn: VIP)">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-text">₺</span>
+                                                <input type="number" name="ZonePrices" class="form-control modern-input" placeholder="Fiyat">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" id="add-price-row" class="btn btn-sm btn-outline-primary mt-2">
+                                    + Yeni Bölge Ekle
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">İndirim Oranı</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">%</span>
+                                    @Html.EditorFor(model => model.DiscountRate, new { htmlAttributes = new { @class = "form-control modern-input", type = "number", min = "0", max = "100", Value = "0" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.DiscountRate, "", new { @class = "text-danger small mt-1" })
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Etkinlik Görseli</label>
+                                @Html.DropDownListFor(model => model.ImageUrl,
+                              (IEnumerable<SelectListItem>)ViewBag.ImageFileList,
+                              "- Bir Resim Seçiniz -",
+                              new { @class = "form-select modern-input mb-2", id = "imageSelector" })
+                                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger small" })
+
+                                <div class="image-upload-zone">
+                                    <img id="imagePreview" src="" alt="Önizleme" style="max-height: 120px; max-width: 100%; border-radius: 8px; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" />
+                                    <div id="noImageText">
+                                        <span style="font-size: 2rem;">📷</span>
+                                        <p class="text-muted small mb-0 mt-1">Görsel önizlemesi burada görünecek</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label">Etkinlik Açıklaması</label>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control modern-input", rows = "4", style = "resize: none;", placeholder = "Etkinlik hakkında detaylı bilgi giriniz..." })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger small mt-1" })
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                            @Html.ActionLink("← Listeye Dön", "Index", null, new { @class = "ozel-panel-kutusu ozel-stil-standart" })
+
+                            <div>
+                                <button type="reset" class="btn btn-reset me-2">
+                                    Temizle
+                                </button>
+                                <button type="submit" class="btn btn-create">
+                                    OLUŞTUR
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+                    
+
+<script src="@Url.Content("~/Scripts/CreateScripts.js")"></script>

@@ -1,0 +1,160 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    color: #222;
+    letter-spacing: 0.2px;
+}
+
+.sayfa {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    gap: 30px;
+}
+
+.icerik {
+    flex: 3;
+}
+
+.kategori-panel {
+    flex: 1;
+    background: #f8f8f8;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    max-width: 320px;
+}
+
+.panel-baslik {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 800;
+    color: #222;
+    letter-spacing: 0.5px;
+}
+
+.kategori-card {
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+    .kategori-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        color: #111;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+.kategori-baslik {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #222;
+}
+
+    .kategori-baslik .ikon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+
+.kategori-card:hover .kategori-baslik .ikon {
+    transform: rotate(90deg);
+}
+
+.alt-kategoriler {
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding-left: 12px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+.kategori-card.active .alt-kategoriler {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.alt-kategoriler li {
+    margin: 8px 0;
+    font-weight: 500;
+    color: #222;
+    transition: color 0.2s;
+}
+
+.alt-secim {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+    .alt-secim input[type="checkbox"] {
+        accent-color: #222;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+
+/* Sinema */
+.kategori-card.sinema { background: linear-gradient(135deg, #FF9E66, #FFB380); }
+.kategori-card.sinema:hover { background: linear-gradient(135deg, #E6803F, #FFA260); }
+
+/* Tiyatro */
+.kategori-card.tiyatro { background: linear-gradient(135deg, #FF9EB3, #FFC0D6); }
+.kategori-card.tiyatro:hover { background: linear-gradient(135deg, #E06699, #FF9EB3); }
+
+/* Konser */
+.kategori-card.konser { background: linear-gradient(135deg, #B28EFF, #8A2BE2); }
+.kategori-card.konser:hover { background: linear-gradient(135deg, #8F63FF, #6A0DAD); }
+
+/* Spor */
+.kategori-card.spor { background: linear-gradient(135deg, #4F9EFF, #1E90FF); }
+.kategori-card.spor:hover { background: linear-gradient(135deg, #3A7FCC, #1C75CC); }
+
+/* Festival */
+.kategori-card.festival { background: linear-gradient(135deg, #40E0D0, #32CD32); }
+.kategori-card.festival:hover { background: linear-gradient(135deg, #30CFC0, #28A428); }
+
+
+/* --- TAKVİM ORTALAMA VE DÜZELTME --- */
+#calendar-wrapper {
+    display: flex;
+    justify-content: center; /* Yatayda tam ortalar */
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    background: transparent !important; /* Arkadaki gereksiz beyazlığı siler */
+}
+
+/* Flatpickr'ın kendi kutusunu düzenleme */
+.flatpickr-calendar.inline {
+    margin: 0 auto !important; /* Ortalamayı garantiler */
+    top: 0 !important;
+    left: 0 !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Hafif gölge şıklık katar */
+}
+
+/* O sol taraftaki beyaz "kulakçık" veya ok işaretini kaldırır */
+.flatpickr-calendar::before,
+.flatpickr-calendar::after {
+    display: none !important;
+}
+

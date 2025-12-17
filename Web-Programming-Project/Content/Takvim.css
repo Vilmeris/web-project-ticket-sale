@@ -1,0 +1,112 @@
+﻿/*! ========================== TAKVİM BÖLÜMÜ ========================== */
+/*! BU KISIM SADECE TAKVİM ÜZERİNDE ÇALIŞAN KİŞİ TARAFINDAN DÜZENLENECEK */
+
+
+/* Container - Sağ panel içerisinde düzgün hizalama */
+#calendar-wrapper {
+    display: flex;
+    justify-content: center; 
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Takvim kutusu */
+#calendar {
+    max-width: 260px; /* Küçük ekran taşmalarını engelledik */
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 14px;
+}
+
+/* Ay adı */
+.flatpickr-current-month {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: rgba(0,0,0,0.75);
+    text-align: center;
+}
+
+/* Ay geçiş ikonları */
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    color: #c2c2c2;
+    transition: color 0.25s;
+}
+
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+    color: #666;
+}
+
+/* Gün isim başlıkları */
+.flatpickr-weekdays {
+    text-transform: uppercase !important;
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #8a8a8a;
+    margin-bottom: 4px;
+}
+
+/* Gün hücreleri */
+.flatpickr-day {
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    margin: 2px;
+    font-size: 0.9em;
+    text-align: center;
+    color: #333;
+    transition: transform 0.15s, background 0.25s;
+}
+
+.flatpickr-day:hover {
+    background: rgba(255, 1, 1, 0.08);
+    transform: scale(1.12);
+}
+
+/* Seçili gün */
+.flatpickr-day.selected {
+    background: #666 !important;
+    color: white !important;
+}
+
+/* Bugün */
+.flatpickr-day.today {
+    border: 1px solid #888;
+}
+
+/* Gün grid */
+.flatpickr-days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/*! ========================== TAKVİM BÖLÜMÜ BİTİŞ ========================== */
+
+#search-events {
+    display: block;           /* Ortalamak için block */
+    margin: 20px auto;        /* Üst-alt boşluk ve yatay ortalama */
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+    background-color: #00c9ff;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#search-events:hover {
+    background-color: #0099cc;  /* Hover rengi */
+}
+
+#search-events:active {
+    transform: scale(0.95);     /* Basma efekti */
+    background-color: #0077aa;
+}

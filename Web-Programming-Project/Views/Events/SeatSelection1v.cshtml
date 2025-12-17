@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "SeatSelection1v";
+    var occupiedList = ViewBag.OccupiedSeats as List<string> ?? new List<string>();
+}
+@model Web_Programming_Project.Models.Event
+
+
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h2>@Model.Title - Koltuk Seçimi</h2>
+        <p class="text-muted">Lütfen oturmak istediğiniz koltuğu seçiniz.</p>
+
+        <div class="bg-secondary text-white w-50 mx-auto py-1 mb-4 rounded">SAHNE / PERDE</div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 p-4">
+
+                <form action="@Url.Action("AddToCartSeated", "Events")" method="post">
+                    <input type="hidden" name="eventId" value="@Model.EventId" />
+
+                    <div class="seat-grid">
+                        @for (int i = 1; i <= Model.Capacity; i++)
+                        {
+                            string seatNum = i.ToString();
+                            bool isOccupied = occupiedList.Contains(seatNum);
+
+                            if (isOccupied)
+                            {
+                                // Render red disabled box
+                                <button type="button" class="seat-occupied" style="width: 50px; height: 50px; opacity: 0.5;" title="Dolu">
+                                    @seatNum
+                                </button>
+                            }
+                            else
+                            {
+                                // Render Selectable Radio Button (styled as button)
+                                <input type="radio" class="btn-check" name="selectedSeat" id="seat-@i" value="@seatNum" autocomplete="off" required>
+                                <label class="seat-label" for="seat-@i" style="width: 50px; height: 50px;">
+                                    @seatNum
+                                </label>
+                            }
+                        }
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <div class="d-flex justify-content-center gap-3 mb-3">
+                            <span class="badge bg-danger">Dolu</span>
+                            <span class="badge bg-primary">Seçili</span>
+                            <span class="badge border text-dark">Boş</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            🛒 Seçimi Sepete Ekle
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="@Url.Action("Details", new { id = Model.EventId })" class="text-secondary">İptal ve Geri Dön</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,220 @@
+﻿@model Web_Programming_Project.Models.Event
+
+@{
+    ViewBag.Title = "Etkinliği Düzenle";
+    ViewBag.GenisSayfa = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/CreateStyles.css")" rel="stylesheet" type="text/css" />
+
+<div class="container-fluid my-5 wide-container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+            <div class="admin-card">
+
+                <div class="admin-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 fw-bold" style="letter-spacing: 1px;">DÜZENLE: @Model.Title.ToUpper()</h4>
+                        <small style="opacity: 0.7;">Etkinlik Yönetim Paneli</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">
+                        <small>Admin Etkinlik Düzenleme Modu</small>
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.EventId)
+                        @Html.HiddenFor(model => model.SoldTicketCount)
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                            <div class="section-title">
+                                1. Etkinlik Detayları
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Etkinlik Başlığı</label>
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Sanatçı / Grup</label>
+                                    @Html.EditorFor(model => model.Artist, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ana Kategori</label>
+                                    @Html.DropDownListFor(model => model.Category,
+                                        (IEnumerable<SelectListItem>)ViewBag.CategoryList,
+                                        "- Kategori Seçiniz -",
+                                        new { @class = "form-select modern-input", id = "Category" })
+                                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tarih ve Saat</label>
+                                    @Html.TextBoxFor(model => model.Date, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control modern-input", type = "datetime-local" })
+                                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <label class="form-label">Alt Kategoriler (Detay)</label>
+
+                                    @Html.HiddenFor(model => model.SubCategory, new { id = "SubCategoryInput" })
+
+                                    <div class="create-kategori-wrapper">
+                                        <p class="text-warning small">Lütfen Create sayfasındaki kategori kartlarını buraya kopyalayın.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section-title mt-5">
+                                2. Lokasyon & Kapasite
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Şehir</label>
+                                    @Html.DropDownListFor(model => model.City, (IEnumerable<SelectListItem>)ViewBag.CityList, "- Şehir Seçiniz -", new { @class = "form-select modern-input" })
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Mekan / Salon</label>
+                                    @Html.EditorFor(model => model.Venue, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Toplam Kapasite</label>
+                                    @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control modern-input", type = "number" } })
+                                </div>
+                            </div>
+
+                            <div class="section-title mt-5">
+                                3. Satış & Medya
+                            </div>
+
+                            <div class="row mb-4">
+                                <div id="single-price-area" class="col-md-6 mb-3" style="display:none;">
+                                    <label class="form-label">Bilet Fiyatı (Tek)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₺</span>
+                                        <input type="number" name="SinglePrice" class="form-control modern-input" placeholder="0.00" step="0.01" value="@(Model.Category == "Sinema" ? Model.Price.ToString("0.##").Replace(",",".") : "")">
+                                    </div>
+                                    <small class="text-muted">Sinema etkinlikleri için tek fiyat geçerlidir.</small>
+                                </div>
+
+                                <div id="multi-price-area" class="col-12 mb-3" style="display:none;">
+                                    <label class="form-label">Bilet Kategorileri / Bölgeler</label>
+
+                                    <div id="price-rows-container">
+                                        @if (Model.EventPrices != null && Model.EventPrices.Count > 0)
+                                        {
+                                            foreach (var price in Model.EventPrices)
+                                            {
+                                                <div class="row mb-2 price-row">
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="ZoneNames" class="form-control modern-input" placeholder="Bölge Adı" value="@price.ZoneName" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">₺</span>
+                                                            <input type="number" name="ZonePrices" class="form-control modern-input" placeholder="Fiyat" value="@price.Price.ToString("0.##").Replace(",",".")" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 d-flex align-items-center">
+                                                        <button type="button" class="btn btn-sm btn-danger remove-row" style="border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight:bold;">×</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="row mb-2 price-row">
+                                                <div class="col-md-5">
+                                                    <input type="text" name="ZoneNames" class="form-control modern-input" placeholder="Bölge Adı (Örn: VIP)">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">₺</span>
+                                                        <input type="number" name="ZonePrices" class="form-control modern-input" placeholder="Fiyat">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <button type="button" id="add-price-row" class="btn btn-sm btn-outline-primary mt-2">
+                                        + Yeni Bölge Ekle
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">İndirim Oranı</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">%</span>
+                                        @Html.EditorFor(model => model.DiscountRate, new { htmlAttributes = new { @class = "form-control modern-input", type = "number", min = "0", max = "100" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DiscountRate, "", new { @class = "text-danger small mt-1" })
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Etkinlik Görseli</label>
+                                    @Html.DropDownListFor(model => model.ImageUrl,
+                                        (IEnumerable<SelectListItem>)ViewBag.ImageFileList,
+                                        "- Bir Resim Seçiniz -",
+                                        new { @class = "form-select modern-input mb-2", id = "imageSelector" })
+
+                                    <div class="image-upload-zone">
+                                        <img id="imagePreview" src="@Model.ImageUrl" alt="Önizleme" style="max-height: 120px; max-width: 100%; border-radius: 8px; @(!string.IsNullOrEmpty(Model.ImageUrl) ? "display:block;" : "display:none;")" />
+                                        <div id="noImageText" style="@(!string.IsNullOrEmpty(Model.ImageUrl) ? "display:none;" : "display:block;")">
+                                            <span style="font-size: 2rem;">📷</span>
+                                            <p class="text-muted small mb-0 mt-1">Görsel önizlemesi burada görünecek</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label">Etkinlik Açıklaması</label>
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control modern-input", rows = "4", style = "resize: none;" })
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                @Html.ActionLink("← Listeye Dön", "Index", null, new { @class = "ozel-panel-kutusu ozel-stil-standart" })
+                                <button type="submit" class="btn btn-create">GÜNCELLE</button>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/CreateScripts.js")"></script>
+
+<script>
+    // CreateScripts.js sadece YENİ eklenen satırlara silme özelliği ekler.
+    // Sayfa yüklendiğinde gelen (veritabanından gelen) satırların silme butonlarını burada aktif ediyoruz.
+    document.addEventListener("DOMContentLoaded", function () {
+        const existingRemoveBtns = document.querySelectorAll(".remove-row");
+        existingRemoveBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                this.closest(".price-row").remove();
+            });
+        });
+    });
+</script>

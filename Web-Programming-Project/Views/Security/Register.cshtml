@@ -1,0 +1,67 @@
+﻿@inherits System.Web.Mvc.WebViewPage<Web_Programming_Project.Models.RegisterViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; <!-- Layout for all pages -->
+    ViewBag.Title = "Register";
+}
+
+<div class="container" style="min-height: 75vh; display: flex; align-items: center; justify-content: center;">
+    <!-- Aligning the box to the center-->
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+            <h2 class="text-center" style="color: #333; margin-bottom: 25px;">Register</h2>
+
+            @if (ViewBag.Message != null) // if there is message, alert the user
+            {
+                <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
+                    @ViewBag.Message
+                </div>
+            }
+
+            @using (Html.BeginForm("Register", "Security", FormMethod.Post))
+            {
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Name</label>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Surname</label>
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Phone</label>
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Password</label>
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Confirm Password</label>
+                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", type = "password", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <button type="submit" class="auth-btn" style="width: 100%; cursor: pointer;"> <a href="@Url.Action("Login", "Security")">Register</a></button>
+            }
+
+            <div style="margin-top: 15px; text-align: center;">
+                <p>Already have an account? <a href="@Url.Action("Login", "Security")">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>

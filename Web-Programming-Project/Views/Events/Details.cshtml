@@ -1,0 +1,219 @@
+﻿@model Web_Programming_Project.Models.Event
+@using System.Linq
+@{
+    ViewBag.Title = "Etkinlik Detayları";
+    // Create sayfasındaki gibi geniş olması için bu ayarı ekliyoruz (Layout'unda varsa işe yarar)
+    ViewBag.GenisSayfa = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container my-5">
+
+<link href="@Url.Content("~/Content/CreateStyles.css")" rel="stylesheet" type="text/css" />
+
+<div class="container-fluid my-5 wide-container">
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+            <div class="admin-card shadow-lg border-0">
+
+                <div class="admin-header py-4 px-5 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold text-white" style="letter-spacing: 1.5px;">
+                            ETKİNLİK DETAYI
+                        </h5>
+                        <small class="text-white-50">ID: #@Model.EventId</small>
+                    </div>
+                    <div class="badge bg-white text-dark shadow-sm px-3 py-2 fw-bold">
+                        @Model.Category
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+
+                    <div class="section-wrapper mb-5">
+                        <h2 class="text-muted text-uppercase fw-bold mb-5 pb-2 border-bottom">1. Etkinlik Detayları</h2>
+
+                        <br />
+                        <br />
+
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label class="detail-label">Etkinlik Başlığı</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <strong class="text-dark-custom fs-5">@Model.Title</strong>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+
+                            <div class="col-md-6 mb-3">
+                                <label class="detail-label">Sanatçı / Grup</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <span class="text-dark-custom fw-bold fs-5">@Model.Artist</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <br />
+
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label class="detail-label">Kategori</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <span class="text-dark-custom">@Model.Category</span>
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+
+
+                            <div class="col-md-6 mb-3">
+                                <label class="detail-label">Tarih ve Saat</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <i class="fa fa-calendar-alt me-2 text-muted"></i>
+                                    <span class="text-dark-custom">@Model.Date.ToString("dd MMMM yyyy") | @Model.Date.ToString("HH:mm")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+
+                    <div class="section-wrapper mb-5">
+                        <h2 class="text-muted text-uppercase fw-bold mb-5 pb-2 border-bottom">2. Lokasyon & Kapasite</h2>
+
+                        <br />
+                        <br />
+
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 mb-3">
+                                <label class="detail-label">Şehir</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <span class="text-dark-custom">@Model.City</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-light border rounded shadow-sm">
+                                <h6 class="text-secondary fw-bold small mb-3">BİLET AL</h6>
+
+
+                            <br />
+                            <br />
+
+
+
+                            <div class="col-md-4 mb-3">
+                                <label class="detail-label">Mekan / Salon</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <span class="text-dark-custom">@Model.Venue</span>
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+
+
+                            <div class="col-md-4 mb-3">
+                                <label class="detail-label">Toplam Kapasite</label>
+                                <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                    <span class="fw-bold text-dark-custom">@Model.SoldTicketCount</span>
+                                    <span class="text-muted small">/ @Model.Capacity</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+
+                    <div class="section-wrapper mb-5">
+                        <h2 class="text-muted text-uppercase fw-bold mb-5 pb-2 border-bottom">3. Satış & Görsel</h2>
+
+                        <br />
+
+                        <div class="row mb-4">
+                            <div class="col-md-5 mb-3">
+                                <div class="mb-4">
+                                    <label class="detail-label">Bilet Fiyatı</label>
+                                    <div class="p-3 bg-light rounded border-light-subtle shadow-sm">
+                                        @if (Model.DiscountRate > 0)
+                                        {
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span class="text-decoration-line-through text-muted small">@Model.Price.ToString("C2")</span>
+                                                    <div class="fs-4 fw-bold text-success">@Model.DiscountedPrice.ToString("C2")</div>
+                                                </div>
+                                                <span class="badge bg-danger">-%@Model.DiscountRate</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="fs-4 fw-bold text-dark-custom">@Model.Price.ToString("C2")</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+
+
+                            <div class="col-md-7 mb-3">
+                                <label class="detail-label">Etkinlik Görseli</label>
+
+                                <div class="p-3 bg-light border rounded shadow-sm d-flex justify-content-center align-items-center"
+                                     style="min-height: 250px;">
+
+                                  
+
+                                        <img src="@Model.ImageUrl" alt="@Model.Title"
+                                             class="img-fluid rounded shadow-sm"
+                                             style="max-height: 350px; width: auto; object-fit: contain;" />
+
+                                </div>
+                            </div>
+
+                         
+
+                          
+
+                        </div>
+                    </div>
+
+                    <div class="section-wrapper mb-5">
+                        <label class="detail-label">Etkinlik Açıklaması</label>
+                        <div class="p-4 bg-light rounded border-light-subtle shadow-sm">
+                            <p class="mb-0 text-dark-custom"
+                               style="white-space: pre-line; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; line-height: 1.6;">@Model.Description</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center pt-5 border-top mt-4">
+                        @Html.ActionLink("← Listeye Dön", "Index", null, new { @class = "ozel-panel-kutusu ozel-stil-standart" })
+
+                        <div class="d-flex gap-3">
+                            <a href="@Url.Action("Edit", "Events", new { id = Model.EventId })"
+                               class="ozel-panel-kutusu ozel-stil-standart">
+                                ✏️ Düzenle
+                            </a>
+                            <a href="@Url.Action("Delete", "Events", new { id = Model.EventId })"
+                               class="ozel-panel-kutusu ozel-stil-sil">
+                                🗑️ Sil
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>

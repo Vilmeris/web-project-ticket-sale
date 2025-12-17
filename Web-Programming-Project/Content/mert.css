@@ -1,0 +1,177 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+.üst-kısım {
+    background-color: #7A4A6E; /* Eskiden #2B124C idi, bunu değiştirdik */
+    color: #2B124C; /* Yazı rengini de light moda uygun yaptık */
+    /* ...diğer özellikler kalsın... */
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    height: 70px;
+    border-radius: 8px 8px 0 0;
+}
+
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+      margin-right: 25px; 
+    }
+
+    .sol-butonlar {
+        display: flex;
+        align-items: center;
+        gap: 28px; 
+    }
+    
+    .sag-nav-grubu {
+        display: flex;
+        align-items: center;
+        gap: 28px; 
+        margin-left: auto; 
+    }
+
+.nav-btn, .auth-btn, .theme-btn {
+    background: linear-gradient(145deg, #8B5E83, #8B5E83);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
+}
+
+    .nav-btn:hover, .auth-btn:hover, .theme-btn:hover {
+        background: linear-gradient(145deg, #E0AAFF, #E0AAFF);
+        transform: translateY(-2px);
+    }
+
+    .search-bar {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 14px;
+      outline: none;
+      width: 220px;
+      font-size: 14px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    body.dark-mode {
+      background-color: #1c1c1c;
+      color: #fff;
+    }
+
+        body.dark-mode .navbar {
+            background-color: #120B1E;
+        }
+
+        body.dark-mode .nav-btn,
+        body.dark-mode .auth-btn,
+        body.dark-mode .theme-btn {
+            background: linear-gradient(145deg, #7B5CD6, #7B5CD6);
+        }
+
+    body.dark-mode .search-bar {
+      background-color: #555;
+      color: white;
+    }
+
+    #leftid[data-theme="dark"] {
+      background-color: #2c2c2c;
+      color: white;
+    }
+
+    #leftid[data-theme="light"] {
+      background-color: #f9f9f9;
+      color: black;
+    }
+
+    #rightid[data-theme="dark"] {
+      background-color: #2c2c2c;
+      color: white;
+    }
+
+    #rightid[data-theme="light"] {
+      background-color: #f9f9f9;
+      color: black;
+    }
+
+    #event-card1[data-theme="dark"] {
+      background-color: #3a3a3a;
+      color: white;
+  
+    }
+
+    #event-card1[data-theme="light"] {
+      background-color: #ffffff;
+      color: black;
+      
+    }
+
+    #event-card2[data-theme="dark"] {
+      background-color: #3a3a3a;
+      color: white;
+    }
+
+    #event-card2[data-theme="light"] {
+      background-color: #ffffff;
+      color: black;
+    }
+
+    #event-card3[data-theme="dark"] {
+      background-color: #3a3a3a;
+      color: white;
+    }
+
+    #event-card3[data-theme="light"] {
+      background-color: #ffffff;
+      color: black;
+    }
+
+    #event-card4[data-theme="dark"] {
+      background-color: #3a3a3a;
+      color: white;
+    }
+
+    #event-card4[data-theme="light"] {
+      background-color: #ffffff;
+      color: black;
+    }
+
+    #event-card5[data-theme="dark"] {
+      background-color: #3a3a3a;
+      color: white;
+    }
+
+    #event-card5[data-theme="light"] {
+      background-color: #ffffff;
+      color: black;
+    }
+
+#üst-kısımid[data-theme="dark"] {
+    background-color: #120B1E;
+    color: white;
+}
+
+#üst-kısımid[data-theme="light"] {
+    background-color: #7A4A6E;
+    color: #2B124C;
+}
+
+#footerid[data-theme="dark"] {
+    background-color: #120B1E;
+    color: white;
+}
+
+#footerid[data-theme="light"] {
+    background-color: #7A4A6E;
+    color: black;
+}

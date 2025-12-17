@@ -1,0 +1,443 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Linq
+
+@model IEnumerable<Web_Programming_Project.Models.Event>
+
+@{
+    ViewBag.Title = "Ana Sayfa";
+}
+
+@section head {
+    @* Sadece Ana Sayfaya ait CSS'leri Layout'un Head kısmına ekle *@
+    <link rel="stylesheet" href="~/Content/Takvim.css">
+    <link rel="stylesheet" href="~/Content/Kategori.css">
+    <link rel="stylesheet" href="~/Content/solkısım.css">
+    <link rel="stylesheet" href="~/Content/ortakısım.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+
+<section class="left" id="leftid">
+    <h2 class="left-title">Popular Events</h2>
+
+    <div class="event-card" id="event-card1">
+        <div id="hamlet-container" style="display:flex">
+            <div class="event-img hamlet" id="hamletimg"></div>
+            <div id="hamlet-info">
+                <h3>Hamlet Play</h3>
+                <p>İstanbul • 12 Mart • 20:30</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-card" id="event-card2">
+        <div id="barisma-container" style="display:flex">
+            <div class="event-img barismanco" id="barismaimg"></div>
+            <div id="barisma-info">
+                <h3>Barışmanço Konser</h3>
+                <p>İstanbul • 12 Mart • 20:30</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-card" id="event-card3">
+        <div id="intergalactic-container" style="display:flex">
+            <div class="event-img intergalactic" id="galacticimg"></div>
+            <div id="intergalactic-info">
+                <h3>intergalactic Movie</h3>
+                <p>İstanbul • 12 Mart • 20:30</p>
+            </div>
+        </div>
+    </div>
+    <h2 class="left-title">Upcoming Events</h2>
+
+    <div class="event-card" id="event-card4">
+        <div id="tempest-container" style="display:flex">
+            <div class="event-img tempest" id="tempestimg"></div>
+            <div id="tempest-info">
+                <h3>Tempest Movie</h3>
+                <p>İstanbul • 12 Mart • 20:30</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="event-card" id="event-card5">
+        <div id="starfall-container" style="display:flex">
+            <div class="event-img starfall" id="starfallimg"></div>
+            <div id="starfall-info">
+                <h3>Starfall Movie</h3>
+                <p>İstanbul • 12 Mart • 20:30</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="leftside.js"></script>
+
+</section>
+
+<!--! ORTA KISIM BAŞLANGICI -->
+
+
+
+<section class="center">
+
+    @{
+
+        var targetCategories = new List<string> { "Konser", "Sinema", "Tiyatro", "Spor", "Festival" };
+    }
+
+    @foreach (var catName in targetCategories)
+    {
+
+        var eventsInCat = Model.Where(x => x.Category != null &&
+                                      x.Category.Trim().Equals(catName, StringComparison.OrdinalIgnoreCase))
+                               .ToList();
+        if (eventsInCat.Count > 0)
+        {
+            <div class="carousel-header">
+                <h2 class="event-card1">@catName</h2>
+                <a href="#" class="view-all-btn">Tümünü Keşfet ►</a>
+            </div>
+
+            <div class="carousel-container">
+
+                <div class="carousel-wrapper" id="carouselWrapper_@catName">
+
+                    @foreach (var item in eventsInCat)
+                    {
+                        <div class="event-slide">
+
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/event_photos/default.jpg" : item.ImageUrl)" alt="@item.Title" class="event-image">
+
+                            <div class="artist-name">
+                                @(item.Artist != null ? item.Artist.ToUpper() : "")
+                            </div>
+                            <div class="event-overlay">
+
+                                <div class="event-category">
+                                    @if (catName == "Konser")
+                                    {<span>🎵</span>}
+                                    else if (catName == "Sinema")
+                                    {<span>🎬</span>}
+                                    else if (catName == "Tiyatro")
+                                    {<span>🎭</span>}
+                                    else if (catName == "Spor")
+                                    {<span>⚽</span>}
+                                    else if (catName == "Festival")
+                                    {<span>🎉</span>}
+                                    @item.Category
+                                </div>
+
+                                <h3 class="event-title">@item.Title</h3>
+
+                                <div class="event-details">
+                                    <div class="event-detail">
+                                        <svg class="event-detail-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                                        <span>@item.Venue, @item.City</span>
+                                    </div>
+                                    <div class="event-detail">
+                                        <svg class="event-detail-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
+                                        <span>@item.Date.ToString("dd MMMM yyyy")</span>
+                                    </div>
+                                    <div class="event-detail">
+                                        <svg class="event-detail-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
+                                        <span>@item.Date.ToString("HH:mm")</span>
+                                    </div>
+                                </div>
+
+                                <p class="event-description">
+                                    @if (!string.IsNullOrEmpty(item.Description))
+                                    {
+                                        @(item.Description.Length > 100 ? item.Description.Substring(0, 90) + "..." : item.Description)
+                                    }
+                                    else
+                                    {
+                                        <span>Açıklama bulunmuyor.</span>
+                                    }
+                                </p>
+
+                                <div class="event-price">
+                                    @if (item.DiscountRate > 0)
+                                    {
+                                        <span style="text-decoration:line-through; font-size:0.8em; color:#bbb;">@item.Price.ToString("C0")</span>
+                                        <span> @item.DiscountedPrice.ToString("C0")</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Price.ToString("C0")</span>
+                                    }
+                                </div>
+
+                                <a href="@Url.Action("Details", "Home", new { id = item.EventId })"
+                                   style="display:block; text-align:center; background:rgba(255,255,255,0.2); padding:8px; margin-top:10px; border-radius:5px; color:white; text-decoration:none; font-weight:bold;">
+                                    İncele
+                                </a>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button class="carousel-btn carousel-btn-left" onclick="scrollMyCarousel('carouselWrapper_@catName', -320)">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
+                </button>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollMyCarousel('carouselWrapper_@catName', 320)">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" /></svg>
+                </button>
+            </div>
+        }
+    }
+
+</section>
+
+<!--! ORTA KISIM SONU -->
+<!--! İREMİN KISMI DOKUNMAYIN -->
+
+<section class="right">
+
+    <div class="rightid">
+        <h2 class="left-title">Etkinlik Kategorileri</h2>
+
+        <!-- SİNEMA -->
+        <div class="kategori-card sinema">
+            <div class="kategori-baslik">
+                <span>Sinema</span>
+                <span class="ikon">+</span>
+            </div>
+            <ul class="alt-kategoriler">
+                <li><label><input type="checkbox"> Aksiyon</label></li>
+                <li><label><input type="checkbox"> Macera</label></li>
+                <li><label><input type="checkbox"> Dram</label></li>
+                <li><label><input type="checkbox"> Romantik</label></li>
+                <li><label><input type="checkbox"> Bilim Kurgu</label></li>
+                <li><label><input type="checkbox"> Korku</label></li>
+                <li><label><input type="checkbox"> Gerilim</label></li>
+                <li><label><input type="checkbox"> Animasyon</label></li>
+                <li><label><input type="checkbox"> Komedi</label></li>
+                <li><label><input type="checkbox"> Aile</label></li>
+                <li><label><input type="checkbox"> Belgesel</label></li>
+            </ul>
+        </div>
+
+        <!-- TİYATRO -->
+        <div class="kategori-card tiyatro">
+            <div class="kategori-baslik">
+                <span>Tiyatro</span>
+                <span class="ikon">+</span>
+            </div>
+            <ul class="alt-kategoriler">
+                <li><label><input type="checkbox"> Dram</label></li>
+                <li><label><input type="checkbox"> Komedi</label></li>
+                <li><label><input type="checkbox"> Müzikal</label></li>
+                <li><label><input type="checkbox"> Trajedi</label></li>
+                <li><label><input type="checkbox"> Çocuk Tiyatrosu</label></li>
+            </ul>
+        </div>
+
+        <!-- KONSER -->
+        <div class="kategori-card konser">
+            <div class="kategori-baslik">
+                <span>Konser</span>
+                <span class="ikon">+</span>
+            </div>
+            <ul class="alt-kategoriler">
+                <li><label><input type="checkbox"> Pop</label></li>
+                <li><label><input type="checkbox"> Rock & Metal</label></li>
+                <li><label><input type="checkbox"> Caz & Blues</label></li>
+                <li><label><input type="checkbox"> Klasik</label></li>
+                <li><label><input type="checkbox"> Halk Müziği/Türkü</label></li>
+                <li><label><input type="checkbox"> Elektronik Müzik</label></li>
+                <li><label><input type="checkbox"> Rap / Hip-Hop</label></li>
+                <li><label><input type="checkbox"> Alternatif / Indie</label></li>
+            </ul>
+        </div>
+
+        <!-- SPOR -->
+        <div class="kategori-card spor">
+            <div class="kategori-baslik">
+                <span>Spor</span>
+                <span class="ikon">+</span>
+            </div>
+            <ul class="alt-kategoriler">
+                <li><label><input type="checkbox"> Futbol</label></li>
+                <li><label><input type="checkbox"> Basketbol</label></li>
+                <li><label><input type="checkbox"> Voleybol</label></li>
+                <li><label><input type="checkbox"> Tenis</label></li>
+                <li><label><input type="checkbox"> E-Spor</label></li>
+            </ul>
+        </div>
+
+        <!-- FESTİVAL -->
+        <div class="kategori-card festival">
+            <div class="kategori-baslik">
+                <span>Festival</span>
+                <span class="ikon">+</span>
+            </div>
+            <ul class="alt-kategoriler">
+                <li><label><input type="checkbox"> Film Festivali</label></li>
+                <li><label><input type="checkbox"> Yemek Festivali</label></li>
+                <li><label><input type="checkbox"> Müzik Festivalleri</label></li>
+                <li><label><input type="checkbox"> Sanat Festivalleri</label></li>
+                <li><label><input type="checkbox"> Bilim / Teknoloji Festivalleri</label></li>
+                <li><label><input type="checkbox"> Tasarım / Moda Festivalleri</label></li>
+                <li><label><input type="checkbox"> Kültür & Gelenek Festivalleri</label></li>
+                <li><label><input type="checkbox"> Açık Hava / Kamp Festivalleri</label></li>
+            </ul>
+        </div>
+
+        <div id="calendar-wrapper">
+            <div id="calendar"></div>
+        </div>
+
+        <div class="calendar-actions" style="margin-top: 20px; display: flex; gap: 15px; justify-content: center; align-items: center;">
+
+            <button id="clear-date" style="
+        width: 160px;
+        height: 45px;
+        border-radius: 50px;
+        border: 2px solid #ddd; /* 2px çerçeve */
+        background: #fff;
+        color: #777;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;">
+                <span>Temizle</span> ✖
+            </button>
+
+            <button id="search-events" style="
+        width: 160px;
+        height: 45px;
+        border-radius: 50px;
+        border: 2px solid transparent; /* Diğeriyle aynı kalınlıkta ama şeffaf çerçeve */
+        background: #f5a623;
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 10px rgba(245, 166, 35, 0.3);
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;">
+                <span>Etkinlik Ara</span> 🔍
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/tr.js"></script>
+
+    <script>
+        document.querySelectorAll(".kategori-card .kategori-baslik").forEach(baslik => {
+            baslik.addEventListener("click", () => {
+                baslik.parentElement.classList.toggle("active");
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Takvimi oluştur
+            flatpickr("#calendar", {
+                inline: true,
+                mode: "range",             // Aralık seçimi
+                dateFormat: "Y-m-d",
+                locale: "tr",
+                showMonths: 1,
+                minDate: "today"
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById("clear-date").addEventListener("click", function () {
+            const calendarElement = document.querySelector("#calendar");
+
+            // Eğer takvim varsa temizle
+            if (calendarElement && calendarElement._flatpickr) {
+                calendarElement._flatpickr.clear();
+            }
+        });
+    </script>
+
+    <script>
+        function scrollMyCarousel(wrapperId, scrollAmount) {
+            const wrapper = document.getElementById(wrapperId);
+            if (wrapper) {
+                wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+    </script>
+
+    <script>
+        document.getElementById("search-events").addEventListener("click", function () {
+
+            // --- A. KATEGORİLERİ AL ---
+            let selectedCategories = [];
+            document.querySelectorAll('.alt-kategoriler input[type="checkbox"]:checked').forEach(checkbox => {
+                let labelText = checkbox.parentElement.innerText.trim();
+                selectedCategories.push(labelText);
+            });
+
+            // --- B. TARİHLERİ AL ---
+            let startDate = "";
+            let endDate = "";
+
+            const calendarInstance = document.querySelector("#calendar")._flatpickr;
+            const selectedDates = calendarInstance.selectedDates;
+
+            if (selectedDates.length > 0) {
+                startDate = flatpickr.formatDate(selectedDates[0], "Y-m-d");
+
+                if (selectedDates.length > 1) {
+                    endDate = flatpickr.formatDate(selectedDates[1], "Y-m-d");
+                } else {
+                    endDate = startDate;
+                }
+            }
+
+            // --- C. KONTROL ---
+            if (selectedCategories.length === 0 && startDate === "") {
+                alert("Lütfen en az bir kategori veya tarih aralığı seçiniz.");
+                return;
+            }
+
+            // --- D. URL OLUŞTUR ---
+            let params = [];
+
+            if (selectedCategories.length > 0) {
+                params.push("categories=" + encodeURIComponent(selectedCategories.join(',')));
+            }
+
+            if (startDate !== "") {
+                params.push("startDate=" + startDate);
+            }
+
+            if (endDate !== "") {
+                params.push("endDate=" + endDate);
+            }
+
+            // Yönlendir
+            let url = '/Events/Search?' + params.join('&');
+            window.location.href = url;
+        });
+    </script>
+}
+
+
+
+
+
+
+<!--! İREMİN KISMI SONU -->

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Web_Programming_Project.Models.Event>
+
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Category.css" rel="stylesheet" />
+
+<div class="category-container">
+    <h1 class="category-title">@ViewBag.CategoryName</h1>
+
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-warning" role="alert" style="font-size: 1.2rem;">
+            ⚠️ Bu kategoride henüz aktif bir etkinlik bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="events-grid">
+            @foreach (var item in Model)
+            {
+                <div class="cat-card">
+                    <img src="@item.ImageUrl" alt="@item.Title" class="cat-image" />
+
+                    <div class="cat-overlay">
+                        <h3 class="cat-title">@item.Title</h3>
+                        <div class="cat-artist">@item.Artist</div>
+                        <p class="cat-desc">@item.Description</p>
+
+                        <div class="cat-price">
+                            @if (item.DiscountRate > 0)
+                            {
+                                <span>@((item.Price - (item.Price * item.DiscountRate / 100)).ToString("C0"))</span>
+                            }
+                            else
+                            {
+                                <span>@item.Price.ToString("C0")</span>
+                            }
+                        </div>
+
+                        <span class="btn-detail">Bilet Al & Detaylar</span>
+                    </div>
+
+                    <a href="@Url.Action("Details", "Home", new { id = item.EventId })" class="card-link"></a>
+                </div>
+            }
+        </div>
+    }
+</div>

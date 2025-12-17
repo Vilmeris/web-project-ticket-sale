@@ -1,0 +1,42 @@
+﻿@model Web_Programming_Project.Models.User
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // using the layout again
+    ViewBag.Title = "Login";
+}
+<div class="container" style="min-height: 75vh; display: flex; align-items: center; justify-content: center;">
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+            <h2 class="text-center" style="color: #333; margin-bottom: 25px;">Giriş Yap</h2>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger" style="color: red; background-color: #fce4e4; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                    @ViewBag.Message
+                </div>
+            }
+
+            @using (Html.BeginForm("Login", "Security", FormMethod.Post))
+            {
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: bold; color: #555;">E-posta Adresi</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", placeholder = "ornek@mail.com", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="font-weight: bold; color: #555;">Şifre</label>
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "******", style = "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", style = "color:red; font-size: 12px;" })
+                </div>
+
+                <button type="submit" class="auth-btn" style="width: 100%; cursor: pointer; padding: 12px; font-size: 16px;">Giriş Yap</button>
+            }
+
+            <div style="margin-top: 20px; text-align: center; border-top: 1px solid #eee; padding-top: 15px;">
+                <p style="color: #666;">Hesabın yok mu? <a href="@Url.Action("Register", "Security")" style="color: #007bff; font-weight: bold;">Kayıt Ol</a></p>
+            </div>
+        </div>
+    </div>
+</div>

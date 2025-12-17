@@ -1,0 +1,667 @@
+﻿.wide-container {
+    max-width: 98%; /* Sayfanın %98'ini kaplasın (neredeyse tam ekran) */
+    width: 98%; /* Genişliği zorla */
+    margin: 20px auto; /* Üstten ve Alttan 20px boşluk bırak, sağ-sol ortala */
+    padding: 0; /* Ekstra iç boşluğu sıfırla */
+}
+
+.admin-card {
+    border: none;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+    .admin-card .card-body {
+        padding: 40px 60px !important; /* Üst-Alt: 40px, Sol-Sağ: 60px (İçeriği içeri iter) */
+    }
+
+.admin-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #fff;
+    padding: 25px 40px;
+    border-bottom: 4px solid #f5a623;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 25px;
+    padding-left: 15px;
+    border-left: 5px solid #f5a623;
+    display: flex;
+    align-items: center;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.modern-input {
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+}
+
+    .modern-input:focus {
+        border-color: #f5a623;
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
+        outline: none;
+    }
+
+.input-group-text {
+    background-color: #eee;
+    border: 2px solid #eee;
+    border-right: none;
+    border-radius: 12px 0 0 12px;
+    color: #555;
+    font-weight: bold;
+}
+
+.input-group .modern-input {
+    border-radius: 0 12px 12px 0;
+}
+
+.image-upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    transition: all 0.3s;
+    text-align: center;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .image-upload-zone:hover {
+        border-color: #f5a623;
+        background-color: #fffbf0;
+    }
+
+.btn-create {
+    background: linear-gradient(135deg, #f5a623 0%, #e08e0b 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 60px; /* Buton biraz daha genişledi */
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(245, 166, 35, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .btn-create:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(245, 166, 35, 0.4);
+        color: white;
+    }
+
+.btn-reset {
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    color: #777;
+    border: 2px solid #eee;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+    .btn-reset:hover {
+        background: #eee;
+        color: #333;
+    }
+
+/* Mobilde çok sıkışmasın diye mobil ayarı da güncelleyelim */
+@media (max-width: 768px) {
+    .admin-card .card-body {
+        padding: 20px !important; /* Mobilde kenar boşluğunu azaltalım */
+    }
+
+    .wide-container {
+        width: 95%; /* Mobilde kenarlardan biraz daha pay kalsın */
+        margin: 10px auto;
+    }
+}
+
+
+/* =========================================
+   ALT KATEGORİ (ACCORDION) STİLLERİ
+   ========================================= */
+
+/* Kategori Kartlarını Kapsayan Alan */
+.create-kategori-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Tekil Kategori Kartı */
+.kategori-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+    /* Aktif Olduğunda (Açıldığında) Kart Stili */
+    .kategori-card.active {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border-color: #ced4da;
+        background: #fff;
+    }
+
+/* Başlık Kısmı */
+.kategori-baslik {
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    font-weight: 600;
+    color: #495057;
+    user-select: none; /* Metin seçimini engelle */
+}
+
+    .kategori-baslik:hover {
+        background: #f1f3f5;
+        color: #212529;
+    }
+
+    /* Artı/Çarpı İkonu */
+    .kategori-baslik .ikon {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #adb5bd;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+.kategori-card.active .kategori-baslik .ikon {
+    transform: rotate(45deg); /* Artıyı çarpı yap */
+    color: #dc3545; /* Kırmızımsı renk */
+}
+
+/* İçerik (Checkbox Listesi) */
+.alt-kategoriler {
+    display: none; /* Varsayılan olarak gizli */
+    list-style: none;
+    padding: 15px 20px;
+    margin: 0;
+    background: #fff;
+    border-top: 1px solid #f1f3f5;
+}
+
+.kategori-card.active .alt-kategoriler {
+    display: block; /* Aktif olunca göster */
+    animation: fadeIn 0.3s ease;
+}
+
+/* Liste Elemanları */
+.alt-kategoriler li {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 8px;
+}
+
+.alt-kategoriler label {
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #6c757d;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .alt-kategoriler label:hover {
+        color: #0d6efd;
+    }
+
+.alt-kategoriler input[type="checkbox"] {
+    accent-color: #0d6efd; /* Checkbox rengi (modern tarayıcılar) */
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Ufak bir animasyon efekti */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ==========================================================================
+   DARK MODE UYUMLULUĞU (CreateStyles.css En Altına Ekle/Güncelle)
+   ========================================================================== */
+
+/* 1. Ana Kart ve Gövde Arka Planı (Tamamen Siyah/Koyu) */
+body.dark-mode .admin-card {
+    background-color: #120B1E; /* Sitenin koyu tema rengiyle uyumlu */
+    color: #ffffff; /* Tüm yazılar beyaz */
+    box-shadow: none; /* Kart gölgesini kaldır, daha düz bir görünüm */
+}
+
+body.dark-mode .card-body {
+    background-color: #1a1a1a; /* Form alanı için çok koyu gri/siyah */
+}
+
+/* 2. Admin Header (Başlık Kısmı) - Sitenin Header Rengiyle Aynı */
+body.dark-mode .admin-header {
+    background-color: #120B1E; /* Sitenin genel koyu header rengi */
+    border-bottom: 1px solid #2B124C; /* Hafif bir ayırıcı çizgi */
+    color: #ffffff;
+}
+
+    body.dark-mode .admin-header small {
+        color: #cccccc; /* Alt başlıklar için açık gri */
+        opacity: 1 !important; /* Opaklığı kaldır, net görünsün */
+    }
+
+    /* "Admin Modu" yazan kutucuk */
+    body.dark-mode .admin-header div[style*="background: rgba(255,255,255,0.1)"] {
+        background: rgba(255,255,255,0.1) !important; /* Mevcut stili koru ama !important ekle */
+        border: 1px solid #ffffff; /* Beyaz çerçeve ekle */
+    }
+
+/* 3. Section Title (Bölüm Başlıkları) */
+body.dark-mode .section-title {
+    color: #E0AAFF; /* Açık Mor (Vurgu Rengi) */
+    border-left: 5px solid #7B5CD6; /* Sol çizgi mor */
+}
+
+/* 4. Etiketler (Labels) ve Tüm Metinler */
+body.dark-mode .form-label,
+body.dark-mode p,
+body.dark-mode h4,
+body.dark-mode small {
+    color: #ffffff !important; /* Tüm etiketleri ve yazıları zorla beyaz yap */
+}
+
+body.dark-mode .text-muted {
+    color: #bbbbbb !important; /* Biraz daha sönük yazılar için açık gri */
+}
+
+/* 5. Inputlar, Textarea ve Select (Form Elemanları) */
+body.dark-mode .modern-input,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+    background-color: #2c2c2c; /* Koyu zemin */
+    border: 1px solid #555; /* Gri çerçeve */
+    color: #ffffff; /* Beyaz yazı */
+}
+
+    body.dark-mode .modern-input:focus,
+    body.dark-mode .form-select:focus {
+        background-color: #333;
+        border-color: #7B5CD6; /* Odaklanınca mor çerçeve */
+        box-shadow: 0 0 0 3px rgba(123, 92, 214, 0.3); /* Mor parlama */
+    }
+
+    /* Input placeholder rengini düzelt */
+    body.dark-mode .modern-input::placeholder {
+        color: #888;
+    }
+
+/* 6. Kategori Kartları (Accordion) */
+body.dark-mode .kategori-card {
+    background-color: #2c2c2c;
+    border-color: #444;
+}
+
+    body.dark-mode .kategori-card.active {
+        background-color: #222;
+        border-color: #7B5CD6;
+    }
+
+body.dark-mode .kategori-baslik {
+    color: #ffffff;
+}
+
+    body.dark-mode .kategori-baslik:hover {
+        background-color: #333;
+    }
+
+/* Alt Kategori Listesi */
+body.dark-mode .alt-kategoriler {
+    background-color: #222;
+    border-top: 1px solid #444;
+}
+
+    body.dark-mode .alt-kategoriler label {
+        color: #dddddd;
+    }
+
+        body.dark-mode .alt-kategoriler label:hover {
+            color: #E0AAFF; /* Hoverda açık mor */
+        }
+
+/* 7. Resim Yükleme Alanı */
+body.dark-mode .image-upload-zone {
+    background-color: #2c2c2c;
+    border-color: #555;
+}
+
+    body.dark-mode .image-upload-zone:hover {
+        background-color: #333;
+        border-color: #7B5CD6;
+    }
+
+body.dark-mode #noImageText p {
+    color: #bbbbbb !important;
+}
+
+body.dark-mode #noImageText span {
+    color: #ffffff; /* Kamera ikonu */
+}
+
+/* 8. Butonlar */
+body.dark-mode .btn-create {
+    background: linear-gradient(135deg, #7B5CD6 0%, #5a3e99 100%); /* Mor Buton */
+    border: none;
+    color: white;
+}
+
+    body.dark-mode .btn-create:hover {
+        background: linear-gradient(135deg, #8c6de8 0%, #6b4fb3 100%);
+    }
+
+body.dark-mode .btn-reset {
+    color: #ffffff;
+    border: 1px solid #777;
+    background-color: transparent;
+}
+
+    body.dark-mode .btn-reset:hover {
+        background-color: #444;
+        border-color: #ffffff;
+    }
+
+/* 9. Linkler */
+body.dark-mode a.text-muted {
+    color: #E0AAFF !important; /* "Listeye Dön" linki */
+}
+
+    body.dark-mode a.text-muted:hover {
+        text-decoration: underline !important;
+    }
+
+/* 10. Input Group Text (₺ ve %) */
+body.dark-mode .input-group-text {
+    border-right: none;
+    background-color: #333;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   INDEX SAYFASI & TABLO DARK MODE AYARLARI
+   ========================================================================== */
+
+/* 1. Tablo Genel Yapısı */
+.modern-table {
+    background-color: white; /* Light mode varsayılan */
+    color: #333;
+}
+
+    .modern-table thead {
+        background-color: #343a40; /* Koyu başlık */
+        color: white;
+    }
+
+/* 2. Dark Mode Aktif Olduğunda */
+body.dark-mode .modern-table {
+    background-color: #1e1e1e; /* Tablo arka planı koyu gri */
+    color: #e0e0e0; /* Metin rengi açık gri */
+    border-color: #444;
+}
+
+    body.dark-mode .modern-table thead {
+        background-color: #120B1E; /* Başlık sitenin ana koyu rengi */
+        border-bottom: 2px solid #7B5CD6; /* Mor çizgi */
+    }
+
+    body.dark-mode .modern-table th,
+    body.dark-mode .modern-table td {
+        border-color: #444; /* Hücre çizgileri */
+    }
+
+/* Satır Hover Efekti (Dark Mode) */
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: #2c2c2c; /* Üzerine gelince biraz daha açık gri */
+    color: #fff;
+}
+
+/* 3. Metin Renkleri (Custom Classes) */
+body.dark-mode .text-dark-custom {
+    color: #e0e0e0 !important; /* Normalde siyah olan yazılar beyaz olsun */
+}
+
+body.dark-mode .text-primary-custom {
+    color: #66b0ff !important; /* Mavi başlıklar daha açık mavi olsun */
+}
+
+body.dark-mode .text-secondary-custom {
+    color: #bbb !important; /* Sanatçı ismi gri */
+}
+
+body.dark-mode .page-title {
+    color: #fff !important; /* Sayfa başlığı beyaz */
+}
+
+/* 4. Progress Bar Arka Planı */
+body.dark-mode .progress {
+    background-color: #444 !important; /* Çubuğun boş kısmı koyu olsun */
+}
+
+/* 5. Butonlar ve Linkler */
+body.dark-mode .btn-create {
+    /* Create butonu zaten tanımlıydı ama burada override edelim */
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+/* Resim yok yazısı */
+body.dark-mode .text-muted {
+    color: #999 !important;
+}
+
+/* ==========================================================================
+   DETAILS SAYFASI DARK MODE AYARLARI
+   ========================================================================== */
+
+/* Dark Mode Genel Metin Renkleri */
+body.dark-mode .title-text {
+    color: #fff !important;
+}
+
+body.dark-mode .subtitle-text {
+    color: #ccc !important;
+}
+
+body.dark-mode .label-text {
+    color: #bbb !important;
+}
+/* Başlıklar (Tarih, Konum vb.) */
+body.dark-mode .info-text {
+    color: #fff !important;
+}
+/* İçerik Metinleri */
+body.dark-mode .section-label {
+    color: #E0AAFF !important;
+}
+/* Bölüm Başlıkları (Zaman, Fiyat vb.) */
+
+/* Kutular (Açıklama ve Bilet Alma Kutusu) */
+body.dark-mode .description-box,
+body.dark-mode .purchase-box {
+    background-color: #2c2c2c !important; /* Koyu Gri Arka Plan */
+    border: 1px solid #444 !important;
+}
+
+/* Küçük Bilgi Metinleri */
+body.dark-mode .info-small {
+    color: #999 !important;
+}
+
+/* Geri Dön Linki */
+body.dark-mode .back-link {
+    color: #E0AAFF !important;
+}
+
+    body.dark-mode .back-link:hover {
+        color: #fff !important;
+    }
+
+/* Satılan Bilet Sayısı (Mavi olan yer) */
+body.dark-mode .text-primary {
+    color: #66b0ff !important;
+}
+
+/* Bilet Al Butonu (Mor yapalım dark modda) */
+body.dark-mode .btn-purchase {
+    background: linear-gradient(135deg, #7B5CD6 0%, #5a3e99 100%) !important;
+    border: none;
+}
+
+/* ==========================================================================
+   DETAILS SAYFASI FİNAL TASARIM (SABİT GENİŞLİK & RENKLER)
+   ========================================================================== */
+
+/* 1. ETİKETLER (LABEL) */
+.detail-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    /* AYDINLIK MOD (Light Mode) İÇİN RENK: ALTIN SARISI / KOYU SARI */
+    color: #d4a017;
+}
+
+/* KARANLIK MOD (Dark Mode) İÇİN RENK: MOR */
+body.dark-mode .detail-label {
+    color: #E0AAFF !important; /* Açık Neon Mor */
+    text-shadow: 0 0 5px rgba(224, 170, 255, 0.3);
+}
+
+/* 2. VERİ DEĞERLERİ (VALUE) */
+.detail-value {
+    color: #333; /* Light modda koyu gri */
+    font-weight: 500;
+}
+
+/* Dark Mode'da veri değerleri beyaz */
+body.dark-mode .detail-value,
+body.dark-mode .text-dark-custom {
+    color: #f8f9fa !important;
+}
+
+/* 3. İKONLAR */
+body.dark-mode .fa-calendar-alt {
+    color: #bbb !important;
+}
+
+/* 4. AÇIKLAMA KENAR ÇİZGİSİ */
+/* Light Mode: Sarı çizgi */
+.border-warning {
+    border-color: #d4a017 !important;
+}
+/* Dark Mode: Mor çizgi */
+body.dark-mode .border-warning {
+    border-color: #E0AAFF !important;
+}
+
+/* 5. GÖRSEL ÇERÇEVESİ (Dark Mode) */
+body.dark-mode img.shadow-sm {
+    border: 1px solid #444 !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
+}
+
+
+/* 1. Kök Değişkenler (Renk Tanımları) */
+/* İsimlerin başına 'tr' ekledim ki başka değişkenlerle karışmasın */
+:root {
+    --tr-btn-arkaplan: #e0e0e0;
+    --tr-btn-yazi: #333;
+    --tr-btn-hover: #d5d5d5;
+    --tr-sil-arkaplan: #ffebeb;
+    --tr-sil-yazi: #c00;
+    --tr-sil-hover: #ffcccc;
+}
+
+/* 2. Karanlık Mod (Dark Mode) Ayarları */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --tr-btn-arkaplan: #444;
+        --tr-btn-yazi: #fff;
+        --tr-btn-hover: #555;
+        --tr-sil-arkaplan: #5a0000;
+        --tr-sil-yazi: #ffadad;
+        --tr-sil-hover: #750000;
+    }
+}
+
+/* 3. Ana Buton Yapısı (Benzersiz Class İsmi: .ozel-panel-kutusu) */
+.ozel-panel-kutusu {
+    display: inline-block; /* Yan yana kutucuk gibi durması için */
+    padding: 10px 20px;
+    margin: 5px;
+    text-decoration: none !important; /* Alt çizgiyi zorla kaldırır */
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-family: sans-serif; /* Yazı tipini garantiye alır */
+    line-height: normal;
+}
+
+/* 4. Standart Buton Rengi (Düzenle / Listeye Dön) */
+.ozel-stil-standart {
+    background-color: var(--tr-btn-arkaplan);
+    color: var(--tr-btn-yazi);
+}
+
+    .ozel-stil-standart:hover {
+        background-color: var(--tr-btn-hover);
+        color: var(--tr-btn-yazi); /* Hoverda renk değişmesin */
+    }
+
+/* 5. Sil Butonu Rengi */
+.ozel-stil-sil {
+    background-color: var(--tr-sil-arkaplan);
+    color: var(--tr-sil-yazi);
+}
+
+    .ozel-stil-sil:hover {
+        background-color: var(--tr-sil-hover);
+        color: var(--tr-sil-yazi);
+    }

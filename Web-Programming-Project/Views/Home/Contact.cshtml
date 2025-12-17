@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "İletişim";
+}
+
+@section head {
+    @* Sayfaya özel CSS dosyalarını Layout'un Head kısmına enjekte ediyoruz *@
+    <link rel="stylesheet" href="~/Content/about.css">
+    <link rel="stylesheet" href="~/Content/contact.css">
+}
+
+<div class="about_page">
+    @* SOL MENÜ KISMI *@
+    <section class="about-left">
+        <div class="menu-block">
+            <span class="menu-title">Kurumsal</span>
+            <ul>
+                <li><a href="@Url.Action("About", "Home")">Hakkımızda</a></li>
+                <li><a href="@Url.Action("Contact", "Home")" class="active">İletişim</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-block">
+            <span class="menu-title">Yardım</span>
+            <ul>
+                <li><a href="#">SSS</a></li>
+                <li><a href="#">İptal / İade</a></li>
+                <li><a href="#">Nasıl Bilet Alınır?</a></li>
+            </ul>
+        </div>
+    </section>
+
+    @* ORTA KISIM - İLETİŞİM FORMU *@
+    <section class="about_center" style="background: white; padding: 30px; border-radius: 10px;">
+        <div id="contact">
+            <h3 class="quickIDTitle" style="color: black; text-align: center;">İLETİŞİM FORMU</h3>
+            <hr>
+            <div id="form">
+                @* form action'ı MVC yapısında Controller'a yönlendirilebilir,
+                    ancak mevcut JS doğrulamanı kullanmak için bu yapıyı koruyoruz *@
+                <form name="form1" id="form1" method="post" onsubmit="return validateForm()">
+                    <table id="contactTable">
+                        <tr>
+                            <td class="formLabel">Ad *</td>
+                            <td class="formLabel">Soy Ad *</td>
+                        </tr>
+                        <tr>
+                            <td class="formInput"><input type="text" id="name1" name="nameText" /></td>
+                            <td class="formInput"><input type="text" id="lastName1" name="lastNameText" /></td>
+                        </tr>
+
+                        <tr>
+                            <td class="formLabel">E-Mail *</td>
+                            <td class="formLabel">Tel</td>
+                        </tr>
+                        <tr>
+                            <td class="formInput"><input type="text" id="email1" name="emailText" /></td>
+                            <td class="formInput"><input type="text" id="tel1" name="telText" /></td>
+                        </tr>
+
+                        <tr>
+                            <td class="formLabel">Tarih</td>
+                            <td class="formLabel">Saat</td>
+                        </tr>
+                        <tr>
+                            <td class="formInput"><input type="date" id="date1" name="dateText" /></td>
+                            <td class="formInput"><input type="time" id="time1" name="timeText" /></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" class="formLabel">Konu *</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="formInputFull"><input type="text" id="subject1" name="subjectText" style="width: 100%;" /></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" class="formLabel">Mesaj *</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="formInputFull"><input type="text" id="message1" name="messageText" style="height: 100px; width: 100%;" /></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" style="text-align: center; padding-top: 15px;">
+                                <input type="submit" id="submitBtn" name="submit" value="Gönder" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            @* JavaScript tarafından kontrol edilen başarı mesajı alanı *@
+            <div id="Message" style="display: none; text-align: left; padding: 10px; color: #000080;">
+                <h2>Teşekkürler</h2>
+                <h2>Mesajınız Gönderildi!</h2>
+                <p><span id="msgCount">0</span> mesaj gönderdiniz:</p>
+                <ul id="msgList"></ul>
+                <p>Başka mesaj yollamak için <a href="javascript:void(0);" onclick="resetOutput();">buraya tıklayın.</a></p>
+            </div>
+        </div>
+    </section>
+
+    @* SAĞ KISIM - SOSYAL MEDYA *@
+    <section class="right">
+        <table>
+            <tr>
+                <td> <img src="~/Content/images/facebook.png" alt="Facebook" class="icon"> </td>
+                <td><a href="https://facebook.com/" target="_blank">Facebook</a></td>
+            </tr>
+            <tr>
+                <td><img src="~/Content/images/insta.png" alt="Instagram" class="icon"></td>
+                <td><a href="https://instagram.com/" target="_blank">Instagram</a></td>
+            </tr>
+            <tr>
+                <td><img src="~/Content/images/twiter.png" alt="Twitter" class="icon"></td>
+                <td><a href="https://twitter.com/" target="_blank">Twitter</a></td>
+            </tr>
+            <tr>
+                <td><img src="~/Content/images/youtube.png" alt="YouTube" class="icon"></td>
+                <td><a href="https://youtube.com/" target="_blank">Youtube</a></td>
+            </tr>
+        </table>
+    </section>
+</div>
+
+@section scripts {
+    @* Sayfaya özel JavaScript dosyasını Layout'un altına ekliyoruz *@
+    <script src="~/Scripts/contact.js"></script>
+}

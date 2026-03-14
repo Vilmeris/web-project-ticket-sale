@@ -5,96 +5,103 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container my-5" style="min-height: 60vh;">
-    <div class="row mb-5 text-center">
-        <div class="col-12">
-            <h2 class="fw-bold display-6">Arama Sonuçları</h2>
-            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
-                @if (Model != null && Model.Any())
-                {
-                    <span class="badge bg-success rounded-pill px-3">@Model.Count() Etkinlik Bulundu</span>
-                }
-                else
-                {
-                    <span class="badge bg-secondary rounded-pill px-3">Sonuç Bulunamadı</span>
-                }
-            </div>
-            <div class="mt-3">
-                <a href="/Home/Index" class="text-decoration-none fw-bold text-muted">
-                    <i class="bi bi-arrow-left"></i> Ana Sayfaya Dön ve Tekrar Ara
-                </a>
-            </div>
+
+<link href="~/Content/Category.css" rel="stylesheet" />
+
+<div class="category-container">
+
+    
+    <div class="text-center mb-5">
+        <h1 class="category-title">Arama Sonuçları</h1>
+
+      
+        <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+            @if (Model != null && Model.Any())
+            {
+                <span class="badge bg-success rounded-pill px-3" style="font-size: 0.9rem;">
+                    @Model.Count() Etkinlik Bulundu
+                </span>
+            }
+            else
+            {
+                <span class="badge bg-secondary rounded-pill px-3" style="font-size: 0.9rem;">
+                    Sonuç Bulunamadı
+                </span>
+            }
+        </div>
+
+     
+        <div class="mt-3">
+            <a href="@Url.Action("Index", "Home")" class="text-decoration-none fw-bold text-muted" style="font-size: 0.9rem;">
+                <i class="bi bi-arrow-left"></i> Ana Sayfaya Dön ve Tekrar Ara
+            </a>
         </div>
     </div>
+    <br />
 
-    <div class="row g-4">
-        @if (Model == null || !Model.Any())
-        {
-            <div class="col-12 text-center py-5">
-                <div style="font-size: 5rem; opacity: 0.3;">🔍</div>
-                <h3 class="mt-3 text-muted">Aradığınız kriterlere uygun etkinlik yok.</h3>
-                <p class="text-muted">Farklı bir tarih seçmeyi veya kategori değiştirmeyi deneyebilirsiniz.</p>
-                <a href="/Home/Index" class="btn btn-primary mt-3 px-4 py-2 rounded-pill">Tüm Etkinlikleri Gör</a>
-            </div>
-        }
-        else
-        {
-            foreach (var item in Model)
+    @if (Model == null || !Model.Any())
+    {
+      
+        <div class="col-12 text-center py-5">
+            <div style="font-size: 5rem; opacity: 0.3;">🔍</div>
+            <h3 class="mt-3 text-muted">Aradığınız kriterlere uygun etkinlik yok.</h3>
+            <p class="text-muted">Farklı bir tarih seçmeyi veya kategori değiştirmeyi deneyebilirsiniz.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3 px-4 py-2 rounded-pill">Tüm Etkinlikleri Gör</a>
+        </div>
+    }
+    else
+    {
+       
+        <div class="events-grid">
+            @foreach (var item in Model)
             {
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0" style="border-radius: 15px; overflow: hidden; transition: transform 0.3s ease;">
+                <div class="cat-card">
+                  
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Title" class="cat-image" />
+                    }
+                    else
+                    {
+                        <div class="cat-image d-flex align-items-center justify-content-center bg-light text-muted" style="height: 100%;">
+                            <i class="bi bi-image fs-1"></i>
+                        </div>
+                    }
 
-                        <div class="position-relative" style="height: 220px; overflow: hidden;">
-                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                  
+                    <div class="cat-overlay">
+                        <h3 class="cat-title">@item.Title</h3>
+                        <div class="cat-artist">@item.Artist</div>
+
+                   
+                        <p class="cat-desc">
+                            @if (!string.IsNullOrEmpty(item.Description))
                             {
-                                <img src="@item.ImageUrl" class="w-100 h-100" style="object-fit: cover;" alt="@item.Title">
+                                @item.Description
                             }
                             else
                             {
-                                <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-muted">
-                                    <i class="bi bi-image fs-1"></i>
-                                </div>
+                                @item.Venue @:, @item.City
                             }
-                            <div class="position-absolute top-0 end-0 m-3 bg-white text-dark px-3 py-1 rounded-pill fw-bold shadow-sm" style="font-size: 0.85rem;">
-                                @item.Date.ToString("dd MMM")
-                            </div>
+                        </p>
+
+                        <div class="cat-price">
+                            @if (item.DiscountRate > 0)
+                            {
+                                <span>@((item.Price - (item.Price * item.DiscountRate / 100)).ToString("C0"))</span>
+                            }
+                            else
+                            {
+                                <span>@item.Price.ToString("C0")</span>
+                            }
                         </div>
 
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="badge bg-light text-primary border border-primary-subtle">@item.Category</span>
-                                <small class="text-muted fst-italic">@item.SubCategory</small>
-                            </div>
-
-                            <h5 class="card-title fw-bold mb-1">@item.Title</h5>
-                            <p class="text-muted small mb-3">@item.Artist</p>
-
-                            <div class="d-flex align-items-center text-secondary small mb-2">
-                                <span class="me-2">📍 @item.Venue, @item.City</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer bg-white border-top-0 p-4 pt-0 d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="text-muted small d-block">Bilet Fiyatı</span>
-                                <span class="fw-bold fs-5 text-dark">@item.Price ₺</span>
-                            </div>
-                            <a href="@Url.Action("Details", "Events", new { id = item.EventId })" class="btn btn-dark rounded-pill px-4">
-                                İncele
-                            </a>
-                        </div>
+                        <span class="btn-detail">Bilet Al & Detaylar</span>
                     </div>
+
+                    <a href="@Url.Action("Details", "Home", new { id = item.EventId })" class="card-link"></a>
                 </div>
             }
-        }
-    </div>
-</div>
-
-<style>
-    /* Hover Efekti */
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        </div>
     }
-</style>
-
+</div>

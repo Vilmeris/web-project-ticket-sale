@@ -1,0 +1,185 @@
+﻿@model IEnumerable<Web_Programming_Project.Models.Event>
+
+@{
+    ViewBag.Title = "Arama Sonuçları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Arama kelimesini güvenli bir şekilde alalım
+    string aranan = ViewBag.ArananKelime as string;
+    bool sonucVar = Model != null && Model.Any();
+    int adet = sonucVar ? Model.Count() : 0;
+}
+
+<link href="~/Content/Category.css" rel="stylesheet" />
+
+@* SAYFAYA ÖZEL STİLLER  *@
+<style>
+    .search-header-wrapper {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px 20px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent); 
+        border-radius: 15px;
+    }
+
+    .search-label {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 5px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .search-term-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #fff; 
+        margin: 0;
+        display: inline-block;
+        position: relative;
+    }
+
+        
+        .search-term-text::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            background-color: #e50914; 
+            margin: 5px auto 0;
+            border-radius: 2px;
+        }
+
+    .result-status {
+        margin-top: 15px;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .status-found {
+        color: #46d369; 
+    }
+
+    .status-not-found {
+        color: #ff6b6b; 
+    }
+
+   
+    body:not(.dark-mode) .search-term-text {
+        color: #333;
+    }
+
+    
+    .no-result-box {
+        text-align: center;
+        padding: 50px 20px;
+        color: #777;
+    }
+
+    .no-result-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+        display: block;
+    }
+</style>
+
+<div class="category-container">
+
+  
+    <div class="search-header-wrapper">
+        <span class="search-label">Arama Şunun İçin Yapıldı</span>
+
+        @if (!string.IsNullOrEmpty(aranan))
+        {
+            <h1 class="search-term-text">"@aranan"</h1>
+        }
+        else
+        {
+            <h1 class="search-term-text">Tüm Etkinlikler</h1>
+        }
+
+        <div class="result-status">
+            @if (sonucVar)
+            {
+                <span class="status-found">
+                    <i class="bi bi-check-circle-fill"></i> Harika! Toplam <strong>@adet</strong> etkinlik bulundu.
+                </span>
+            }
+            else
+            {
+                <span class="status-not-found">
+                    <i class="bi bi-exclamation-circle"></i> Üzgünüz, eşleşen etkinlik bulunamadı.
+                </span>
+            }
+        </div>
+    </div>
+
+ 
+    @if (!sonucVar)
+    {
+        @* Sonuç Yoksa Şık Bir Uyarı Göster *@
+        <div class="no-result-box">
+            <i class="bi bi-search no-result-icon"></i>
+            <h3>Aradığınız kriterlere uygun sonuç yok.</h3>
+            <p>Farklı anahtar kelimeler kullanmayı deneyebilir veya kategorilere göz atabilirsiniz.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary mt-3 rounded-pill px-4">
+                Ana Sayfaya Dön
+            </a>
+        </div>
+    }
+    else
+    {
+        @* Sonuç Varsa Grid Yapısı (Category Sayfasıyla Aynı) *@
+        <div class="events-grid">
+            @foreach (var item in Model)
+            {
+                <div class="cat-card">
+                    @* Resim Alanı *@
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Title" class="cat-image" />
+                    }
+                    else
+                    {
+                        <img src="/Content/images/placeholder.jpg" alt="Resim Yok" class="cat-image" />
+                    }
+
+                    @* Overlay *@
+                    <div class="cat-overlay">
+                        <h3 class="cat-title">@item.Title</h3>
+                        <div class="cat-artist">@item.Artist</div>
+
+                        <p class="cat-desc">
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                @(item.Description.Length > 90 ? item.Description.Substring(0, 90) + "..." : item.Description)
+                            }
+                            else
+                            {
+                                @item.Venue @:, @item.City
+                            }
+                        </p>
+
+                        <div class="cat-price">
+                            @if (item.DiscountRate > 0)
+                            {
+                                <span>@((item.Price - (item.Price * item.DiscountRate / 100)).ToString("C0"))</span>
+                            }
+                            else
+                            {
+                                <span>@item.Price.ToString("C0")</span>
+                            }
+                        </div>
+
+                        <span class="btn-detail">Bilet Al & Detaylar</span>
+                    </div>
+
+                    @* Tıklanabilir Alan *@
+                    <a href="@Url.Action("Details", "Home", new { id = item.EventId })" class="card-link"></a>
+                </div>
+            }
+        </div>
+    }
+</div>

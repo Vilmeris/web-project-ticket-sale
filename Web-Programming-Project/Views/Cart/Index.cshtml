@@ -3,123 +3,303 @@
 @{
     ViewBag.Title = "Alışveriş Sepetim";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    decimal grandTotal = 0;
+    decimal grandTotal = ViewBag.GrandTotal != null ? (decimal)ViewBag.GrandTotal : 0;
 }
 
-<div class="container my-5">
-    <h2 class="mb-4 fw-bold">🛒 Alışveriş Sepetim</h2>
+@section head {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        /* Left Side: Items Box */
+        .cart-items-box {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .cart-item-row {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+
+            .cart-item-row:last-child {
+                border-bottom: none;
+            }
+
+            .cart-item-row:hover {
+                background-color: #fcfcfc;
+            }
+
+        .event-thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #eee;
+        }
+
+        /* Right Side: Summary Box */
+        .summary-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            position: sticky;
+            top: 20px;
+        }
+
+        /* Buttons */
+        .btn-delete {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff5f5;
+            color: #dc3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+            .btn-delete:hover {
+                background-color: #dc3545;
+                color: #fff;
+                transform: scale(1.1);
+            }
+
+        .btn-checkout {
+            background: linear-gradient(135deg, #198754, #20c997);
+            border: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+            .btn-checkout:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(32, 201, 151, 0.3);
+                color: white;
+            }
+
+        /* Badges */
+        .badge-vip {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .badge-student {
+            background-color: #0dcaf0;
+            color: #fff;
+        }
+
+        .badge-standard {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+    </style>
+}
+
+<div class="container-fluid px-5 py-5" style="min-height: 80vh;">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h3 class="fw-bold m-0 text-dark">
+            <i class="fa fa-shopping-cart me-2"></i>Alışveriş Sepetim
+        </h3>
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="text-muted fs-5">
+                Toplam <span class="fw-bold text-dark">@Model.Count</span> ürün
+            </div>
+        }
+    </div>
 
     @if (Model == null || Model.Count == 0)
     {
-        <div class="alert alert-warning text-center p-5">
-            <h4>Sepetinizde henüz bilet bulunmamaktadır.</h4>
-            <p>Etkinliklere göz atıp hemen bilet alabilirsiniz.</p>
-            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Etkinlikleri Keşfet</a>
+        /* --- EMPTY STATE --- */
+        <div class="cart-items-box text-center p-5 mx-auto" style="max-width: 800px;">
+            <i class="fa fa-shopping-basket fa-4x text-light mb-3" style="color:#e9ecef;"></i>
+            <h4 class="text-muted">Sepetiniz Boş</h4>
+            <p class="text-muted mb-4">Henüz bir etkinlik eklemediniz.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-dark px-5 py-2 rounded-pill">
+                Etkinliklere Göz At
+            </a>
         </div>
     }
     else
     {
-        <div class="row">
+        <div class="row g-4">
+
             <div class="col-lg-8">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="ps-4">Etkinlik</th>
-                                    <th>Tarih</th>
-                                    <th>Fiyat</th>
-                                    <th>Koltuk</th>
-                                    <th>Toplam</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    grandTotal += item.TotalPrice;
-                                    <tr>
-                                        <td class="ps-4">
-                                            <div class="d-flex align-items-center">
-                                                @if (!string.IsNullOrEmpty(item.Event.ImageUrl))
-                                                {
-                                                    <img src="@item.Event.ImageUrl" alt="img" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; margin-right: 10px;" />
-                                                }
-                                                <div>
-                                                    <h6 class="mb-0 fw-bold">@item.Event.Title</h6>
-                                                    <small class="text-muted">@item.Event.Category</small>
-                                                </div>
+                <div class="cart-items-box">
+                    <div class="bg-light p-3 border-bottom d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-secondary small">ÜRÜN DETAYLARI</span>
+                        <a href="@Url.Action("ClearCart", "Cart")" class="text-danger small text-decoration-none fw-bold">
+                            <i class="fa fa-trash-alt me-1"></i> Sepeti Temizle
+                        </a>
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="cart-item-row">
+                            <div class="d-flex align-items-center">
+
+                                <div class="flex-shrink-0">
+                                    @if (!string.IsNullOrEmpty(item.Event.ImageUrl))
+                                    {
+                                        <img src="@item.Event.ImageUrl" class="event-thumb" alt="Img">
+                                    }
+                                    else
+                                    {
+                                        <div class="event-thumb d-flex align-items-center justify-content-center text-muted">
+                                            <i class="fa fa-image fa-2x"></i>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="flex-grow-1 ms-4">
+                                    <div class="d-flex justify-content-between">
+
+                                        <div>
+                                            <h5 class="fw-bold mb-1 text-dark">@item.Event.Title</h5>
+                                            <div class="text-muted small mb-2">
+                                                <i class="fa fa-map-marker-alt me-1 text-danger"></i> @item.Event.Venue
+                                                <span class="mx-2">|</span>
+                                                <i class="fa fa-calendar-alt me-1 text-primary"></i> @item.Event.Date.ToString("dd MMM yyyy, HH:mm")
                                             </div>
-                                        </td>
-                                        <td>
-                                            @item.Event.Date.ToString("dd.MM.yyyy")<br />
-                                            <small class="text-muted">@item.Event.Date.ToString("HH:mm")</small>
-                                        </td>
-                                        <td>
-                                            @if (item.Event.DiscountRate > 0)
-                                            {
-                                                <span class="text-decoration-line-through text-muted small">@item.Event.Price.ToString("C0")</span><br />
-                                                <span class="text-success fw-bold">@item.Event.DiscountedPrice.ToString("C0")</span>
+
+                                            @{
+                                                string badgeClass = "badge-standard";
+                                                string badgeText = "Standart";
+                                                if (item.SeatNumber == "VIP") { badgeClass = "badge-vip"; badgeText = "VIP Bilet"; }
+                                                else if (item.SeatNumber == "Ogrenci") { badgeClass = "badge-student"; badgeText = "Öğrenci"; }
+                                                else if (item.SeatNumber != "Standart") { badgeText = "Koltuk: " + item.SeatNumber; }
                                             }
-                                            else
-                                            {
-                                                <span>@item.Event.Price.ToString("C0")</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-info text-dark">@item.SeatNumber</span>
-                                        </td>
-                                        <td class="fw-bold text-primary">
-                                            @item.TotalPrice.ToString("C2")
-                                        </td>
-                                        <td>
+                                            <span class="badge @badgeClass rounded-pill">@badgeText</span>
+                                        </div>
+
+                                        <div class="text-end">
+                                            <div class="fw-bold fs-4 text-dark mb-1">
+                                                @((item.Event.Price * item.Quantity).ToString("C0"))
+                                            </div>
+                                            <div class="text-muted small mb-3">
+                                                @item.Quantity Adet x @item.Event.Price.ToString("C0")
+                                            </div>
+
                                             <a href="@Url.Action("Remove", "Cart", new { eventId = item.Event.EventId, seatNumber = item.SeatNumber })"
-                                               class="btn btn-sm btn-outline-danger" title="Sil">
-                                                🗑️
+                                               class="btn-delete ms-auto" title="Sil">
+                                                <i class="fa fa-trash-alt"></i>
                                             </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="mt-3">
-                    <a href="@Url.Action("ClearCart", "Cart")" class="text-danger small text-decoration-none">⚠️ Sepeti Temizle</a>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-0 bg-light">
-                    <div class="card-body p-4">
-                        <h5 class="card-title fw-bold mb-4">Sipariş Özeti</h5>
+            <div class="col-lg-4" style="max-width: 400px;">
+                <div class="summary-box">
+                    <h5 class="fw-bold mb-4">Sipariş Özeti</h5>
 
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Ara Toplam</span>
-                            <span>@grandTotal.ToString("C2")</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Hizmet Bedeli</span>
-                            <span>₺0,00</span>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-4">
-                            <strong class="fs-5">Genel Toplam</strong>
-                            <strong class="fs-5 text-success">@grandTotal.ToString("C2")</strong>
-                        </div>
-                        <form action="@Url.Action("Checkout", "Cart")" method="post">
-                            <button class="btn btn-success w-100 py-2 fw-bold shadow-sm">
-                                💳 Ödemeyi Tamamla
-                            </button>
-                        </form>
-                            <a href="@Url.Action("Index", "Home")" class="btn btn-link w-100 mt-2 text-decoration-none text-muted">
-                                ← Alışverişe Devam Et
-                            </a>
+                    <div class="d-flex justify-content-between mb-2 text-muted">
+                        <span>Ara Toplam</span>
+                        <span>@grandTotal.ToString("C2")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-muted">
+                        <span>Hizmet Bedeli</span>
+                        <span class="text-success">Ücretsiz</span>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fw-bold fs-5 text-dark">Genel Toplam</span>
+                        <span class="fw-bold fs-3 text-success">@grandTotal.ToString("C0")</span>
+                    </div>
+
+                    <button type="button" class="btn btn-checkout w-100 py-3 fw-bold fs-5 rounded shadow" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        Ödemeyi Tamamla <i class="fa fa-arrow-right ms-2"></i>
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <a href="@Url.Action("Index", "Home")" class="text-decoration-none text-secondary small fw-bold">
+                            <i class="fa fa-chevron-left me-1"></i> Alışverişe Devam Et
+                        </a>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top text-center text-muted small opacity-75">
+                        <p class="mb-1"><i class="fa fa-lock me-1"></i> Güvenli Ödeme</p>
+                        <i class="fab fa-cc-visa fa-lg mx-1"></i>
+                        <i class="fab fa-cc-mastercard fa-lg mx-1"></i>
                     </div>
                 </div>
             </div>
+
         </div>
     }
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold" id="paymentModalLabel"><i class="fa fa-credit-card me-2"></i>Ödeme Bilgileri</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+
+                <form action="@Url.Action("Checkout", "Cart")" method="post">
+                    <div class="modal-body p-4">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Kart Sahibi</label>
+                            <input type="text" name="cardHolder" class="form-control form-control-lg" placeholder="Ad Soyad" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Kart Numarası</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                <input type="text" name="cardNumber" class="form-control form-control-lg" placeholder="0000 0000 0000 0000" required maxlength="19">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Son Kullanma (AA/YY)</label>
+                                <input type="text" name="expiryDate" class="form-control form-control-lg" placeholder="MM/YY" required maxlength="5">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">CVC</label>
+                                <input type="text" name="cvc" class="form-control form-control-lg" placeholder="123" required maxlength="3">
+                            </div>
+                        </div>
+
+                        <div class="alert alert-light border small text-muted mt-2">
+                            <i class="fa fa-lock me-1"></i> Ödemeniz 256-bit SSL ile korunmaktadır.
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-success fw-bold px-4">
+                            <i class="fa fa-check me-2"></i> @grandTotal.ToString("C0") Öde
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

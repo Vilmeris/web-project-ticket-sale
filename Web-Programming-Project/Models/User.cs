@@ -33,7 +33,9 @@ namespace Web_Programming_Project.Models
         [Required(ErrorMessage = "Şifre zorunludur!")]
         public string Password { get; set; }
 
-        // Admin/Uye ayrımı için gerekli
+        
         public string Role { get; set; }
+
+        public decimal WalletBalance { get; set; } = 0;
     }
 }

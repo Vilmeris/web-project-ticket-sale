@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = Model.Title + " | Detaylar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    // Layout dosyasındaki container kısıtlamasından kurtulmak için body stilleri
 }
 
 @section head {
@@ -99,19 +98,6 @@
         .info-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 12px; background: #fff; border: 1px solid #eee; border-radius: 12px; }
         .icon-box { width: 40px; height: 40px; background: #fff5f5; color: #d71920; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
 
-        /* HARİTA LİNK BUTONU */
-        .map-link-btn {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; border: 1px solid #ddd; border-radius: 12px;
-            padding: 12px 15px; margin-bottom: 30px; text-decoration: none;
-            transition: 0.2s; cursor: pointer;
-        }
-        .map-link-btn:hover { background: #f8f9fa; border-color: #ccc; transform: translateY(-2px); }
-        .map-icon-square {
-            width: 40px; height: 40px; background: #e3f2fd; color: #0d6efd;
-            border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-        }
-
         /* BİLET LİSTESİ STİLİ */
         .ticket-category-card {
             background: #fff; border: 1px solid #ddd; border-radius: 12px;
@@ -121,6 +107,7 @@
         .ticket-category-card:hover { border-color: #d71920; background: #fff9f9; }
         .ticket-category-card.selected { border: 2px solid #d71920; background: #fff0f0; }
 
+        /* Satın Al Butonu */
         .buy-btn { background: linear-gradient(90deg, #d71920, #b00e15); color: #fff; display: block; width: 100%; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 1.2rem; text-decoration: none; transition: 0.3s; margin-top: 20px; text-align: center; }
         .buy-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(215, 25, 32, 0.4); color: #fff; }
 
@@ -128,129 +115,6 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
-
-        /* BİLET ALANI SÜSLEMELERİ */
-        .ticket-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px dashed #ddd; /* Üst kısımdan şık bir çizgiyle ayır */
-        }
-
-        .ticket-section-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Bilet Seçenek Kartı */
-        .ticket-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: #fff;
-            border: 2px solid #f0f0f0;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-            /* Hover (Üzerine gelince) */
-            .ticket-option:hover {
-                border-color: #ffcccc;
-                transform: translateY(-3px); /* Hafif yukarı kalkma */
-                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            }
-
-            /* Seçili Durum */
-            .ticket-option.selected {
-                background: #fff5f5; /* Çok açık kırmızı arka plan */
-                border-color: #d71920;
-                box-shadow: 0 5px 15px rgba(215, 25, 32, 0.15);
-            }
-
-        /* Radyo Butonu Özelleştirme */
-        .ticket-radio {
-            width: 24px;
-            height: 24px;
-            accent-color: #d71920;
-            margin-right: 15px;
-            cursor: pointer;
-        }
-
-        /* Yazı Alanları */
-        .ticket-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #333;
-            display: block;
-        }
-
-        .ticket-desc {
-            font-size: 0.8rem;
-            color: #888;
-            font-weight: 500;
-        }
-
-        .ticket-price {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #d71920;
-            letter-spacing: -0.5px;
-        }
-
-        /* Satın Al Butonu (Gradient ve Gölge) */
-        .buy-btn {
-            background: linear-gradient(135deg, #d71920 0%, #b00e15 100%);
-            color: #fff;
-            display: block;
-            width: 100%;
-            padding: 20px;
-            border-radius: 14px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            text-decoration: none;
-            text-align: center;
-            margin-top: 25px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Yaylanma efekti */
-            box-shadow: 0 10px 25px rgba(215, 25, 32, 0.3);
-            border: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-            .buy-btn:hover {
-                transform: translateY(-4px) scale(1.02);
-                box-shadow: 0 20px 40px rgba(215, 25, 32, 0.5);
-                color: #fff;
-            }
-
-            .buy-btn:active {
-                transform: translateY(-1px);
-            }
-
-        /* Tükendi Butonu */
-        .sold-out-btn {
-            background: #e9ecef;
-            color: #adb5bd;
-            width: 100%;
-            padding: 20px;
-            border-radius: 14px;
-            font-weight: 800;
-            text-align: center;
-            border: none;
-            margin-top: 25px;
-            cursor: not-allowed;
-        }
     </style>
 }
 
@@ -263,7 +127,6 @@
     </a>
 
     <div class="left-panel">
-
         <div class="image-area">
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
@@ -275,8 +138,7 @@
             }
         </div>
 
-        <div class="countdown-strip" id="countdown">
-        </div>
+        <div class="countdown-strip" id="countdown"></div>
 
         <div class="text-scroll-area">
             <ul class="nav nav-tabs" role="tablist">
@@ -337,88 +199,132 @@
             </div>
         </div>
 
-
         <br /><br /><br /><br /><br /><br /><br /><br />
-        <div class="ticket-section">
-            <div class="ticket-section-title">
-                <i class="fa fa-ticket-alt"></i> Bilet Kategorisi Seç
-            </div>
 
-            @{
-                var prices = ViewBag.PriceOptions as List<Web_Programming_Project.Models.EventPrice>;
-                bool firstItem = true;
-            }
+        <h5 class="fw-bold mb-3"><i class="fa fa-ticket-alt me-2 text-muted"></i>Bilet Kategorisi Seç</h5>
 
-            @if (prices != null && prices.Count > 0)
+        @{
+            // VERİTABANINDAN FİYATLARI ÇEKİYORUZ
+            var prices = ViewBag.PriceOptions as List<Web_Programming_Project.Models.EventPrice>;
+            bool firstItem = true;
+        }
+
+        @if (prices != null && prices.Count > 0)
+        {
+            // EĞER VERİTABANINDA ÖZEL FİYAT VARSA DÖNGÜYE GİR
+            foreach (var item in prices)
             {
-                // VERİTABANINDAN GELEN FİYATLAR
-                foreach (var item in prices)
-                {
-                    string activeClass = firstItem ? "selected" : "";
-                    string checkStatus = firstItem ? "checked" : "";
+                // İlk elemanı seçili (selected) yapıyoruz
+                string activeClass = firstItem ? "selected" : "";
+                string checkStatus = firstItem ? "checked" : "";
 
-                    <label class="ticket-option @activeClass">
-                        <div class="d-flex align-items-center">
-                            <input type="radio" name="ticket" value="@item.ZoneName" @checkStatus class="ticket-radio">
-                            <div>
-                                <span class="ticket-name">@item.ZoneName</span>
-                                <span class="ticket-desc">Kişi Başı Giriş</span>
-                            </div>
-                        </div>
-                        <div class="ticket-price">@item.Price.ToString("C2")</div>
-                    </label>
-
-                    firstItem = false;
-                }
-            }
-            else
-            {
-                // VARSAYILAN FİYAT
-                <label class="ticket-option selected">
+                <label class="ticket-category-card @activeClass">
                     <div class="d-flex align-items-center">
-                        <input type="radio" name="ticket" value="Standart" checked class="ticket-radio">
+                        <input type="radio" name="ticketType" value="@item.ZoneName" @checkStatus class="form-check-input me-3" style="width: 20px; height: 20px;">
                         <div>
-                            <span class="ticket-name">Standart Bilet</span>
-                            <span class="ticket-desc">Genel Giriş</span>
+                            <div class="fw-bold text-dark">@item.ZoneName</div>
+                            <small class="text-muted">Kişi Başı</small>
                         </div>
                     </div>
-                    <div class="ticket-price">@Model.Price.ToString("C2")</div>
+                    <div class="fw-bold fs-5">@item.Price.ToString("C2")</div>
                 </label>
+
+                firstItem = false;
             }
-            @if (Model.SoldTicketCount < Model.Capacity)
-            {
-
-                // Kalan bilet sayısını hesaplayalım
-                int remaining = Model.Capacity - Model.SoldTicketCount;
-
-                <a href="@Url.Action("SeatSelection", "Events", new { id = Model.EventId })" class="buy-btn">
-                    BİLETİ SEÇ & AL <i class="fa fa-arrow-right ms-2"></i>
-                </a>
-
-                // SADECE 50 VE ALTI KALDIYSA GÖSTER
-                if (remaining <= 50)
-                {
-                    <div class="text-center mt-3 text-warning fw-bold small">
-                        <i class="fa fa-bolt me-1"></i> Hızlı Ol Son @remaining bilet.
+        }
+        else
+        {
+            // EĞER FİYAT LİSTESİ BOŞSA VARSAYILAN STANDART FİYATI GÖSTER
+            <label class="ticket-category-card selected">
+                <div class="d-flex align-items-center">
+                    <input type="radio" name="ticketType" value="Standart" checked class="form-check-input me-3" style="width: 20px; height: 20px;">
+                    <div>
+                        <div class="fw-bold text-dark">Standart Bilet</div>
+                        <small class="text-muted">Genel Giriş</small>
                     </div>
-                }
+                </div>
+                <div class="fw-bold fs-5">@Model.Price.ToString("C2")</div>
+            </label>
+        }
+
+        @if (Model.SoldTicketCount < Model.Capacity)
+        {
+            // === BİLET VARSA ===
+            if (Model.Category == "Sinema" || Model.Category == "Tiyatro")
+            {
+                // SENARYO A: Koltuk Seçimi (Map)
+                <div class="d-flex align-items-center gap-2 mt-3">
+                    <div class="input-group" style="width: 130px;">
+                        <span class="input-group-text bg-white text-muted border-end-0">x</span>
+                        <input type="number" id="seatQuantity" class="form-control text-center fw-bold border-start-0" value="1" min="1" max="10">
+                    </div>
+
+                    <a href="javascript:void(0);" onclick="goToSeatMap()" class="buy-btn shadow m-0 flex-grow-1">
+                        KOLTUK SEÇ & AL <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+
+                <script>
+                    function goToSeatMap() {
+                        var qtyInput = document.getElementById("seatQuantity");
+                        var qty = qtyInput ? qtyInput.value : 1;
+                        if(qty < 1) qty = 1;
+                        // URL oluştur
+                        var url = '@Url.Action("SeatSelection", "Events", new { id = Model.EventId })' + '?quantity=' + qty;
+                        window.location.href = url;
+                    }
+                </script>
             }
             else
             {
-                <button class="sold-out-btn" disabled>TÜKENDİ</button>
+                // SENARYO B: Doğrudan Sepete Ekle (Konser vb.)
+                <div class="d-flex align-items-center gap-2 mt-3">
+                    <div class="input-group" style="width: 130px;">
+                        <span class="input-group-text bg-white text-muted border-end-0">x</span>
+                        <input type="number" id="ticketQuantity" class="form-control text-center fw-bold border-start-0" value="1" min="1" max="10">
+                    </div>
+
+                    <a href="javascript:void(0);" onclick="buyDirectly()" class="buy-btn shadow m-0 flex-grow-1">
+                        SEPETE EKLE <i class="fa fa-check ms-2"></i>
+                    </a>
+                </div>
+
+                <script>
+                    function buyDirectly() {
+                        // Seçili olan radio butonunu bul (name="ticketType")
+                        var selectedRadio = document.querySelector('input[name="ticketType"]:checked');
+                        var qtyInput = document.getElementById("ticketQuantity");
+                        var qty = qtyInput ? qtyInput.value : 1;
+
+                        if (selectedRadio) {
+                            var categoryName = selectedRadio.value;
+                            if(qty < 1) qty = 1;
+
+                            // URL oluştur: SelectedCategory dinamik olarak radio butonundan gelir
+                            var url = '@Url.Action("Payment", "Events")' +
+                                      '?eventId=@Model.EventId' +
+                                      '&ticketType=' + encodeURIComponent(categoryName) +
+                                      '&quantity=' + qty;
+
+                            window.location.href = url;
+                        } else {
+                            alert("Lütfen bir bilet türü seçiniz.");
+                        }
+                    }
+                </script>
             }
+        }
+        else
+        {
+            // === BİLET TÜKENDİYSE ===
+            <button class="buy-btn" disabled style="background:#e9ecef; color:#adb5bd; box-shadow:none; cursor:not-allowed;">
+                TÜKENDİ
+            </button>
+        }
 
-            <div class="text-center mt-4 text-muted small opacity-75">
-                <i class="fa fa-lock me-1"></i> 256-bit SSL ile Güvenli Ödeme
-            </div>
-
-
-
+        <div class="text-center mt-3 text-muted small">
+            <i class="fa fa-lock me-1"></i> Güvenli Ödeme
         </div>
-
-
-
-
 
     </div>
 </div>
@@ -426,24 +332,30 @@
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Bilet seçimi görsel efekti
+        
         document.querySelectorAll('.ticket-category-card').forEach(card => {
             card.addEventListener('click', function() {
+                // Hepsinden seçimi kaldır
                 document.querySelectorAll('.ticket-category-card').forEach(c => c.classList.remove('selected'));
-                document.querySelectorAll('input[name="ticketType"]').forEach(i => i.checked = false);
+                // Radyo butonlarını temizle (görsel olarak)
+                // (Normalde label click inputu tetikler ama class eklemek için bu js gerekli)
+                var radio = this.querySelector('input[type="radio"]');
+                if(radio) radio.checked = true;
+
+                // Seçileni işaretle
                 this.classList.add('selected');
-                this.querySelector('input').checked = true;
             });
         });
 
-        // Countdown
+        // Countdown (Geri Sayım)
         var eventDate = new Date("@Model.Date.ToString("yyyy-MM-ddTHH:mm:ss")").getTime();
         var x = setInterval(function() {
             var now = new Date().getTime();
             var distance = eventDate - now;
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("countdown").innerHTML = "<span class='fw-bold fs-4'>ETKİNLİK BAŞLADI!</span>";
+                var el = document.getElementById("countdown");
+                if(el) el.innerHTML = "<span class='fw-bold fs-4'>ETKİNLİK BAŞLADI!</span>";
                 return;
             }
             var d = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -451,11 +363,14 @@
             var m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var s = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML =
-                `<div class="count-item"><span>${d}</span><small>GÜN</small></div>` +
-                `<div class="count-item"><span>${h}</span><small>SAAT</small></div>` +
-                `<div class="count-item"><span>${m}</span><small>DK</small></div>` +
-                `<div class="count-item"><span>${s}</span><small>SN</small></div>`;
+            var el = document.getElementById("countdown");
+            if(el) {
+                el.innerHTML =
+                    `<div class="count-item"><span>${d}</span><small>GÜN</small></div>` +
+                    `<div class="count-item"><span>${h}</span><small>SAAT</small></div>` +
+                    `<div class="count-item"><span>${m}</span><small>DK</small></div>` +
+                    `<div class="count-item"><span>${s}</span><small>SN</small></div>`;
+            }
         }, 1000);
     </script>
 }

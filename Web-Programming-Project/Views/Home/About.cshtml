@@ -3,7 +3,7 @@
 }
 
 @section head {
-    @* Hakkımızda sayfasına özel CSS'i Layout'un Head kısmına ekle *@
+
     <link rel="stylesheet" href="~/Content/about.css">
 }
 
@@ -20,14 +20,13 @@
         <div class="menu-block">
             <span class="menu-title">Yardım</span>
             <ul>
-                <li><a href="#">SSS</a></li>
+                <li><a href="@Url.Action("Index", "QA")">SSS</a></li>
                 <li><a href="#">İptal / İade</a></li>
                 <li><a href="#">Nasıl Bilet Alınır?</a></li>
             </ul>
         </div>
     </section>
 
-    <!-- Orta kısımda hakkımızda içeriği -->
     <section class="about_center" style="background: white; padding: 30px; border-radius: 10px;">
 
         <h1 style="text-align:center; color:#4a4a4a; margin-bottom:20px;">
@@ -54,6 +53,6 @@
 
 
     <section class="right">
-    @* Sağ kısım boş kalabilir veya reklamlar gelebilir *@
+    
     </section>
 </div>

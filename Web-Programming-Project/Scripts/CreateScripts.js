@@ -1,9 +1,7 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     console.log("🚀 Script Başlatıldı - V3.0 Final");
 
-    // ==================================================================
-    // 1. TÜM ELEMENTLERİ EN BAŞTA TANIMLA (KARIŞIKLIĞI ÖNLEMEK İÇİN)
-    // ==================================================================
+ 
     // Dropdown ve Inputlar
     const categoryDropdown = document.getElementById("Category");
     const hiddenInput = document.getElementById("SubCategoryInput");
@@ -25,9 +23,6 @@
     const categoryHeaders = document.querySelectorAll(".kategori-card .kategori-baslik");
     const checkboxes = document.querySelectorAll(".alt-kategoriler input[type='checkbox']");
 
-    // ==================================================================
-    // 2. FONKSİYONLAR
-    // ==================================================================
 
     // A. Resim Önizleme Fonksiyonu
     function updateImagePreview() {
@@ -103,9 +98,7 @@
         }
     }
 
-    // ==================================================================
-    // 3. OLAY DİNLEYİCİLERİ (EVENT LISTENERS)
-    // ==================================================================
+
 
     // Resim Değişince
     if (imageSelector) {
@@ -185,9 +178,7 @@
         });
     }
 
-    // ==================================================================
-    // 4. BAŞLANGIÇ KONTROLLERİ (SAYFA YÜKLENİNCE ÇALIŞACAKLAR)
-    // ==================================================================
+ 
     setTimeout(() => {
         updateImagePreview();
         updateCategoryCards();

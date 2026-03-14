@@ -1,0 +1,152 @@
+﻿@model Web_Programming_Project.Models.User
+
+@{
+    ViewBag.Title = "Bilgilerimi Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    
+    .profile-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+        background: #fff;
+        margin-top: 30px;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        padding: 20px;
+        color: white;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .custom-input {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        width: 100%;
+        transition: all 0.3s;
+        box-sizing: border-box; 
+    }
+
+        .custom-input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 8px rgba(118, 75, 162, 0.2);
+            outline: none;
+        }
+
+    .readonly-input {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .btn-save {
+        background: #28a745;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 30px;
+        border: none;
+        font-weight: bold;
+        transition: transform 0.2s;
+        width: 100%;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+        .btn-save:hover {
+            background: #218838;
+            transform: scale(1.02);
+        }
+
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="profile-card">
+                <div class="card-header-custom">
+                    <h3 style="margin:0; font-size: 1.5rem;">✏️ Profil Düzenle</h3>
+                    <p style="margin:0; opacity:0.8; font-size: 0.9rem;">Bilgilerinizi güncel tutun</p>
+                </div>
+
+                <div style="padding: 30px;">
+                    @using (Html.BeginForm("EditProfile", "Security", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.UserId) 
+                        
+                        <div class="form-group">
+                            <label class="form-label">Adınız</label>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "custom-input", placeholder = "Adınızı giriniz" } })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Soyadınız</label>
+                            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "custom-input", placeholder = "Soyadınızı giriniz" } })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">E-Posta Adresi</label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "custom-input readonly-input", @readonly = "readonly" } })
+                            <small style="color: #999; font-size: 0.8rem;">* Güvenlik nedeniyle değiştirilemez.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Telefon Numarası</label>
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "custom-input", placeholder = "05..." } })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Parola</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "custom-input", @type = "text" } })
+                            <small style="color: #999; font-size: 0.8rem;">* Değiştirmek istemiyorsanız aynı bırakın.</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="@Url.Action("Index", "Home")" class="btn-cancel">İptal</a>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn-save">Kaydet</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

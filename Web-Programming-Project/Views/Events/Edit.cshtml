@@ -67,17 +67,101 @@
                                 </div>
                             </div>
 
+                            
                             <div class="row mb-4">
                                 <div class="col-12">
                                     <label class="form-label">Alt Kategoriler (Detay)</label>
+                                    <p class="text-muted small">Etkinlik türüne uygun alt kategorileri seçiniz. Başlıklara tıklayarak detayları açabilirsiniz.</p>
 
+                                
                                     @Html.HiddenFor(model => model.SubCategory, new { id = "SubCategoryInput" })
 
                                     <div class="create-kategori-wrapper">
-                                        <p class="text-warning small">Lütfen Create sayfasındaki kategori kartlarını buraya kopyalayın.</p>
+
+                                        @* SİNEMA KARTI *@
+                                        <div class="kategori-card sinema">
+                                            <div class="kategori-baslik">
+                                                <span>🎬 Sinema Türleri</span><span class="ikon">+</span>
+                                            </div>
+                                            <ul class="alt-kategoriler">
+                                                <li><label><input type="checkbox" value="Aksiyon"> Aksiyon</label></li>
+                                                <li><label><input type="checkbox" value="Macera"> Macera</label></li>
+                                                <li><label><input type="checkbox" value="Dram"> Dram</label></li>
+                                                <li><label><input type="checkbox" value="Romantik"> Romantik</label></li>
+                                                <li><label><input type="checkbox" value="Bilim Kurgu"> Bilim Kurgu</label></li>
+                                                <li><label><input type="checkbox" value="Korku"> Korku</label></li>
+                                                <li><label><input type="checkbox" value="Gerilim"> Gerilim</label></li>
+                                                <li><label><input type="checkbox" value="Animasyon"> Animasyon</label></li>
+                                                <li><label><input type="checkbox" value="Komedi"> Komedi</label></li>
+                                                <li><label><input type="checkbox" value="Aile"> Aile</label></li>
+                                                <li><label><input type="checkbox" value="Belgesel"> Belgesel</label></li>
+                                            </ul>
+                                        </div>
+
+                                        @* TİYATRO KARTI *@
+                                        <div class="kategori-card tiyatro">
+                                            <div class="kategori-baslik">
+                                                <span>🎭 Tiyatro Türleri</span><span class="ikon">+</span>
+                                            </div>
+                                            <ul class="alt-kategoriler">
+                                                <li><label><input type="checkbox" value="Dram"> Dram</label></li>
+                                                <li><label><input type="checkbox" value="Komedi"> Komedi</label></li>
+                                                <li><label><input type="checkbox" value="Müzikal"> Müzikal</label></li>
+                                                <li><label><input type="checkbox" value="Trajedi"> Trajedi</label></li>
+                                                <li><label><input type="checkbox" value="Çocuk Tiyatrosu"> Çocuk Tiyatrosu</label></li>
+                                            </ul>
+                                        </div>
+
+                                        @* MÜZİK KARTI *@
+                                        <div class="kategori-card konser">
+                                            <div class="kategori-baslik">
+                                                <span>🎵 Müzik Türleri</span><span class="ikon">+</span>
+                                            </div>
+                                            <ul class="alt-kategoriler">
+                                                <li><label><input type="checkbox" value="Pop"> Pop</label></li>
+                                                <li><label><input type="checkbox" value="Rock & Metal"> Rock & Metal</label></li>
+                                                <li><label><input type="checkbox" value="Caz & Blues"> Caz & Blues</label></li>
+                                                <li><label><input type="checkbox" value="Klasik"> Klasik</label></li>
+                                                <li><label><input type="checkbox" value="Halk Müziği"> Halk Müziği</label></li>
+                                                <li><label><input type="checkbox" value="Elektronik"> Elektronik</label></li>
+                                                <li><label><input type="checkbox" value="Rap / Hip-Hop"> Rap / Hip-Hop</label></li>
+                                                <li><label><input type="checkbox" value="Alternatif"> Alternatif</label></li>
+                                            </ul>
+                                        </div>
+
+                                        @* SPOR KARTI *@
+                                        <div class="kategori-card spor">
+                                            <div class="kategori-baslik">
+                                                <span>⚽ Spor Branşları</span><span class="ikon">+</span>
+                                            </div>
+                                            <ul class="alt-kategoriler">
+                                                <li><label><input type="checkbox" value="Futbol"> Futbol</label></li>
+                                                <li><label><input type="checkbox" value="Basketbol"> Basketbol</label></li>
+                                                <li><label><input type="checkbox" value="Voleybol"> Voleybol</label></li>
+                                                <li><label><input type="checkbox" value="Tenis"> Tenis</label></li>
+                                                <li><label><input type="checkbox" value="E-Spor"> E-Spor</label></li>
+                                            </ul>
+                                        </div>
+
+                                        @* FESTİVAL KARTI *@
+                                        <div class="kategori-card festival">
+                                            <div class="kategori-baslik">
+                                                <span>🎉 Festival Türleri</span><span class="ikon">+</span>
+                                            </div>
+                                            <ul class="alt-kategoriler">
+                                                <li><label><input type="checkbox" value="Film Festivali"> Film Festivali</label></li>
+                                                <li><label><input type="checkbox" value="Yemek Festivali"> Yemek Festivali</label></li>
+                                                <li><label><input type="checkbox" value="Müzik Festivali"> Müzik Festivali</label></li>
+                                                <li><label><input type="checkbox" value="Sanat Festivali"> Sanat Festivali</label></li>
+                                                <li><label><input type="checkbox" value="Teknoloji Festivali"> Teknoloji</label></li>
+                                                <li><label><input type="checkbox" value="Kamp Festivali"> Kamp</label></li>
+                                            </ul>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
+                            
 
                             <div class="section-title mt-5">
                                 2. Lokasyon & Kapasite
@@ -114,7 +198,6 @@
 
                                 <div id="multi-price-area" class="col-12 mb-3" style="display:none;">
                                     <label class="form-label">Bilet Kategorileri / Bölgeler</label>
-
                                     <div id="price-rows-container">
                                         @if (Model.EventPrices != null && Model.EventPrices.Count > 0)
                                         {
@@ -152,7 +235,6 @@
                                             </div>
                                         }
                                     </div>
-
                                     <button type="button" id="add-price-row" class="btn btn-sm btn-outline-primary mt-2">
                                         + Yeni Bölge Ekle
                                     </button>
@@ -166,7 +248,6 @@
                                         <span class="input-group-text">%</span>
                                         @Html.EditorFor(model => model.DiscountRate, new { htmlAttributes = new { @class = "form-control modern-input", type = "number", min = "0", max = "100" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.DiscountRate, "", new { @class = "text-danger small mt-1" })
                                 </div>
 
                                 <div class="col-md-4 mb-3">
@@ -204,17 +285,36 @@
     </div>
 </div>
 
+
 <script src="@Url.Content("~/Scripts/CreateScripts.js")"></script>
 
+
 <script>
-    // CreateScripts.js sadece YENİ eklenen satırlara silme özelliği ekler.
-    // Sayfa yüklendiğinde gelen (veritabanından gelen) satırların silme butonlarını burada aktif ediyoruz.
     document.addEventListener("DOMContentLoaded", function () {
+
+        
         const existingRemoveBtns = document.querySelectorAll(".remove-row");
         existingRemoveBtns.forEach(btn => {
             btn.addEventListener("click", function () {
                 this.closest(".price-row").remove();
             });
         });
+
+        
+        var subCatString = "@Model.SubCategory"; 
+
+        if (subCatString) {
+            
+            var subCats = subCatString.split(',').map(s => s.trim());
+
+            
+            var checkboxes = document.querySelectorAll('.alt-kategoriler input[type="checkbox"]');
+            checkboxes.forEach(function (cb) {
+                
+                if (subCats.includes(cb.value)) {
+                    cb.checked = true;
+                }
+            });
+        }
     });
 </script>

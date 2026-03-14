@@ -7,11 +7,10 @@ namespace Web_Programming_Project.Models
 {
     public class CartItem
     {
-        public Event Event { get; set; }  // Hangi Etkinlik?
-        public int Quantity { get; set; } // Kaç Adet?
+        public Event Event { get; set; }  
+        public int Quantity { get; set; } 
 
-        // Toplam Fiyat (Birim Fiyat * Adet)
-        // İndirim varsa indirimli fiyatı, yoksa normal fiyatı alır.
+       
         public string SeatNumber { get; set; }
         public decimal TotalPrice
         {

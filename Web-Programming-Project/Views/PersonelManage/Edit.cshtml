@@ -1,77 +1,117 @@
 ﻿@model Web_Programming_Project.Models.User
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Kullanıcı Düzenle";
+    ViewBag.GenisSayfa = true; // Layout'ta container-fluid kullanması için
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.UserId)
+<link href="@Url.Content("~/Content/CreateStyles.css")" rel="stylesheet" type="text/css" />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<div class="container-fluid my-5 wide-container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+            <div class="admin-card">
+
+                
+                <div class="admin-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 fw-bold" style="letter-spacing: 1px;">KULLANICI DÜZENLE</h4>
+                        <small style="opacity: 0.7;">Personel & Kullanıcı Yönetim Paneli</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">
+                        <small>-- Düzenleme Modu --</small>
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                           
+                            @Html.HiddenFor(model => model.UserId)
+
+                           
+                            <div class="section-title">
+                                1. Kişisel Bilgiler
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ad</label>
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Soyad</label>
+                                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            </div>
+
+                           
+                            <div class="section-title mt-5">
+                                2. İletişim Bilgileri
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">E-Posta Adresi</label>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control modern-input", type = "email" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Telefon Numarası</label>
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            </div>
+
+                            
+                            <div class="section-title mt-5">
+                                3. Hesap & Yetki Ayarları
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Şifre</label>
+                                   
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Kullanıcı Rolü / Yetkisi</label>
+                                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control modern-input" } })
+                                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger small mt-1" })
+                                </div>
+                            </div>
+
+                           
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                @Html.ActionLink("← Listeye Dön", "Index", null, new { @class = "ozel-panel-kutusu ozel-stil-standart", style = "text-decoration:none; font-weight:600;" })
+
+                                <div>
+                                   
+                                    <button type="button" onclick="window.location.href='@Url.Action("Index")'" class="btn btn-reset me-2">
+                                        İptal
+                                    </button>
+                                    <button type="submit" class="btn btn-create">
+                                        DEĞİŞİKLİKLERİ KAYDET
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

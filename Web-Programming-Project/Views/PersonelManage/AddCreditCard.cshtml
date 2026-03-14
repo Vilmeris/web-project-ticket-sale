@@ -1,0 +1,43 @@
+﻿@model Web_Programming_Project.Models.CreditCard
+@{ ViewBag.Title = "Kart Ekle"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4>💳 Yeni Kredi Kartı Ekle</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label>Kart Sahibi Ad Soyad</label>
+                            @Html.EditorFor(model => model.CardHolderName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ad Soyad" } })
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Kart Numarası (16 Hane)</label>
+                            @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "0000 0000 0000 0000", maxlength = "16" } })
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label>Son Kullanma (AA/YY)</label>
+                                @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control", placeholder = "12/28" } })
+                            </div>
+                            <div class="col">
+                                <label>CVV</label>
+                                @Html.EditorFor(model => model.CVV, new { htmlAttributes = new { @class = "form-control", placeholder = "123", maxlength = "3" } })
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 mt-4">Kartı Kaydet</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

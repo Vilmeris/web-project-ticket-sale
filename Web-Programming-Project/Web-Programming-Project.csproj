@@ -55,6 +55,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -118,10 +121,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonalManageController.cs" />
+    <Compile Include="Controllers\QAController.cs" />
     <Compile Include="Controllers\SeatSelection.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Global.asax.cs">
@@ -131,10 +136,28 @@
     <Compile Include="Migrations\202512171448205_InitialCreate.Designer.cs">
       <DependentUpon>202512171448205_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202512171617050_AddQuestionsTable.cs" />
+    <Compile Include="Migrations\202512171617050_AddQuestionsTable.Designer.cs">
+      <DependentUpon>202512171617050_AddQuestionsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512171722313_AddWalletAndCards.cs" />
+    <Compile Include="Migrations\202512171722313_AddWalletAndCards.Designer.cs">
+      <DependentUpon>202512171722313_AddWalletAndCards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512171747038_AddUserIdToTicket.cs" />
+    <Compile Include="Migrations\202512171747038_AddUserIdToTicket.Designer.cs">
+      <DependentUpon>202512171747038_AddUserIdToTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512171813162_UpdateEventModel.cs" />
+    <Compile Include="Migrations\202512171813162_UpdateEventModel.Designer.cs">
+      <DependentUpon>202512171813162_UpdateEventModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventPrice.cs" />
+    <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -172,13 +195,45 @@
     <Content Include="Content\ortakısım.css" />
     <Content Include="Content\solkısım.css" />
     <Content Include="Content\Takvim.css" />
+    <Content Include="event_photos\09092025183819-29itf.jpg" />
+    <Content Include="event_photos\0x1900-000000-80-0-0.jpg" />
+    <Content Include="event_photos\27032023144952-90lar.png" />
+    <Content Include="event_photos\29082025120125-mixmixmix.jpg" />
     <Content Include="event_photos\36b35304ed121ff7e29f333a450fea9628a42bfd_1920x12801752152397229.jpg" />
+    <Content Include="event_photos\408271394-grupgorsel.png" />
+    <Content Include="event_photos\429C2baba-1220-su.jpg" />
+    <Content Include="event_photos\4ME89_annawde %281%29.jpg" />
+    <Content Include="event_photos\4ME89_annawde.jpg" />
     <Content Include="event_photos\91UMpWgj05L._AC_UF1000,1000_QL80_.jpg" />
+    <Content Include="event_photos\Barismanco.jpg" />
+    <Content Include="event_photos\biridammahkumunun3FZ11.jpg" />
     <Content Include="event_photos\buray.jpeg" />
+    <Content Include="event_photos\Buray.jpg" />
+    <Content Include="event_photos\cosmic.png" />
+    <Content Include="event_photos\d26204db-9477-43df-965b-ee262dc05cd0_RETINA_PORTRAIT_3_2.jpg" />
+    <Content Include="event_photos\d692bd3e742d93296bdd9266b4debbcf_max.jpg" />
+    <Content Include="event_photos\Ekran görüntüsü 2025-11-09 133337.png" />
+    <Content Include="event_photos\facebook.png" />
+    <Content Include="event_photos\Gemini_Generated_Image_v2649bv2649bv264.png" />
+    <Content Include="event_photos\hamlet.png" />
     <Content Include="event_photos\images %283%29.jpeg" />
     <Content Include="event_photos\images %284%29.jpeg" />
+    <Content Include="event_photos\insta.png" />
+    <Content Include="event_photos\istfest25_grp_914260625.png" />
+    <Content Include="event_photos\logo.jpg" />
+    <Content Include="event_photos\logo.png" />
+    <Content Include="event_photos\logo1.png" />
+    <Content Include="event_photos\logo2.png" />
+    <Content Include="event_photos\milenayaa.jpg" />
+    <Content Include="event_photos\mor-ve-otesi-235258.png" />
     <Content Include="event_photos\oppenheimer.jpeg" />
+    <Content Include="event_photos\quantum.png" />
+    <Content Include="event_photos\starfall.png" />
+    <Content Include="event_photos\tempets.png" />
+    <Content Include="event_photos\twiter.png" />
     <Content Include="event_photos\victor-osimhen-galatasaray-milan-skriniar-fenerbahce-2025-1743593886-164932.jpg" />
+    <Content Include="event_photos\youtube.png" />
+    <Content Include="event_photos\yuzdeyuzmuzik-istanbul-oktoberfest-2025-20258261639531737e080aaa348909ebb7b69c4697b4d.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -262,6 +317,9 @@
     <Content Include="Scripts\contact.js" />
     <Content Include="Scripts\CreateScripts.js" />
     <Content Include="Scripts\eser.js" />
+    <Content Include="event_photos\ahmet-kaya-nin-olum-yildonumu-ahmet-kaya-kimdir-8965503_5539_amp.webp" />
+    <Content Include="event_photos\ahmet-kayanin-oglu-kimdir-ferit-kaya-iddialari-dogru-mu.webp" />
+    <Content Include="event_photos\c6a84dc8-ef62-43a2-bd3d-029b4457e41f.webp" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
@@ -374,8 +432,17 @@
     <Content Include="Views\Events\Search.cshtml" />
     <Content Include="Views\Events\SeatSelection1v.cshtml" />
     <Content Include="Views\Events\Details_User.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Security\EditProfile.cshtml" />
+    <Content Include="Views\QA\Index.cshtml" />
+    <Content Include="Views\PersonelManage\MyProfile.cshtml" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+    <Content Include="Views\PersonelManage\AddCreditCard.cshtml" />
+    <Content Include="Views\Events\Payment.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -385,6 +452,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202512171448205_InitialCreate.resx">
       <DependentUpon>202512171448205_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512171617050_AddQuestionsTable.resx">
+      <DependentUpon>202512171617050_AddQuestionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512171722313_AddWalletAndCards.resx">
+      <DependentUpon>202512171722313_AddWalletAndCards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512171747038_AddUserIdToTicket.resx">
+      <DependentUpon>202512171747038_AddUserIdToTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512171813162_UpdateEventModel.resx">
+      <DependentUpon>202512171813162_UpdateEventModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

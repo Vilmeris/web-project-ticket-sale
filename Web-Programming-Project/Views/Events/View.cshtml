@@ -1,105 +1,478 @@
-﻿@model IEnumerable<Web_Programming_Project.Models.Event>
+﻿@model Web_Programming_Project.Models.Event
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = Model.Title + " | Detaylar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Layout dosyasındaki container kısıtlamasından kurtulmak için body stilleri
 }
 
-<h2>View</h2>
+@section head {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Artist)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Venue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Capacity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SoldTicketCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DiscountRate)
-        </th>
-        <th></th>
-    </tr>
+    <style>
+     
+        body, html { margin: 0; padding: 0; height: 100%; overflow-x: hidden; }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Artist)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageUrl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Venue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Capacity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SoldTicketCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubCategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiscountRate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
-        </td>
-    </tr>
+        /* ARKA PLAN (Flu Görüntü) */
+        .page-bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('@Model.ImageUrl');
+            background-size: cover; background-position: center;
+            filter: blur(40px) brightness(0.5); z-index: -2;
+        }
+
+        /* === MASAÜSTÜ TAM EKRAN DÜZENİ === */
+        @@media (min-width: 992px) {
+            .fullscreen-wrapper {
+                position: relative;
+                width: 100vw;
+                height: 1500px;
+                background: #fff;
+                overflow: hidden;
+                display: flex;
+            }
+
+            /* --- SOL PANEL --- */
+            .left-panel {
+                position: relative;
+                width: 60%;
+                height: 100%;
+                background: #000;
+            }
+
+            .image-area {
+                position: absolute; top: 0; left: 0; width: 100%; height: 55vh; overflow: hidden;
+            }
+
+            .countdown-strip {
+                position: absolute; top: 55vh; left: 0; width: 100%; height: 70px;
+                background: #111; color: #ffc107;
+                display: flex; align-items: center; justify-content: center;
+                gap: 50px; z-index: 10; border-bottom: 1px solid #333;
+            }
+
+            .text-scroll-area {
+                position: absolute; top: calc(55vh + 70px); left: 0; width: 100%; bottom: 0;
+                padding: 40px 60px; background: #fff; overflow-y: auto;
+            }
+
+            /* --- SAĞ PANEL --- */
+            .right-panel {
+                width: 40%;
+                height: 100%;
+                background: #f8f9fa;
+                border-left: 1px solid #ddd;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+                z-index: 20;
+            }
+
+            .back-btn-floating {
+                position: absolute; top: 30px; left: 30px; z-index: 100;
+                background: rgba(0,0,0,0.6); color: #fff; padding: 10px 20px;
+                border-radius: 30px; text-decoration: none; font-weight: bold;
+                backdrop-filter: blur(5px); transition: 0.3s;
+            }
+            .back-btn-floating:hover { background: #d71920; color: #fff; }
+        }
+
+        /* ORTAK STİLLER */
+        .event-image { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: 1s ease; }
+        .image-area:hover .event-image { transform: scale(1.05); }
+        .count-item span { font-size: 1.5rem; font-weight: 800; display: block; line-height: 1; }
+        .count-item small { font-size: 0.75rem; color: #999; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* TABS */
+        .nav-tabs { border-bottom: 2px solid #eee; margin-bottom: 30px; }
+        .nav-link { color: #888; border: none !important; font-size: 1.1rem; font-weight: 600; padding: 10px 20px; }
+        .nav-link.active { color: #d71920; border-bottom: 3px solid #d71920 !important; background: none; }
+
+        /* SAĞ PANEL BİLEŞENLERİ */
+        .badge-cat { background: #ffc107; color: #000; padding: 5px 15px; border-radius: 20px; font-weight: 800; letter-spacing: 0.5px; }
+        .event-title { font-size: 2.5rem; font-weight: 900; line-height: 1.1; margin: 15px 0 5px; color: #222; }
+        .artist-title { font-size: 1.1rem; color: #d71920; font-weight: 700; margin-bottom: 20px; }
+
+        .info-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 12px; background: #fff; border: 1px solid #eee; border-radius: 12px; }
+        .icon-box { width: 40px; height: 40px; background: #fff5f5; color: #d71920; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+
+        /* HARİTA LİNK BUTONU */
+        .map-link-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #fff; border: 1px solid #ddd; border-radius: 12px;
+            padding: 12px 15px; margin-bottom: 30px; text-decoration: none;
+            transition: 0.2s; cursor: pointer;
+        }
+        .map-link-btn:hover { background: #f8f9fa; border-color: #ccc; transform: translateY(-2px); }
+        .map-icon-square {
+            width: 40px; height: 40px; background: #e3f2fd; color: #0d6efd;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+
+        /* BİLET LİSTESİ STİLİ */
+        .ticket-category-card {
+            background: #fff; border: 1px solid #ddd; border-radius: 12px;
+            padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer; transition: 0.2s;
+        }
+        .ticket-category-card:hover { border-color: #d71920; background: #fff9f9; }
+        .ticket-category-card.selected { border: 2px solid #d71920; background: #fff0f0; }
+
+        .buy-btn { background: linear-gradient(90deg, #d71920, #b00e15); color: #fff; display: block; width: 100%; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 1.2rem; text-decoration: none; transition: 0.3s; margin-top: 20px; text-align: center; }
+        .buy-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(215, 25, 32, 0.4); color: #fff; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+
+        /* BİLET ALANI SÜSLEMELERİ */
+        .ticket-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd; /* Üst kısımdan şık bir çizgiyle ayır */
+        }
+
+        .ticket-section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Bilet Seçenek Kartı */
+        .ticket-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            /* Hover (Üzerine gelince) */
+            .ticket-option:hover {
+                border-color: #ffcccc;
+                transform: translateY(-3px); /* Hafif yukarı kalkma */
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            }
+
+            /* Seçili Durum */
+            .ticket-option.selected {
+                background: #fff5f5; /* Çok açık kırmızı arka plan */
+                border-color: #d71920;
+                box-shadow: 0 5px 15px rgba(215, 25, 32, 0.15);
+            }
+
+        /* Radyo Butonu Özelleştirme */
+        .ticket-radio {
+            width: 24px;
+            height: 24px;
+            accent-color: #d71920;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* Yazı Alanları */
+        .ticket-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            display: block;
+        }
+
+        .ticket-desc {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .ticket-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #d71920;
+            letter-spacing: -0.5px;
+        }
+
+        /* Satın Al Butonu (Gradient ve Gölge) */
+        .buy-btn {
+            background: linear-gradient(135deg, #d71920 0%, #b00e15 100%);
+            color: #fff;
+            display: block;
+            width: 100%;
+            padding: 20px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 25px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Yaylanma efekti */
+            box-shadow: 0 10px 25px rgba(215, 25, 32, 0.3);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+            .buy-btn:hover {
+                transform: translateY(-4px) scale(1.02);
+                box-shadow: 0 20px 40px rgba(215, 25, 32, 0.5);
+                color: #fff;
+            }
+
+            .buy-btn:active {
+                transform: translateY(-1px);
+            }
+
+        /* Tükendi Butonu */
+        .sold-out-btn {
+            background: #e9ecef;
+            color: #adb5bd;
+            width: 100%;
+            padding: 20px;
+            border-radius: 14px;
+            font-weight: 800;
+            text-align: center;
+            border: none;
+            margin-top: 25px;
+            cursor: not-allowed;
+        }
+    </style>
 }
 
-</table>
+<div class="page-bg-layer"></div>
+
+<div class="fullscreen-wrapper">
+
+    <a href="@Url.Action("Index", "Home")" class="back-btn-floating">
+        <i class="fa fa-arrow-left me-2"></i> Listeye Dön
+    </a>
+
+    <div class="left-panel">
+
+        <div class="image-area">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" class="event-image" alt="@Model.Title" />
+            }
+            else
+            {
+                <div class="d-flex align-items-center justify-content-center h-100 bg-dark text-white fs-3">Görsel Yok</div>
+            }
+        </div>
+
+        <div class="countdown-strip" id="countdown">
+        </div>
+
+        <div class="text-scroll-area">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#desc">Etkinlik Hakkında</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rules">Sanatçı & Kurallar</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="desc">
+                    <h3 class="fw-bold text-dark mb-4">Detaylar</h3>
+                    <p class="fs-5 text-muted" style="line-height: 1.9;">@Model.Description</p>
+                    <div class="alert alert-light border mt-4">
+                        <i class="fa fa-info-circle text-primary me-2"></i>
+                        Kapı açılış: Etkinlik saatinden 1 saat önce.
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="rules">
+                    <h3 class="fw-bold text-dark mb-4">Kurallar</h3>
+                    <ul class="list-unstyled fs-5 text-muted">
+                        <li class="mb-3"><i class="fa fa-check-circle text-success me-2"></i> 18 yaş sınırı vardır.</li>
+                        <li class="mb-3"><i class="fa fa-ban text-danger me-2"></i> Profesyonel kamera yasaktır.</li>
+                        <li class="mb-3"><i class="fa fa-times-circle text-danger me-2"></i> Bilet iadesi yoktur.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+
+        <div>
+            <span class="badge-cat">@Model.Category</span>
+            <h1 class="event-title">@Model.Title</h1>
+            <div class="artist-title"><i class="fa fa-microphone-alt me-2"></i> @Model.Artist</div>
+        </div>
+
+        <div class="info-row">
+            <div class="icon-box"><i class="fa fa-calendar-alt"></i></div>
+            <div>
+                <div class="small text-muted fw-bold ls-1">TARİH</div>
+                <div class="fw-bold text-dark">@Model.Date.ToString("dd MMMM yyyy, HH:mm")</div>
+            </div>
+        </div>
+
+        <div class="info-row mb-2">
+            <div class="icon-box"><i class="fa fa-map-location-dot"></i></div>
+            <div>
+                <div class="small text-muted fw-bold ls-1">MEKAN</div>
+                <div class="fw-bold text-dark">@Model.Venue, @Model.City</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=@Model.Venue+@Model.City" target="_blank">
+                    <div class="small text-muted fw-bold ls-1">Haritalar</div>
+                </a>
+            </div>
+        </div>
+
+
+        <br /><br /><br /><br /><br /><br /><br /><br />
+        <div class="ticket-section">
+            <div class="ticket-section-title">
+                <i class="fa fa-ticket-alt"></i> Bilet Kategorisi Seç
+            </div>
+
+            @{
+                var prices = ViewBag.PriceOptions as List<Web_Programming_Project.Models.EventPrice>;
+                bool firstItem = true;
+            }
+
+            @if (prices != null && prices.Count > 0)
+            {
+                // VERİTABANINDAN GELEN FİYATLAR
+                foreach (var item in prices)
+                {
+                    string activeClass = firstItem ? "selected" : "";
+                    string checkStatus = firstItem ? "checked" : "";
+
+                    <label class="ticket-option @activeClass">
+                        <div class="d-flex align-items-center">
+                            <input type="radio" name="ticket" value="@item.ZoneName" @checkStatus class="ticket-radio">
+                            <div>
+                                <span class="ticket-name">@item.ZoneName</span>
+                                <span class="ticket-desc">Kişi Başı Giriş</span>
+                            </div>
+                        </div>
+                        <div class="ticket-price">@item.Price.ToString("C2")</div>
+                    </label>
+
+                    firstItem = false;
+                }
+            }
+            else
+            {
+                // VARSAYILAN FİYAT
+                <label class="ticket-option selected">
+                    <div class="d-flex align-items-center">
+                        <input type="radio" name="ticket" value="Standart" checked class="ticket-radio">
+                        <div>
+                            <span class="ticket-name">Standart Bilet</span>
+                            <span class="ticket-desc">Genel Giriş</span>
+                        </div>
+                    </div>
+                    <div class="ticket-price">@Model.Price.ToString("C2")</div>
+                </label>
+            }
+            @if (Model.SoldTicketCount < Model.Capacity)
+            {
+
+                // Kalan bilet sayısını hesaplayalım
+                int remaining = Model.Capacity - Model.SoldTicketCount;
+
+                @if (Model.Category == "Sinema" || Model.Category == "Tiyatro")
+                {
+                    <a href="@Url.Action("SeatSelection", "Events", new { id = Model.EventId })" class="buy-btn">
+                        KOLTUK SEÇ & AL <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" onclick="buyDirectly()" class="buy-btn">
+                        HEMEN SATIN AL <i class="fa fa-check-circle ms-2"></i>
+                    </a>
+
+                    <script>
+        function buyDirectly() {
+            
+            var selectedRadio = document.querySelector('input[name="ticket"]:checked');
+
+            if (selectedRadio) {
+                var categoryName = selectedRadio.value;
+
+               
+                var url = '@Url.Action("Payment", "Events")' +
+                          '?eventId=@Model.EventId' +
+                          '&ticketType=' + encodeURIComponent(categoryName);
+
+                window.location.href = url;
+            } else {
+                alert("Lütfen bir bilet kategorisi seçiniz.");
+            }
+        }
+                    </script>
+                }
+
+                // SADECE 50 VE ALTI KALDIYSA GÖSTER
+                if (remaining <= 50)
+                {
+                    <div class="text-center mt-3 text-warning fw-bold small">
+                        <i class="fa fa-bolt me-1"></i> Hızlı Ol! Son @remaining bilet.
+                    </div>
+                }
+            }
+            else
+            {
+                <button class="sold-out-btn" disabled>TÜKENDİ</button>
+            }
+
+            <div class="text-center mt-4 text-muted small opacity-75">
+                <i class="fa fa-lock me-1"></i> 256-bit SSL ile Güvenli Ödeme
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        document.querySelectorAll('.ticket-option').forEach(card => {
+            card.addEventListener('click', function() {
+             
+                document.querySelectorAll('.ticket-option').forEach(c => c.classList.remove('selected'));
+
+            
+                this.classList.add('selected');
+
+               
+                var radio = this.querySelector('input[name="ticket"]');
+                if(radio) radio.checked = true;
+            });
+        });
+        
+
+     
+        var eventDate = new Date("@Model.Date.ToString("yyyy-MM-ddTHH:mm:ss")").getTime();
+       
+    </script>
+}

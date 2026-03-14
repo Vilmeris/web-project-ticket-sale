@@ -17,6 +17,10 @@ namespace Web_Programming_Project.Models
         [ForeignKey("EventId")]
         public virtual Event Event { get; set; }
 
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+
         [Required]
         [Display(Name = "Koltuk No")]
         public string SeatNumber { get; set; }
@@ -25,5 +29,7 @@ namespace Web_Programming_Project.Models
         public DateTime PurchaseDate { get; set; }
 
         public decimal PricePaid { get; set; }
+
+
     }
 }

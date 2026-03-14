@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic; // <-- BU SATIR EKLENDİ (ICollection için şart)
+using System.Collections.Generic; 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -51,8 +51,7 @@ namespace Web_Programming_Project.Models
         [Display(Name = "Satılan Bilet")]
         public int SoldTicketCount { get; set; } = 0;
 
-        // Bu alan hem Sinema için tek fiyatı tutacak, 
-        // hem de Tiyatro/Konser için "En düşük başlangıç fiyatını" tutacak (Vitrin için).
+       
         [Display(Name = "Bilet Fiyatı")]
         [Required]
         [DataType(DataType.Currency)]
@@ -70,8 +69,7 @@ namespace Web_Programming_Project.Models
             get { return Price - (Price * DiscountRate / 100); }
         }
 
-        // --- KRİTİK EKLEME: FİYAT BÖLGELERİ İLİŞKİSİ ---
-        // Bu satır sayesinde EventPrice tablosuna ulaşabileceğiz.
+      
         public virtual ICollection<EventPrice> EventPrices { get; set; }
     }
 }

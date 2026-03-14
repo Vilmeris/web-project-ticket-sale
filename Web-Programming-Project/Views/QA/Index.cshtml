@@ -1,0 +1,218 @@
+﻿@model List<Web_Programming_Project.Models.Question>
+
+@{
+    ViewBag.Title = "Soru & Cevap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+    bool isAdmin = false;
+    
+   
+    isAdmin = true; 
+}
+
+<style>
+   
+    .qa-page-container {
+        max-width: 900px; 
+        margin: 0 auto; 
+        padding: 40px 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Başlık Alanı */
+    .qa-header {
+        text-align: center;
+        margin-bottom: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 30px;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+    }
+
+    /* Soru Sorma Kutusu */
+    .ask-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin-bottom: 40px;
+        border: 1px solid #eee;
+    }
+
+    .custom-input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .ask-input {
+        flex-grow: 1;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 30px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+        .ask-input:focus {
+            border-color: #764ba2;
+        }
+
+    .btn-ask {
+        background-color: #764ba2;
+        color: white;
+        border: none;
+        padding: 0 30px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, background-color 0.2s;
+    }
+
+        .btn-ask:hover {
+            background-color: #5b3a7d;
+            transform: scale(1.05);
+        }
+
+    /* Soru Kartları */
+    .question-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        transition: transform 0.2s;
+    }
+
+        .question-card:hover {
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+    .q-header {
+        padding: 15px 20px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-badge {
+        font-weight: bold;
+        color: #555;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .date-badge {
+        font-size: 0.85rem;
+        color: #999;
+    }
+
+    .q-body {
+        padding: 20px;
+        color: #333;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    /* Cevap Alanı */
+    .answer-section {
+        background-color: #f1f8ff; 
+        border-top: 1px solid #e1e4e8;
+        padding: 20px;
+        position: relative;
+    }
+
+        .answer-section::before {
+            content: "🎬 Editörün Cevabı";
+            display: block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #195FD2;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+    .admin-controls {
+        padding: 15px 20px;
+        background-color: #fff8e1; 
+        border-top: 1px dashed #ddd;
+    }
+
+    .status-pending {
+        padding: 15px 20px;
+        color: #888;
+        font-style: italic;
+        background-color: #fff;
+    }
+</style>
+
+<div class="qa-page-container">
+
+    <div class="qa-header">
+        <h2 style="margin:0;">🍿 Film Topluluğu & Soru Cevap</h2>
+        <p style="margin:10px 0 0; opacity:0.9;">Merak ettiğin filmleri sor, tartışalım!</p>
+    </div>
+
+    <div class="ask-box">
+        @using (Html.BeginForm("Ask", "QA", FormMethod.Post))
+        {
+            <div class="custom-input-group">
+                <input type="text" name="questionText" class="ask-input" placeholder="Hangi filmi merak ediyorsun? Örn: Inception'ın sonu ne anlama geliyor?" required>
+                <button class="btn-ask" type="submit">GÖNDER 🚀</button>
+            </div>
+        }
+    </div>
+
+    <div>
+        @foreach (var item in Model)
+        {
+            <div class="question-card">
+                <div class="q-header">
+                    <span class="user-badge">
+                        👤 @item.AskerName
+                    </span>
+                    <span class="date-badge">📅 @item.Date.ToString("dd.MM.yyyy HH:mm")</span>
+                </div>
+
+                <div class="q-body">
+                    @item.Text
+                </div>
+
+                @if (!string.IsNullOrEmpty(item.Answer))
+                {
+                    <div class="answer-section">
+                        @item.Answer
+                    </div>
+                }
+                else
+                {
+                    <div class="status-pending">
+                        ⏳ Henüz cevaplanmadı, editörlerimiz inceliyor...
+                    </div>
+                }
+
+                @if (isAdmin && string.IsNullOrEmpty(item.Answer))
+                {
+                    <div class="admin-controls">
+                        @using (Html.BeginForm("Answer", "QA", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id" value="@item.ID" />
+                            <div style="display:flex; gap:10px;">
+                                <input type="text" name="answerText" class="form-control" placeholder="Admin cevabını yaz..." style="flex:1; padding:8px; border:1px solid #ccc; border-radius:5px;" required>
+                                <button type="submit" class="btn btn-success btn-sm">Yanıtla</button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+</div>

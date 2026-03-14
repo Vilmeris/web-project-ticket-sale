@@ -1,25 +1,71 @@
-﻿
-@{
-    ViewBag.Title = "SeatSelection1v";
+﻿@{
+    ViewBag.Title = "Koltuk Seçimi";
     var occupiedList = ViewBag.OccupiedSeats as List<string> ?? new List<string>();
+
+    // 1. Get the quantity passed from the Controller (default to 1)
+    int quantityToSelect = ViewBag.Quantity != null ? (int)ViewBag.Quantity : 1;
 }
 @model Web_Programming_Project.Models.Event
 
+<style>
+    
+    .seat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 10px;
+        justify-items: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    
+    .seat-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    
+    .btn-check:checked + .seat-label {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+
+    .seat-occupied {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: not-allowed;
+    }
+</style>
 
 <div class="container my-5">
     <div class="text-center mb-4">
         <h2>@Model.Title - Koltuk Seçimi</h2>
-        <p class="text-muted">Lütfen oturmak istediğiniz koltuğu seçiniz.</p>
 
-        <div class="bg-secondary text-white w-50 mx-auto py-1 mb-4 rounded">SAHNE / PERDE</div>
+        <h4 class="text-primary fw-bold">
+            Lütfen <span id="remainingCount">@quantityToSelect</span> adet koltuk seçiniz.
+        </h4>
+
+        <div class="bg-secondary text-white w-50 mx-auto py-1 mt-3 mb-4 rounded">SAHNE / PERDE</div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card shadow-sm border-0 p-4">
 
-                <form action="@Url.Action("AddToCartSeated", "Events")" method="post">
+                <form action="@Url.Action("AddToCartSeated", "Events")" method="post" id="seatForm">
                     <input type="hidden" name="eventId" value="@Model.EventId" />
+                    <input type="hidden" name="quantity" value="@quantityToSelect" />
 
                     <div class="seat-grid">
                         @for (int i = 1; i <= Model.Capacity; i++)
@@ -29,16 +75,15 @@
 
                             if (isOccupied)
                             {
-                                // Render red disabled box
                                 <button type="button" class="seat-occupied" style="width: 50px; height: 50px; opacity: 0.5;" title="Dolu">
                                     @seatNum
                                 </button>
                             }
                             else
                             {
-                                // Render Selectable Radio Button (styled as button)
-                                <input type="radio" class="btn-check" name="selectedSeat" id="seat-@i" value="@seatNum" autocomplete="off" required>
-                                <label class="seat-label" for="seat-@i" style="width: 50px; height: 50px;">
+                          
+                                <input type="checkbox" class="btn-check seat-checkbox" name="selectedSeats" id="seat-@i" value="@seatNum" autocomplete="off">
+                                <label class="seat-label" for="seat-@i">
                                     @seatNum
                                 </label>
                             }
@@ -52,8 +97,8 @@
                             <span class="badge border text-dark">Boş</span>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg px-5">
-                            🛒 Seçimi Sepete Ekle
+                        <button type="submit" id="submitBtn" class="btn btn-success btn-lg px-5" disabled>
+                            🛒 (@quantityToSelect) Koltuğu Sepete Ekle
                         </button>
                     </div>
                 </form>
@@ -66,3 +111,41 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+       
+        const limit = @quantityToSelect;
+        const checkboxes = document.querySelectorAll('.seat-checkbox');
+        const submitBtn = document.getElementById('submitBtn');
+        const remainingText = document.getElementById('remainingCount');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                
+                const checkedCount = document.querySelectorAll('.seat-checkbox:checked').length;
+
+               
+                if (checkedCount > limit) {
+                    this.checked = false;
+                    alert("En fazla " + limit + " koltuk seçebilirsiniz.");
+                    return;
+                }
+
+                
+                remainingText.innerText = (limit - checkedCount);
+
+              
+                if (checkedCount === limit) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-secondary');
+                    submitBtn.classList.add('btn-success');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.remove('btn-success');
+                    submitBtn.classList.add('btn-secondary');
+                }
+            });
+        });
+    });
+</script>

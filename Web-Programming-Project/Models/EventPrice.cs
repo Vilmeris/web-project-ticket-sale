@@ -10,7 +10,7 @@ namespace Web_Programming_Project.Models
         [Key]
         public int Id { get; set; }
 
-        public int EventId { get; set; } // Hangi etkinliğe ait?
+        public int EventId { get; set; } 
 
         [ForeignKey("EventId")]
         public virtual Event Event { get; set; }
@@ -26,6 +26,6 @@ namespace Web_Programming_Project.Models
         public virtual ICollection<EventPrice> EventPrices { get; set; }
 
         [Display(Name = "Kontenjan")]
-        public int Capacity { get; set; } // O bölgeye özel kapasite (İsteğe bağlı)
+        public int Capacity { get; set; } 
     }
 }

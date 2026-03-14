@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Web_Programming_Project.Models;
+
 
 namespace Web_Programming_Project.Controllers
 {
@@ -11,19 +13,35 @@ namespace Web_Programming_Project.Controllers
     {
         private DbPersonal db = new DbPersonal();
 
-        // -----------------------------------------------------------
-        // 1. SEPETİ GÖRÜNTÜLE (INDEX)
-        // -----------------------------------------------------------
         public ActionResult Index()
         {
             var cart = GetCart();
 
-            // Toplam Tutarı Hesapla (ViewBag ile sayfaya taşıyoruz)
-            // CartItem modelindeki "TotalPrice" özelliğini kullanıyoruz
+            
+            foreach (var item in cart)
+            {
+                
+                decimal basePrice = item.Event.Price;
+
+              
+                if (item.SeatNumber == "VIP")
+                {
+                    item.Event.Price = basePrice * 2;
+                }
+                else if (item.SeatNumber == "Ogrenci")
+                {
+                    
+                    item.Event.Price = basePrice * 0.8m;
+                }
+                
+            }
+
+            
             decimal grandTotal = 0;
             if (cart.Any())
             {
-                grandTotal = cart.Sum(x => x.TotalPrice);
+                
+                grandTotal = cart.Sum(x => x.Event.Price * x.Quantity);
             }
 
             ViewBag.GrandTotal = grandTotal;
@@ -31,90 +49,129 @@ namespace Web_Programming_Project.Controllers
             return View(cart);
         }
 
-        // -----------------------------------------------------------
-        // 2. SEPETTEN SİL (REMOVE)
-        // -----------------------------------------------------------
-        // Not: Sadece ID yetmez, Koltuk Numarası da lazım! 
-        // Yoksa aynı etkinlikten 2 bilet varsa hangisini sileceğini bilemez.
+      
         public ActionResult Remove(int eventId, string seatNumber)
         {
             var cart = GetCart();
 
-            // Hem EventId hem de Koltuk Numarası eşleşen kaydı bul
             var itemToRemove = cart.FirstOrDefault(x => x.Event.EventId == eventId && x.SeatNumber == seatNumber);
 
             if (itemToRemove != null)
             {
                 cart.Remove(itemToRemove);
-                Session["Cart"] = cart; // Güncel listeyi kaydet
+                Session["Cart"] = cart; 
             }
 
             return RedirectToAction("Index");
         }
 
-        // -----------------------------------------------------------
-        // 3. ÖDEME YAP / SATIN AL (CHECKOUT)
-        // -----------------------------------------------------------
-        [HttpPost]
-        public ActionResult Checkout()
-        {
-            var cart = GetCart();
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Checkout(string cardHolder, string cardNumber, string expiryDate, string cvc)
+        {
+            
+            if (string.IsNullOrEmpty(cardNumber) || string.IsNullOrEmpty(cvc) || string.IsNullOrEmpty(cardHolder))
+            {
+                TempData["Error"] = "Lütfen kart bilgilerini eksiksiz girin.";
+                return RedirectToAction("Index");
+            }
+
+            var cart = GetCart();
             if (cart.Count == 0)
             {
                 TempData["Error"] = "Sepetiniz boş!";
                 return RedirectToAction("Index");
             }
 
-            // Sepetteki her bir ürün için veritabanına kayıt açıyoruz
-            foreach (var item in cart)
+          
+            string currentIdentity = User.Identity.Name;
+            var currentUser = db.Users.FirstOrDefault(x => x.Email == currentIdentity)
+                           ?? db.Users.FirstOrDefault(x => x.Name == currentIdentity);
+
+            if (currentUser == null)
             {
-                // Veritabanındaki etkinliği bul (Fiyat/Stok kontrolü için güncel veri)
-                var eventInDb = db.Events.Find(item.Event.EventId);
-
-                if (eventInDb != null)
-                {
-                    // Ticket Modeline kayıt ekle
-                    var ticket = new Ticket
-                    {
-                        EventId = item.Event.EventId,
-                        SeatNumber = item.SeatNumber,
-                        PurchaseDate = DateTime.Now,
-                        PricePaid = item.TotalPrice // O anki fiyatı kaydet
-                        // UserId = User.Identity.GetUserId() // Eğer login varsa burayı açabilirsin
-                    };
-
-                    db.Tickets.Add(ticket);
-
-                    // Satılan bilet sayısını artır
-                    eventInDb.SoldTicketCount++;
-                }
+                TempData["Error"] = "Kullanıcı oturumu doğrulanamadı.";
+                return RedirectToAction("Login", "Security");
             }
 
-            // Tüm değişiklikleri veritabanına işle
-            db.SaveChanges();
+            
+            try
+            {
+                foreach (var item in cart)
+                {
+                   
+                    var eventInDb = db.Events.Find(item.Event.EventId);
 
-            // Sepeti Boşalt
-            Session["Cart"] = null;
+                    if (eventInDb != null)
+                    {
+                        
+                        if (eventInDb.SoldTicketCount + item.Quantity > eventInDb.Capacity)
+                        {
+                            TempData["Error"] = $"Üzgünüz, '{eventInDb.Title}' etkinliği için yeterli boş koltuk kalmadı.";
+                            return RedirectToAction("Index");
+                        }
 
-            TempData["Success"] = "Ödeme başarıyla alındı! İyi eğlenceler.";
+                        
+                        decimal finalPrice = eventInDb.Price; 
 
-            // Başarı sayfasına veya Ana sayfaya yönlendir
-            return RedirectToAction("Index", "Home");
+                        if (item.SeatNumber == "VIP")
+                        {
+                            finalPrice = eventInDb.Price * 2;
+                        }
+                        else if (item.SeatNumber == "Ogrenci")
+                        {
+                            finalPrice = eventInDb.Price * 0.8m;
+                        }
+
+                       
+                        for (int i = 0; i < item.Quantity; i++)
+                        {
+                            var ticket = new Ticket
+                            {
+                                EventId = eventInDb.EventId,
+                                UserId = currentUser.UserId,
+                                SeatNumber = item.SeatNumber, 
+                                PurchaseDate = DateTime.Now,
+                                PricePaid = finalPrice 
+                            };
+
+                            db.Tickets.Add(ticket);
+                        }
+
+                        
+                        eventInDb.SoldTicketCount += item.Quantity;
+                    }
+                }
+
+                
+                db.SaveChanges();
+
+               
+                Session["Cart"] = null;
+
+                TempData["Success"] = "Ödeme başarıyla alındı! Biletleriniz profilinize eklendi.";
+                return RedirectToAction("Profile", "Account");
+            }
+            catch (Exception ex)
+            {
+               
+                TempData["Error"] = "Bir hata oluştu: " + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
-        // -----------------------------------------------------------
-        // 4. SEPETİ TEMİZLE (HEPSİNİ SİL)
-        // -----------------------------------------------------------
+
+
+
+      
         public ActionResult ClearCart()
         {
             Session["Cart"] = null;
             return RedirectToAction("Index");
         }
 
-        // -----------------------------------------------------------
-        // YARDIMCI METOT (PRIVATE)
-        // -----------------------------------------------------------
+        
         private List<CartItem> GetCart()
         {
             var cart = Session["Cart"] as List<CartItem>;

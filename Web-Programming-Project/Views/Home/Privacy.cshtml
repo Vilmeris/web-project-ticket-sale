@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Gizlilik Politikası";
+    ViewBag.GenisSayfa = true; // Sayfanın tamamını kaplaması için
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .privacy-background {
+        background-color: #f8f9fa; 
+        min-height: 85vh; 
+        display: flex;
+        justify-content: center; 
+        padding: 60px 20px;
+    }
+
+
+    .privacy-paper {
+        background-color: #ffffff; 
+        width: 100%;
+        max-width: 850px; 
+        padding: 60px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+    }
+
+    /* --- BAŞLIKLAR --- */
+    .main-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+        color: #111;
+        text-align: center;
+        letter-spacing: -0.5px;
+    }
+
+    .last-updated {
+        text-align: center;
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 30px;
+    }
+
+    /* --- MADDELER --- */
+    .policy-item {
+        margin-bottom: 30px;
+    }
+
+    .section-head {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .section-text {
+        font-size: 1rem;
+        line-height: 1.8; 
+        color: #555;
+        text-align: justify; 
+    }
+
+    body.dark-mode .privacy-background {
+        background-color: #121212;
+    }
+
+    body.dark-mode .privacy-paper {
+        background-color: #1e1e1e;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .main-title {
+        color: #fff;
+    }
+
+    body.dark-mode .last-updated {
+        color: #aaa;
+        border-color: #333;
+    }
+
+    body.dark-mode .section-head {
+        color: #f0f0f0;
+    }
+
+    body.dark-mode .section-text {
+        color: #ccc;
+    }
+
+
+    .contact-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    body.dark-mode .contact-link {
+        color: #4dabf7;
+    }
+
+    @@media (max-width: 768px) {
+        .privacy-paper {
+            padding: 30px;
+        }
+    }
+</style>
+
+<div class="privacy-background">
+    <div class="privacy-paper">
+
+        @* Başlık *@
+        <h1 class="main-title">Gizlilik Politikası</h1>
+        <div class="last-updated">
+            Son Güncelleme: @DateTime.Now.ToString("dd MMMM yyyy")
+        </div>
+
+        @* Giriş *@
+        <div class="policy-item">
+            <p class="section-text">
+                Ticketpair olarak, üyelerimizin ve ziyaretçilerimizin kişisel verilerinin gizliliğine ve güvenliğine büyük önem veriyoruz. Bu metin, hizmetlerimizi kullanırken verilerinizin nasıl işlendiğini şeffaf bir şekilde açıklamak amacıyla hazırlanmıştır.
+            </p>
+        </div>
+
+        @* Maddeler *@
+        <div class="policy-item">
+            <h3 class="section-head">1. Toplanan Veriler</h3>
+            <p class="section-text">
+                Sitemize üye olduğunuzda veya bilet satın aldığınızda; Ad, Soyad, E-posta, Telefon Numarası gibi temel kimlik bilgilerinizi talep ediyoruz. Ayrıca, kullanıcı deneyimini iyileştirmek ve güvenliği sağlamak amacıyla IP adresi ve cihaz bilgileri gibi teknik veriler otomatik olarak kaydedilebilir.
+            </p>
+        </div>
+
+        <div class="policy-item">
+            <h3 class="section-head">2. Ödeme Güvenliği</h3>
+            <p class="section-text">
+                Kredi kartı ve ödeme bilgileriniz sunucularımızda <strong>kesinlikle saklanmaz</strong>. Tüm ödeme işlemleri, uluslararası güvenlik standartlarına (SSL/TLS) sahip ödeme altyapıları ve bankalar aracılığıyla, 3D Secure güvencesiyle şifreli olarak gerçekleştirilir.
+            </p>
+        </div>
+
+        <div class="policy-item">
+            <h3 class="section-head">3. Verilerin Kullanımı</h3>
+            <p class="section-text">
+                Toplanan bilgiler; satın aldığınız biletlerin (QR Kod) size iletilmesi, etkinlik iptal/değişiklik durumlarında bilgilendirilmeniz, fatura işlemlerinin yapılması ve müşteri destek hizmetlerinin sağlanması amacıyla kullanılır.
+            </p>
+        </div>
+
+        <div class="policy-item">
+            <h3 class="section-head">4. Üçüncü Taraflarla Paylaşım</h3>
+            <p class="section-text">
+                Kişisel verileriniz, yasal zorunluluklar (resmi makam talepleri) ve bilet satın aldığınız etkinliğin organizatörü (kapı giriş kontrolü ve güvenlik gereği) dışında üçüncü şahıs veya kurumlarla paylaşılmaz, satılmaz veya kiralanmaz.
+            </p>
+        </div>
+
+        <div class="policy-item">
+            <h3 class="section-head">5. Haklarınız</h3>
+            <p class="section-text">
+                KVKK kapsamında; verilerinizin silinmesini, düzeltilmesini veya size raporlanmasını talep etme hakkına sahipsiniz. Üyeliğinizi dilediğiniz zaman sonlandırabilir ve verilerinizin sistemlerimizden kalıcı olarak silinmesini isteyebilirsiniz.
+            </p>
+        </div>
+
+        <div class="policy-item" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 40px;">
+            <h3 class="section-head">İletişim</h3>
+            <p class="section-text">
+                Bu politika hakkında sorularınız veya veri talepleriniz için bizimle
+                <a href="mailto:privacy@ticketpair.com" class="contact-link">privacy@ticketpair.com</a>
+                adresinden iletişime geçebilirsiniz.
+            </p>
+        </div>
+
+    </div>
+</div>

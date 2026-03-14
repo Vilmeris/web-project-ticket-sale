@@ -10,35 +10,34 @@ using Web_Programming_Project.Models;
 
 namespace Web_Programming_Project.Controllers
 {
-    [Authorize]  // authorizing for only logged in users
+    [Authorize]  
     public class PersonelManageController : Controller
     {
-        private DbPersonal db = new DbPersonal(); // databese for our users
+        private DbPersonal db = new DbPersonal(); 
 
-        // ------------------- LİSTELEME (INDEX) -------------------
-        // GET: PersonalManage
+       
         public ActionResult Index()
         {
-            // 1. Giriş yapan kişinin e-postasını al
+            
             string currentEmail = User.Identity.Name;
 
-            // 2. Bu kişiyi veritabanında bul
+            
             var currentUser = db.Users.FirstOrDefault(x => x.Email == currentEmail);
 
-            // 3. GÜVENLİK KONTROLÜ: Kişi "Admin" mi?
+           
             if (currentUser != null && currentUser.Role == "Admin")
             {
-                // Admin ise listeyi göster
+                
                 return View(db.Users.ToList());
             }
             else
             {
-                // Admin değilse Ana Sayfaya gönder
+               
                 return RedirectToAction("Index", "Home");
             }
         }
 
-        // ------------------- DETAYLAR (DETAILS) -------------------
+    
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -53,8 +52,7 @@ namespace Web_Programming_Project.Controllers
             return View(user);
         }
 
-        // ------------------- YENİ KULLANICI EKLEME (CREATE) -------------------
-        // Admin panelinden manuel kullanıcı eklemek için
+ 
         public ActionResult Create()
         {
             return View();
@@ -62,7 +60,7 @@ namespace Web_Programming_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Bind içindeki alanları senin User modeline göre güncelledim
+        
         public ActionResult Create([Bind(Include = "UserId,Name,Surname,Phone,Email,Password,Role")] User user)
         {
             if (ModelState.IsValid)
@@ -83,8 +81,7 @@ namespace Web_Programming_Project.Controllers
             return View(user);
         }
 
-        // ------------------- DÜZENLEME (EDIT) -------------------
-        // Admin'in kullanıcı rollerini veya bilgilerini değiştirmesi için
+      
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -112,8 +109,7 @@ namespace Web_Programming_Project.Controllers
             return View(user);
         }
 
-        // ------------------- SİLME (DELETE) -------------------
-        // GET: Silme onay sayfası
+      
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -128,7 +124,7 @@ namespace Web_Programming_Project.Controllers
             return View(user);
         }
 
-        // POST: Silme işlemini onayla ve bitir
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -139,6 +135,71 @@ namespace Web_Programming_Project.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult MyProfile()
+        {
+            var userEmail = User.Identity.Name;
+            var user = db.Users.FirstOrDefault(x => x.Email == userEmail);
+
+            if (user == null) return RedirectToAction("Login", "Security");
+
+            
+            ViewBag.CreditCards = db.CreditCards.Where(x => x.UserId == user.UserId).ToList();
+
+            
+            ViewBag.MyTickets = db.Tickets.Include(t => t.Event).Where(t => t.UserId == user.UserId).ToList();
+
+            return View(user);
+        }
+
+        public ActionResult AddCreditCard()
+        {
+            return View();
+        }
+
+        // 2. Kredi Kartı Ekleme (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCreditCard(CreditCard card)
+        {
+            string email = User.Identity.Name;
+            var user = db.Users.FirstOrDefault(x => x.Email == email);
+
+            if (user != null && ModelState.IsValid)
+            {
+                card.UserId = user.UserId;
+                card.CardLimit = 1000000; 
+                db.CreditCards.Add(card);
+                db.SaveChanges();
+                TempData["Success"] = "Kart başarıyla eklendi.";
+                return RedirectToAction("MyProfile");
+            }
+            return View(card);
+        }
+
+        // 3. Cüzdana Para Yükleme
+        [HttpPost]
+        public ActionResult LoadMoney(decimal amount, int cardId)
+        {
+            string email = User.Identity.Name;
+            var user = db.Users.FirstOrDefault(x => x.Email == email);
+            var card = db.CreditCards.FirstOrDefault(c => c.CardId == cardId && c.UserId == user.UserId);
+
+            if (user != null && card != null)
+            {
+                if (card.CardLimit >= amount)
+                {
+                    card.CardLimit -= amount;
+                    user.WalletBalance += amount; 
+                    db.SaveChanges();
+                    TempData["Success"] = amount + " TL cüzdanınıza yüklendi.";
+                }
+                else
+                {
+                    TempData["Error"] = "Kart limiti yetersiz.";
+                }
+            }
+            return RedirectToAction("MyProfile");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

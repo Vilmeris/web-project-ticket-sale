@@ -1,0 +1,158 @@
+﻿@model Web_Programming_Project.Models.User
+@{
+    ViewBag.Title = "Profilim ve Cüzdanım";
+}
+
+<div class="container mt-5">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5>💰 Cüzdan Bakiyem</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="text-success">@Model.WalletBalance.ToString("C2")</h2>
+                    <hr />
+                    <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#loadMoneyModal">
+                        ➕ Para Yükle
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5>💳 Kayıtlı Kartlarım</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if (ViewBag.CreditCards != null)
+                    {
+                        foreach (var card in (List<Web_Programming_Project.Models.CreditCard>)ViewBag.CreditCards)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>**** **** **** @card.CardNumber.Substring(12)</span>
+                                <span class="badge badge-info badge-pill">@card.CardBalance.ToString("C0") Limit</span>
+                            </li>
+                        }
+                    }
+                </ul>
+                <div class="card-body">
+                    <button class="btn btn-success btn-block" data-toggle="modal" data-target="#addCardModal">
+                        Yeni Kart Ekle
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3>🎟️ Biletlerim</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Etkinlik</th>
+                        <th>Tarih</th>
+                        <th>Koltuk</th>
+                        <th>Fiyat</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.MyTickets != null)
+                    {
+                        foreach (var ticket in (List<Web_Programming_Project.Models.Ticket>)ViewBag.MyTickets)
+                        {
+                            <tr>
+                                <td>@(ticket.Event != null ? ticket.Event.Title : "Etkinlik Silinmiş")</td>
+                                <td>@ticket.PurchaseDate.ToString("dd.MM.yyyy")</td>
+                                <td>@ticket.SeatNumber</td>
+                                <td>@ticket.PricePaid.ToString("C2")</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info">QR Göster</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addCardModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Kredi Kartı Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="@Url.Action("AddCreditCard", "PersonelManage")" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Kart Sahibi</label>
+                        <input type="text" name="CardHolderName" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Kart Numarası (16 Hane)</label>
+                        <input type="text" name="CardNumber" class="form-control" maxlength="16" minlength="16" required />
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>SKT (AA/YY)</label>
+                            <input type="text" name="ExpiryDate" class="form-control" placeholder="12/28" required />
+                        </div>
+                        <div class="col">
+                            <label>CVV</label>
+                            <input type="text" name="CVV" class="form-control" maxlength="3" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loadMoneyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cüzdana Para Yükle</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="@Url.Action("LoadWallet", "PersonelManage")" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Hangi Karttan?</label>
+                        <select name="cardId" class="form-control">
+                            @if (ViewBag.CreditCards != null)
+                            {
+                                foreach (var card in (List<Web_Programming_Project.Models.CreditCard>)ViewBag.CreditCards)
+                                {
+                                    <option value="@card.CardId">**** @card.CardNumber.Substring(12) (Limit: @card.CardBalance)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Yüklenecek Tutar (TL)</label>
+                        <input type="number" name="amount" class="form-control" min="1" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Yükle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

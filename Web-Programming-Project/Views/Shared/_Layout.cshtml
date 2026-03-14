@@ -4,22 +4,22 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title - Ticketpair</title>
 
-    @* Genel CSS Dosyaları *@
+    
     <link rel="stylesheet" href="~/Content/mert.css">
     <link rel="stylesheet" href="~/Content/main.css">
     <link rel="stylesheet" href="~/Content/Site.css">
     <link rel="stylesheet" href="~/Content/footer.css">
 
-    @* --- LOADER CSS KODLARI BURAYA EKLENDİ --- *@
-<style>
-        /* 1. Tüm ekranı kaplayan perde (Wrapper) */
+  
+    <style>
+        
         #global-loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffffff; /* Arka planı beyaz yaptım, renkler daha net görünsün diye */
+            background-color: #ffffff;
             z-index: 99999;
             display: flex;
             justify-content: center;
@@ -27,36 +27,47 @@
             transition: opacity 0.5s ease;
         }
 
-        /* 2. Yeni Spinner CSS Kodları */
         .spinner {
             margin: auto;
             width: 50px;
             height: 30px;
-            /* İçindeki div'ler float olduğu için kapsayıcıyı hizalamak adına */
             display: inline-block;
         }
 
-        .spinner > div {
-            background-color: #195FD2; /* $color-alpha: Mavi */
-            height: 100%;
-            width: 6px; /* Görünürlüğü artırmak için 2px'i 6px yaptım, istersen düşürebilirsin */
-            float: left;
-            margin: 0 1px;
-            animation: stretch 2s infinite;
-            animation-timing-function: cubic-bezier(.62,.28,.23,.99);
-        }
+            .spinner > div {
+                background-color: #195FD2;
+                height: 100%;
+                width: 6px;
+                float: left;
+                margin: 0 1px;
+                animation: stretch 2s infinite;
+                animation-timing-function: cubic-bezier(.62,.28,.23,.99);
+            }
 
-        .spinner .r1 { animation-delay: -1s; }
-        .spinner .r2 { animation-delay: -.9s; }
-        .spinner .r3 { animation-delay: -.8s; }
-        .spinner .r4 { animation-delay: -.7s; }
-        .spinner .r5 { animation-delay: -.6s; }
+            .spinner .r1 {
+                animation-delay: -1s;
+            }
 
-        /* Razor uyumlu Keyframes (Çift at işareti */
+            .spinner .r2 {
+                animation-delay: -.9s;
+            }
+
+            .spinner .r3 {
+                animation-delay: -.8s;
+            }
+
+            .spinner .r4 {
+                animation-delay: -.7s;
+            }
+
+            .spinner .r5 {
+                animation-delay: -.6s;
+            }
+
         @@keyframes stretch {
             0%, 20%, 49% {
                 transform: scaleY(0.4);
-                background-color: #195FD2; /* Mavi */
+                background-color: #195FD2;
             }
 
             10% {
@@ -65,16 +76,239 @@
 
             50%, 70%, 100% {
                 transform: scaleY(0.4);
-                background-color: #649129; /* $color-beta: Yeşil */
+                background-color: #649129;
             }
 
             60% {
                 transform: scaleY(1.0);
-                background-color: #649129; /* Yeşil */
+                background-color: #649129;
             }
         }
-</style>
-    @* --- LOADER CSS BİTİŞ --- *@
+
+        
+
+        /* Arama Kutusu ve Butonu Kapsayıcısı */
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Input ve buton arası boşluk */
+            margin-right: auto; /* Sağa yaslanan öğelerden uzaklaştır */
+            margin-left: 20px; /* Soldaki butonlardan uzaklaştır */
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        
+        #searchInput {
+            width: 600px; 
+            padding: 10px 20px;
+            border-radius: 25px 0 0 25px; /* Sol yuvarlak, sağ düz */
+            border: 1px solid #ccc;
+            border-right: none; /* Butonla birleşmesi için */
+            outline: none;
+            height: 40px;
+        }
+
+        
+        #searchBtn {
+            height: 40px;
+            padding: 0 20px;
+            border-radius: 0 25px 25px 0; /* Sol düz, sağ yuvarlak */
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            
+            background-color: #4A148C;
+        }
+
+            #searchBtn:hover {
+                filter: brightness(1.2);
+            }
+
+       
+        body.dark-mode #searchBtn {
+            background-color: #00B0FF;
+        }
+
+        
+        .search-results-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 250px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 10000;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .search-results-box {
+            background-color: #333;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .search-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.2s;
+        }
+
+        body.dark-mode .search-item {
+            border-bottom-color: #444;
+            color: #eee;
+        }
+
+        .search-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        body.dark-mode .search-item:hover {
+            background-color: #444;
+        }
+
+        .search-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-item-title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-item-desc {
+            font-size: 12px;
+            color: #777;
+        }
+
+        body.dark-mode .search-item-desc {
+            color: #aaa;
+        }
+
+        
+        .user-profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            transition: transform 0.2s;
+        }
+
+            .profile-img:hover {
+                transform: scale(1.1);
+            }
+
+        .user-info-box {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 15px;
+            z-index: 10001;
+            text-align: left;
+            color: #333;
+        }
+
+            .user-info-box::before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                right: 15px;
+                border-width: 0 10px 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent white transparent;
+            }
+
+        body.dark-mode .user-info-box {
+            background-color: #2c2c2c;
+            color: #eee;
+            border: 1px solid #444;
+        }
+
+            body.dark-mode .user-info-box::before {
+                border-color: transparent transparent #2c2c2c transparent;
+            }
+
+      
+        .dropdown-edit-btn, .dropdown-logout-btn, .dropdown-ticket-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-edit-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+            .dropdown-edit-btn:hover {
+                background-color: #e0a800;
+            }
+
+        
+        .dropdown-ticket-btn {
+            background-color: #195FD2;
+            color: white;
+        }
+            .dropdown-ticket-btn:hover {
+                background-color: #144a9e;
+            }
+
+        .dropdown-logout-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .dropdown-logout-btn:hover {
+                background-color: #c82333;
+            }
+    </style>
+   
 
     @RenderSection("head", required: false)
 
@@ -82,52 +316,28 @@
 
 <body id="bodyid">
 
+    @* --- ADMIN MENU --- *@
     @if (User.Identity.IsAuthenticated)
     {
-        // Veritabanı bağlamını çağırıyoruz (Admin kontrolü için)
-        // Not: Performans için normalde bu kontrol Login aşamasında Session'a atılır ama
-        // senin mevcut yapını bozmadan en hızlı böyle çözeriz.
         using (var dbCheck = new Web_Programming_Project.Models.DbPersonal())
         {
             var activeUser = dbCheck.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
 
-            // Eğer kullanıcı varsa VE rolü Admin ise menüyü göster
             if (activeUser != null && activeUser.Role == "Admin")
             {
                 <div class="admin-menu-container">
                     <div class="admin-hamburger" id="adminHamburger" onclick="toggleAdminMenu()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span></span><span></span><span></span>
                     </div>
 
                     <div class="admin-dropdown" id="adminDropdown">
                         <div class="admin-title">YÖNETİM PANELİ</div>
                         <ul>
-                            <li>
-                                <a href="@Url.Action("Index", "Events")">
-                                    <i class="bi bi-calendar-event"></i> Etkinlikleri Yönet (Index)
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Create", "Events")">
-                                    <i class="bi bi-plus-circle"></i> Yeni Etkinlik Ekle
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("Index", "PersonelManage")">
-                                    <i class="bi bi-people"></i> Kullanıcı Yönetimi
-                                </a>
-                            </li>
-
+                            <li><a href="@Url.Action("Index", "Events")"><i class="bi bi-calendar-event"></i> Etkinlikleri Yönet</a></li>
+                            <li><a href="@Url.Action("Create", "Events")"><i class="bi bi-plus-circle"></i> Yeni Etkinlik Ekle</a></li>
+                            <li><a href="@Url.Action("Index", "PersonelManage")"><i class="bi bi-people"></i> Kullanıcı Yönetimi</a></li>
                             <li class="separator"></li>
-
-                            <li>
-                                <a href="@Url.Action("Index", "Admin")">
-                                    <i class="bi bi-speedometer2"></i> Admin Dashboard
-                                </a>
-                            </li>
+                            <li><a href="@Url.Action("Index", "Admin")"><i class="bi bi-speedometer2"></i> Admin Dashboard</a></li>
                         </ul>
                     </div>
                 </div>
@@ -135,19 +345,12 @@
         }
     }
 
-
-
+    
     <div id="global-loader">
         <div class="spinner">
-            <div class="r1"></div>
-            <div class="r2"></div>
-            <div class="r3"></div>
-            <div class="r4"></div>
-            <div class="r5"></div>
+            <div class="r1"></div><div class="r2"></div><div class="r3"></div><div class="r4"></div><div class="r5"></div>
         </div>
     </div>
-
-
 
 
     <header class="üst-kısım" id="üst-kısımid">
@@ -162,32 +365,50 @@
             <a href="@Url.Action("Index", "Cart")" class="nav-btn" style="text-decoration: none;">SEPETİM</a>
         </div>
 
+       
+        <div class="search-wrapper">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Bilet ara..." class="search-bar" autocomplete="off">
+                <div id="searchResults" class="search-results-box"></div>
+            </div>
+            <button id="searchBtn">Etkinlik Ara</button>
+        </div>
+
         <nav class="sag-nav-grubu">
-            <input type="text" placeholder="Bilet ara..." class="search-bar">
+
             @if (User.Identity.IsAuthenticated)
             {
-                <div style="display: inline-flex; align-items: center; gap: 15px;">
+                <div class="user-profile-wrapper">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil" id="profile-trigger" class="profile-img">
 
-                    <span style="color: white; font-weight: 500;">
-                        Merhaba, @(Session["NameSurname"] != null ? Session["NameSurname"] : User.Identity.Name)
-                    </span>
+                    <div id="user-info-dropdown" class="user-info-box">
+                        <p><strong>Email:</strong> @(Session["UserEmail"] != null ? Session["UserEmail"] : User.Identity.Name)</p>
+                        <hr style="margin: 10px 0; border-color: #eee;">
 
-                    <a href="@Url.Action("Logout", "Security")" class="auth-btn" style="background-color: #dc3545; border-color: #dc3545; text-decoration: none;">
-                        Çıkış Yap
-                    </a>
+                       
+                        <a href="@Url.Action("Profile", "Account")" class="dropdown-ticket-btn">Biletlerim</a>
+
+                        <a href="@Url.Action("EditProfile", "Security")" class="dropdown-edit-btn">Bilgilerimi Düzenle</a>
+                        <a href="@Url.Action("Logout", "Security")" class="dropdown-logout-btn">Çıkış Yap</a>
+                    </div>
                 </div>
+
+                <span style="color: white; font-weight: 500; margin-left:10px;">
+                    @(Session["NameSurname"] != null ? Session["NameSurname"] : "")
+                </span>
             }
             else
             {
-                <a href="@Url.Action("Login", "Security")" class="auth-btn" style="text-decoration: none;">
+                <a href="@Url.Action("Login", "Security")" class="auth-btn" style="text-decoration: none; margin-left: 15px;">
                     Giriş / Kaydol
                 </a>
             }
-            <button id="theme-toggle" class="theme-btn">🌙</button>
+
+            <button id="theme-toggle" class="theme-btn" style="margin-left: 10px;">🌙</button>
         </nav>
     </header>
 
-    @* BURASI, SAYFALARIN KENDİ İÇERİĞİNİN GELECEĞİ YERDİR *@
+   
     <main class="@(ViewBag.GenisSayfa == true ? "container-fluid p-0" : "container")">
         @RenderBody()
     </main>
@@ -199,39 +420,34 @@
                 <p>Tel: +90 555 123 45 67</p>
                 <p>Email: info@site.com</p>
             </div>
-
             <div class="footer-center">
                 <a href="@Url.Action("About", "Home")" style="color: aliceblue; text-decoration: none;">Hakkımızda</a>
                 <a href="@Url.Action("Contact", "Home")" style="color: aliceblue; text-decoration: none;">İletişim</a>
-                <a href="#" style="color: aliceblue; text-decoration: none;">Yardım</a>
-                <a href="#" style="color: aliceblue; text-decoration: none;">Gizlilik</a>
+                <a href="@Url.Action("Index", "QA")" style="color: #ffc107; text-decoration: none; font-weight: bold;"> Soru-Cevap</a>
+                <a href="@Url.Action("Help", "Home")" style="color: aliceblue; text-decoration: none;">Yardım</a>
+                <a href="@Url.Action("Privacy", "Home")" style="color: aliceblue; text-decoration: none;">Gizlilik</a>
             </div>
-
             <div class="footer-right">
                 <p>&copy; @DateTime.Now.Year Ticketpair. Tüm hakları saklıdır.</p>
             </div>
         </div>
     </footer>
 
-    @* Genel JavaScript Dosyaları *@
+    
     <script src="~/Scripts/eser.js"></script>
     <script src="~/Scripts/main.js"></script>
     <script src="~/Scripts/leftside.js"></script>
 
-    @* --- LOADER JAVASCRIPT KODLARI (En alta alındı) --- *@
+   
     <script>
-        // 1. Sayfa tamamen yüklendiğinde Loader'ı gizle
         window.addEventListener("load", function () {
             var loader = document.getElementById("global-loader");
             if (loader) {
-                loader.style.opacity = "0"; // Saydamlaştır
-                setTimeout(function () {
-                    loader.style.display = "none";
-                }, 500);
+                loader.style.opacity = "0";
+                setTimeout(function () { loader.style.display = "none"; }, 500);
             }
         });
 
-        // 2. Linklere tıklandığında Loader'ı tekrar göster
         document.addEventListener("DOMContentLoaded", function () {
             var loader = document.getElementById("global-loader");
             var links = document.querySelectorAll("a");
@@ -240,8 +456,6 @@
                 link.addEventListener("click", function (e) {
                     var href = link.getAttribute("href");
                     var target = link.getAttribute("target");
-
-                    // Eğer link boş değilse, '#' değilse ve yeni sekmede açılmıyorsa
                     if (href && href !== "#" && href.startsWith("/") && target !== "_blank") {
                         if (loader) {
                             loader.style.display = "flex";
@@ -251,7 +465,6 @@
                 });
             });
 
-            // Form gönderildiğinde de loader çıksın
             var forms = document.querySelectorAll("form");
             forms.forEach(function (form) {
                 form.addEventListener("submit", function () {
@@ -263,7 +476,6 @@
             });
         });
 
-        // 3. Tarayıcı "Geri" tuşuna basıldığında loader'ın takılı kalmasını önle
         window.addEventListener("pageshow", function (event) {
             if (event.persisted) {
                 var loader = document.getElementById("global-loader");
@@ -271,28 +483,17 @@
             }
         });
 
-
-
-    </script>
-        
-
-         
-
-
-    <script>
         function toggleAdminMenu() {
             const container = document.querySelector('.admin-menu-container');
             container.classList.toggle('active');
         }
 
-        // Menü açıkken sayfanın başka yerine tıklanırsa kapansın
         document.addEventListener('click', function (event) {
             const container = document.querySelector('.admin-menu-container');
             const hamburger = document.getElementById('adminHamburger');
             const dropdown = document.getElementById('adminDropdown');
 
             if (container && container.classList.contains('active')) {
-                // Tıklanan yer hamburger veya dropdown değilse kapat
                 if (!hamburger.contains(event.target) && !dropdown.contains(event.target)) {
                     container.classList.remove('active');
                 }
@@ -300,43 +501,24 @@
         });
     </script>
 
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // 1. Gerekli Elementleri Tanımla
             const themeBtn = document.getElementById("theme-toggle");
-            const footerLogo = document.getElementById("footer-logo-img"); // Footer Logosunu Seçiyoruz
-
-            // CSS'te [data-theme] ile renk değiştiren tüm ID'leri buraya yazıyoruz
-            const themeElementIds = [
-                "üst-kısımid",
-                "footerid",
-                "leftid",
-                "rightid",
-                "event-card1",
-                "event-card2",
-                "event-card3",
-                "event-card4",
-                "event-card5"
-            ];
-
-            // 2. Kaydedilmiş Temayı Kontrol Et (Yoksa 'light' varsay)
+            const footerLogo = document.getElementById("footer-logo-img");
+            const themeElementIds = ["üst-kısımid", "footerid", "leftid", "rightid", "event-card1", "event-card2", "event-card3", "event-card4", "event-card5"];
             const currentTheme = localStorage.getItem("theme") || "light";
 
-            // Sayfa açılır açılmaz temayı uygula
             applyTheme(currentTheme);
 
-            // 3. Butona Tıklama Olayı
             if (themeBtn) {
                 themeBtn.addEventListener("click", () => {
-                    // Şu anki mod dark ise light yap, değilse dark yap
                     const newTheme = document.body.classList.contains("dark-mode") ? "light" : "dark";
                     applyTheme(newTheme);
                 });
             }
 
-            // --- TEMA UYGULAMA FONKSİYONU ---
             function applyTheme(theme) {
-                // A) Body sınıfını ayarla (Genel arkaplan ve butonlar için)
                 if (theme === "dark") {
                     document.body.classList.add("dark-mode");
                     if (themeBtn) themeBtn.textContent = "☀️";
@@ -345,32 +527,143 @@
                     if (themeBtn) themeBtn.textContent = "🌙";
                 }
 
-                // B) Özel ID'lere data-theme özelliğini ekle (Header, Footer, Kartlar için)
                 themeElementIds.forEach(id => {
                     const el = document.getElementById(id);
-                    if (el) {
-                        el.setAttribute("data-theme", theme);
-                    }
+                    if (el) el.setAttribute("data-theme", theme);
                 });
 
-                // C) FOOTER LOGOSUNU DEĞİŞTİR (BURASI EKSİKTİ, EKLENDİ)
                 if (footerLogo) {
                     if (theme === "dark") {
-                        // Karanlık modda görünecek logo (Elinizde varsa dark logo yolunu yazın, yoksa aynısı kalabilir)
-                        // Örnek: footerLogo.src = "/Content/images/logo-dark.png";
                         footerLogo.src = "/Content/images/unnamed (1).jpg";
                     } else {
-                        // Aydınlık modda görünecek logo (Senin orijinal logon)
                         footerLogo.src = "/Content/images/unnamed (2).jpg";
                     }
                 }
-
-                // D) Seçimi Tarayıcı Hafızasına Kaydet
                 localStorage.setItem("theme", theme);
             }
         });
     </script>
 
+   
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const searchResults = document.getElementById("searchResults");
+            const searchBtn = document.getElementById("searchBtn");
+
+            function performSearch() {
+                const val = searchInput.value.trim();
+                if (val.length > 0) {
+                    window.location.href = "/Home/Search?query=" + encodeURIComponent(val);
+                }
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener("input", function () {
+                    const query = this.value.trim();
+
+                    if (query.length < 2) {
+                        searchResults.style.display = "none";
+                        searchResults.innerHTML = "";
+                        return;
+                    }
+
+                    fetch('/Home/LiveSearch?term=' + encodeURIComponent(query))
+                        .then(response => {
+                            if (!response.ok) { throw new Error("Arama hatası"); }
+                            return response.json();
+                        })
+                        .then(data => {
+                            searchResults.innerHTML = "";
+
+                            if (data && data.length > 0) {
+                                searchResults.style.display = "block";
+
+                                data.forEach(item => {
+                                    const link = document.createElement("a");
+                                    link.href = "/Home/Details/" + item.id;
+                                    link.className = "search-item";
+
+                                    const img = document.createElement("img");
+                                    img.src = item.image ? item.image : "/Content/images/placeholder.jpg";
+
+                                    const infoDiv = document.createElement("div");
+                                    infoDiv.className = "search-item-info";
+
+                                    const titleSpan = document.createElement("span");
+                                    titleSpan.className = "search-item-title";
+                                    titleSpan.innerText = item.label;
+
+                                    const descSpan = document.createElement("span");
+                                    descSpan.className = "search-item-desc";
+                                    descSpan.innerText = item.category;
+
+                                    infoDiv.appendChild(titleSpan);
+                                    infoDiv.appendChild(descSpan);
+
+                                    link.appendChild(img);
+                                    link.appendChild(infoDiv);
+
+                                    searchResults.appendChild(link);
+                                });
+                            } else {
+                                searchResults.style.display = "block";
+                                searchResults.innerHTML = "<div style='padding:10px; color:#777;'>Sonuç bulunamadı.</div>";
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
+                });
+
+                searchInput.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        performSearch();
+                    }
+                });
+
+                document.addEventListener("click", function (e) {
+                    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                        searchResults.style.display = "none";
+                    }
+                });
+            }
+
+            if (searchBtn) {
+                searchBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    performSearch();
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const profileTrigger = document.getElementById("profile-trigger");
+            const infoDropdown = document.getElementById("user-info-dropdown");
+
+            if (profileTrigger && infoDropdown) {
+                profileTrigger.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    if (infoDropdown.style.display === "block") {
+                        infoDropdown.style.display = "none";
+                    } else {
+                        infoDropdown.style.display = "block";
+                    }
+                });
+
+                document.addEventListener("click", function () {
+                    infoDropdown.style.display = "none";
+                });
+
+                infoDropdown.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 

@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Yardım Merkezi";
+    ViewBag.GenisSayfa = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .help-background {
+        background-color: #f8f9fa;
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+
+    .help-paper {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 850px;
+        padding: 60px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+
+    .main-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: #111;
+        text-align: center;
+        letter-spacing: -0.5px;
+    }
+
+    .sub-desc {
+        text-align: center;
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+
+    .faq-item {
+        margin-bottom: 35px;
+    }
+
+    .faq-question {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
+
+
+        .faq-question::before {
+            content: "•";
+            color: #f5a623;
+            font-size: 1.5rem;
+            margin-right: 10px;
+            line-height: 0;
+        }
+
+    .faq-answer {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #555;
+        text-align: justify;
+        padding-left: 20px;
+    }
+
+
+    body.dark-mode .help-background {
+        background-color: #121212;
+    }
+
+    body.dark-mode .help-paper {
+        background-color: #1e1e1e;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .main-title {
+        color: #fff;
+    }
+
+    body.dark-mode .sub-desc {
+        color: #aaa;
+        border-color: #333;
+    }
+
+    body.dark-mode .faq-question {
+        color: #f0f0f0;
+    }
+
+    body.dark-mode .faq-answer {
+        color: #ccc;
+    }
+
+
+    .contact-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    body.dark-mode .contact-link {
+        color: #4dabf7;
+    }
+
+
+    @@media (max-width: 768px) {
+        .help-paper {
+            padding: 30px;
+        }
+    }
+</style>
+
+<div class="help-background">
+    <div class="help-paper">
+
+
+        <h1 class="main-title">Yardım Merkezi</h1>
+        <p class="sub-desc">
+            Sıkça sorulan sorular ve çözüm önerileri.
+        </p>
+
+
+        <div class="faq-item">
+            <h3 class="faq-question">Nasıl bilet satın alabilirim?</h3>
+            <p class="faq-answer">
+                Ana sayfada veya kategori sayfalarında beğendiğiniz bir etkinliği seçip "İncele" butonuna tıklayın. Etkinlik detay sayfasında istediğiniz koltuk veya kategoriyi seçerek "Sepete Ekle" diyebilir, ardından güvenli ödeme adımlarını tamamlayarak biletinizi anında alabilirsiniz.
+            </p>
+        </div>
+
+        @* Soru 2 *@
+        <div class="faq-item">
+            <h3 class="faq-question">Biletlerim bana nasıl ulaşacak?</h3>
+            <p class="faq-answer">
+                Satın alma işlemi tamamlandıktan sonra biletleriniz dijital QR kod olarak anında hesabınıza tanımlanır. Ayrıca kayıtlı e-posta adresinize PDF formatında gönderilir. Etkinlik girişinde bu QR kodu telefondan göstermeniz yeterlidir.
+            </p>
+        </div>
+
+        @* Soru 3 *@
+        <div class="faq-item">
+            <h3 class="faq-question">Bilet iadesi veya değişimi yapabilir miyim?</h3>
+            <p class="faq-answer">
+                Etkinlik kurallarına bağlı olarak, etkinlik saatine 48 saat kalana kadar iade talebinde bulunabilirsiniz. Ancak bazı indirimli veya özel kampanyalı biletlerde iade seçeneği bulunmayabilir. İade şartlarını bilet detaylarında görebilirsiniz.
+            </p>
+        </div>
+
+        @* Soru 4 *@
+        <div class="faq-item">
+            <h3 class="faq-question">Etkinlik iptal olursa ne olur?</h3>
+            <p class="faq-answer">
+                Organizatör tarafından bir etkinlik iptal edildiğinde, bilet ücretiniz hiçbir kesinti yapılmadan ödeme yaptığınız karta otomatik olarak iade edilir. Süreçle ilgili size SMS ve e-posta yoluyla bilgilendirme yapılır.
+            </p>
+        </div>
+
+        @* Soru 5 *@
+        <div class="faq-item">
+            <h3 class="faq-question">Ödeme yaparken kart bilgilerim güvende mi?</h3>
+            <p class="faq-answer">
+                Kesinlikle. Ticketpair, uluslararası güvenlik standartlarına sahip 3D Secure altyapısını kullanır. Kart bilgileriniz sistemlerimizde saklanmaz ve doğrudan banka üzerinden şifreli olarak işlem görür.
+            </p>
+        </div>
+
+        @* İletişim Kutusu *@
+        <div class="faq-item" style="border-top: 1px solid #eee; padding-top: 30px; margin-top: 50px;">
+            <h3 class="faq-question" style="color: #007bff;">Başka bir sorunuz mu var?</h3>
+            <p class="faq-answer">
+                Aradığınız cevabı bulamadıysanız, 7/24 destek ekibimizle iletişime geçebilirsiniz.
+                <br><br>
+                📧 E-posta: <a href="mailto:destek@ticketpair.com" class="contact-link">destek@ticketpair.com</a>
+            </p>
+        </div>
+
+    </div>
+</div>

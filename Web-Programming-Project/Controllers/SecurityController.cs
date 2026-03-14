@@ -9,86 +9,157 @@ namespace Web_Programming_Project.Controllers
 {
     public class SecurityController : Controller
     {
-
-        DbPersonal db = new DbPersonal();  // database for the project
-
+        DbPersonal db = new DbPersonal();  
 
         [HttpGet]
-        public ActionResult Login()  // login action
+        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(User user)  // Login actionresult for user object from User class
+        public ActionResult Login(User user)
         {
-            var userInDb = db.Users.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);  // searching database for given email and password when logging
-
+            var userInDb = db.Users.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
 
             if (userInDb != null)
             {
-                FormsAuthentication.SetAuthCookie(userInDb.Email, false);  // create cookie when logged in ( kontrol et !! )
+                FormsAuthentication.SetAuthCookie(userInDb.Email, false);
 
-                Session["NameSurname"] = userInDb.Name + " " + userInDb.Surname;  // to displaying the name of user at main page
+                
+                Session["NameSurname"] = userInDb.Name + " " + userInDb.Surname;
 
-                if (userInDb.Role == "Admin")  // If the logged in user is admin, redirect to User List Page
+                
+                Session["User"] = userInDb;
+
+                Session["UserEmail"] = userInDb.Email;
+
+                if (userInDb.Role == "Admin")
                 {
                     return RedirectToAction("Index", "PersonelManage");
                 }
                 else
                 {
-
-                    return RedirectToAction("Index", "Home");  // if it is not admin, redirect to main page
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else
             {
-                ViewBag.Message = "Invalid E-mail or Password";  // else , warning the user
+                ViewBag.Message = "Geçersiz E-posta veya Şifre";
                 return View();
             }
         }
 
-
         [HttpGet]
-        public ActionResult Register()  // Register actionresult with httpget
+        public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterViewModel model) // Register actionresult for Httppost and uses object
+        public ActionResult Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)  // Burası ne bilmiyorum
+            if (ModelState.IsValid)
             {
-                var checkUser = db.Users.FirstOrDefault(x => x.Email == model.Email);  // to check if there is registered user with given email
-                if (checkUser != null)  // if there is email found
+                var checkUser = db.Users.FirstOrDefault(x => x.Email == model.Email);
+                if (checkUser != null)
                 {
-                    ViewBag.Message = "This email address is already used.";  // 
-                    return View(model); // return the object
+                    ViewBag.Message = "Bu e-posta adresi zaten kullanılıyor.";
+                    return View(model);
                 }
 
                 User newUser = new User();
-                newUser.Name = model.Name;  // get the information of users from Viewmodel model object
+                newUser.Name = model.Name;
                 newUser.Surname = model.Surname;
                 newUser.Phone = model.Phone;
                 newUser.Email = model.Email;
                 newUser.Password = model.Password;
+                newUser.Role = "User";
 
-                newUser.Role = "User";  // every user is a normal user at first
+                db.Users.Add(newUser);
+                db.SaveChanges();
 
-                db.Users.Add(newUser);  // add new user to the Users database
-                db.SaveChanges();  // save added user
+                
+                FormsAuthentication.SetAuthCookie(newUser.Email, false);
 
-                return RedirectToAction("Index","Home");  // after logging in, redirect user to main page 
+                
+                Session["User"] = newUser;
+                Session["NameSurname"] = newUser.Name + " " + newUser.Surname;
+                Session["UserEmail"] = newUser.Email;
+
+                return RedirectToAction("Index", "Home");
             }
 
             return View(model);
         }
 
-        public ActionResult Logout()  // Log out actionresult
+        public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();  // bu ne bilmiyorum
-            return RedirectToAction("Login"); // redirect to login page after logging out 
+            FormsAuthentication.SignOut();
+            Session.Abandon(); 
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult EditProfile()
+        {
+            
+            var sessionUser = Session["User"] as User;
+            string userEmail = "";
+
+            if (sessionUser != null)
+            {
+                userEmail = sessionUser.Email;
+            }
+            else
+            {
+                userEmail = User.Identity.Name; 
+            }
+
+            var kullanici = db.Users.FirstOrDefault(x => x.Email == userEmail);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            return View(kullanici);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(Web_Programming_Project.Models.User gelenKullanici)
+        {
+            
+            using (var context = new Web_Programming_Project.Models.DbPersonal())
+            {
+                var mevcutKullanici = context.Users.Find(gelenKullanici.UserId);
+
+                if (mevcutKullanici != null)
+                {
+                    
+                    mevcutKullanici.Name = gelenKullanici.Name;
+                    mevcutKullanici.Surname = gelenKullanici.Surname;
+                    mevcutKullanici.Phone = gelenKullanici.Phone;
+
+                    if (!string.IsNullOrEmpty(gelenKullanici.Password))
+                    {
+                        mevcutKullanici.Password = gelenKullanici.Password;
+                    }
+
+                    context.SaveChanges();
+
+                    
+                    Session["NameSurname"] = mevcutKullanici.Name + " " + mevcutKullanici.Surname;
+
+                    
+                    Session["User"] = mevcutKullanici;
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(gelenKullanici);
         }
     }
 }

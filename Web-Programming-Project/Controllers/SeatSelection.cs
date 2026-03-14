@@ -8,7 +8,7 @@ namespace Web_Programming_Project.Controllers
 {
     public class SeatSelection : Controller
     {
-        // GET: SeatSelection
+  
         public ActionResult Index()
         {
             return View();
